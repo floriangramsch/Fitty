@@ -1,12 +1,10 @@
-<script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
-import EquipList from "./components/EquipList.vue";
-</script>
-
 <template>
   <EquipList name="McFitty"></EquipList>
 </template>
+
+<script setup lang="ts">
+import EquipList from "./components/EquipList.vue";
+</script>
 
 <style scoped>
 header {
