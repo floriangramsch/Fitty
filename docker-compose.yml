@@ -22,7 +22,7 @@ services:
       - fitty
   proxy:
     build: ./proxy
-    ports: ['7777:80']
+    ports: ['7778:80']
     networks:
       - fitty
 
