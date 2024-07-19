@@ -1,0 +1,14 @@
+# Dockerfile
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+EXPOSE 3001
+
+# Startbefehl
+CMD ["node", "index.js"]

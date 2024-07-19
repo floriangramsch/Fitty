@@ -1,14 +1,21 @@
 services:
-  # api:
-  #   ports:
-  #     - 8080:80
-  #   volumes:
-  #     - ./app:/app
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "5000:3001"
+    volumes:
+      - ./api:/app
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 8080:80
+      - 6969:80
     volumes:
       - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  node_modules:
