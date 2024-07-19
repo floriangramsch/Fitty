@@ -50,7 +50,7 @@ const getLastWorkout = (user: String) => {
 }
 
 const getWeight = (workout_id: Number, equipId: Number) => {
-  fetch(`http://localhost:3001/api/weight/${workout_id}/${equipId}`)
+  fetch(`/api/weight/${workout_id}/${equipId}`)
     .then(res => res.json())
     .then(data => {
       console.log(data)

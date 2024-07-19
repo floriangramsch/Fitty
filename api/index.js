@@ -9,7 +9,11 @@ const port = 3001;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: 'GET, POST, DELETE, OPTIONS',
+  allowedHeaders: 'Content-Type'
+}));
 
 // MariaDB-Verbindung einrichten
 const db = mysql.createConnection({
@@ -32,7 +36,7 @@ app.get("/", (req, res) => {
   res.send("Hello, this is the Fitty backend!");
 });
 
-app.get("/api/users", (req, res) => {
+app.get("/users", (req, res) => {
   db.query("SELECT * FROM User", (err, results) => {
     if (err) {
       return res.status(500).send(err);
@@ -42,7 +46,7 @@ app.get("/api/users", (req, res) => {
 });
 
 // Equip
-app.get("/api/equip", (req, res) => {
+app.get("/equip", (req, res) => {
   db.query(
     `SELECT Equip.equip_id AS id, Equip.name AS name, MuscleGroup.name AS muscle
      FROM Equip 
@@ -55,7 +59,7 @@ app.get("/api/equip", (req, res) => {
     }
   );
 });
-app.post("/api/addEquip", (req, res) => {
+app.post("/addEquip", (req, res) => {
   const { name, muscle } = req.body;
   const muscleGroupId = muscle.muscle_group_id;
 
@@ -74,7 +78,7 @@ app.post("/api/addEquip", (req, res) => {
 });
 
 // Muscles
-app.get("/api/muscles", (req, res) => {
+app.get("/muscles", (req, res) => {
   db.query("SELECT * FROM MuscleGroup", (err, results) => {
     if (err) {
       return res.status(500).send(err);
@@ -82,7 +86,7 @@ app.get("/api/muscles", (req, res) => {
     res.json(results);
   });
 });
-app.post("/api/addMuscle", (req, res) => {
+app.post("/addMuscle", (req, res) => {
   const { newMuscle } = req.body;
   db.query(
     "INSERT INTO MuscleGroup (name) VALUES (?)",
@@ -99,7 +103,7 @@ app.post("/api/addMuscle", (req, res) => {
 });
 
 // exercice
-app.post("/api/addExercice", (req, res) => {
+app.post("/addExercice", (req, res) => {
     const { user, equip, weight } = req.body;
     // const muscleGroupId = muscle.muscle_group_id;
     // const { newMuscle } = req.body;
@@ -118,7 +122,7 @@ app.post("/api/addExercice", (req, res) => {
   });
 
 // Weight
-app.get("/api/weight/:id/:equipId", (req, res) => {
+app.get("/weight/:id/:equipId", (req, res) => {
     const { id, equipId } = req.params;
     db.query("SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?", [id, equipId], (err, results) => {
       if (err) {

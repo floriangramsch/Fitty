@@ -7,6 +7,8 @@ services:
       - "5000:3001"
     volumes:
       - ./api:/app
+    networks:
+      - fitty
   frontend:
     build:
       context: ./frontend
@@ -16,6 +18,17 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    networks:
+      - fitty
+  proxy:
+    build: ./proxy
+    ports: ['7777:80']
+    networks:
+      - fitty
+
+networks:
+  fitty:
+    driver: bridge
 
 volumes:
   node_modules:

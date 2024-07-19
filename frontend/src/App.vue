@@ -61,13 +61,13 @@ const newWorkoutEquip = ref();
 const newWorkoutWeight = ref();
 
 const getUsers = () => {
-  fetch("http://localhost:3001/api/users")
+  fetch("/api/users")
     .then((response) => response.json())
     .then((data) => users.value = data);
 };
 
 const getEquip = () => {
-  fetch('http://localhost:3001/api/equip')
+  fetch('/api/equip')
     .then(res => res.json())
     .then(data => {
       equips.value = data
@@ -76,7 +76,7 @@ const getEquip = () => {
 
 const addNewEquip = () => {
   if (newEquipName.value && newEquipMuscle.value) {
-    fetch("http://localhost:3001/api/addEquip", {
+    fetch("/api/addEquip", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const addNewEquip = () => {
 };
 
 const getMuscles = () => {
-  fetch("http://localhost:3001/api/muscles")
+  fetch("/api/muscles")
     .then((res) => res.json())
     .then((data) => {
       muscles.value = data;
@@ -108,7 +108,7 @@ const getMuscles = () => {
 
 const addMuscle = () => {
   if (newMuscle.value) {
-    fetch("http://localhost:3001/api/addMuscle", {
+    fetch("/api/addMuscle", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +127,7 @@ const addMuscle = () => {
 
 const addExercice = () => {
   if (newWorkoutUser.value && newWorkoutEquip.value && newWorkoutWeight.value) {
-    fetch("http://localhost:3001/api/addExercice", {
+    fetch("/api/addExercice", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",

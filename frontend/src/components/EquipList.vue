@@ -34,7 +34,7 @@ equipList.value.push({
 });
 
 const getEquip = () => {
-  fetch('http://localhost:3001/api/equip')
+  fetch('/api/equip')
     .then(res => res.json())
     .then(data => {
       equipListt.value = data
