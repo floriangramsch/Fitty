@@ -1,101 +1,42 @@
 <template>
-  <EquipList name="McFitty"></EquipList>
+  <div class="text-3xl font-bold underline tex">
+    tes
+  </div>
+  <div>
+    <EquipList name="McFitty" :equips="equips"></EquipList>
 
-  <form action="">
-    <label>Name</label>
-    <input v-model="newEquipName" />
-    <select v-model="newEquipMuscle">
-      <option
-        v-for="muscle in muscles"
-        :key="muscle.muscle_group_id"
-        :value="muscle"
-      >
-        {{ muscle.name }}
-      </option>
-    </select>
-
-    <button @click="addNewEquip">Füge neues Gerät hinzu</button>
-  </form>
-
-  <form action="">
-    <input v-model="newMuscle" />
-    <button @click="addMuscle">Füge neuen Muskle hinzu!</button>
-  </form>
-
-  <form action="">
-    <select v-model="newWorkoutUser">
-      <option
-        v-for="user in users"
-        :key="user.user_group_id"
-        :value="user"
-      >
-        {{ user.name }}
-      </option>
-    </select>
-    <select v-model="newWorkoutEquip">
-      <option
-        v-for="equip in equips"
-        :key="equip.equip_id"
-        :value="equip"
-      >
-        {{ equip.name }}
-      </option>
-    </select>
-    <input v-model="newWorkoutWeight" style="width: 30px" />
-    <button @click="addExercice">Neues Gewicht!</button>
-  </form>
+    <NewEquip :muscles="muscles" />
+    <NewMuskle />
+    <NewEx :users="users" :equips="equips" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import EquipList from "./components/EquipList.vue";
+import NewEquip from "./components/Equip/NewEquip.vue";
+import NewMuskle from "./components/NewMuskle.vue";
+import NewEx from "./components/NewEx.vue";
 
-const newEquipName = ref("");
-const newEquipMuscle = ref();
-const newMuscle = ref("");
-const muscles = ref();
-const equips = ref();
 const users = ref();
-const newWorkoutUser = ref();
-const newWorkoutEquip = ref();
-const newWorkoutWeight = ref();
+const equips = ref();
+const muscles = ref();
 
 const getUsers = () => {
   fetch("/api/users")
     .then((response) => response.json())
-    .then((data) => users.value = data);
+    .then((data) => {
+      users.value = data;
+    });
 };
 
 const getEquip = () => {
-  fetch('/api/equip')
-    .then(res => res.json())
-    .then(data => {
-      equips.value = data
-    })
-}
-
-const addNewEquip = () => {
-  if (newEquipName.value && newEquipMuscle.value) {
-    fetch("/api/addEquip", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newEquipName.value,
-        muscle: newEquipMuscle.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-    // equipList.value.push({
-    //   id: equipList.value.length + 1,
-    //   value: newEquipName.value,
-    //   type: newEquipType.value,
-    // });
-    // newEquipName.value = "";
-    // newEquipType.value = "";
-  }
+  fetch("/api/equip")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      equips.value = data;
+    });
 };
 
 const getMuscles = () => {
@@ -105,45 +46,6 @@ const getMuscles = () => {
       muscles.value = data;
     });
 };
-
-const addMuscle = () => {
-  if (newMuscle.value) {
-    fetch("/api/addMuscle", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        newMuscle: newMuscle.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        newMuscle.value = "";
-        console.log(data);
-      });
-  }
-};
-
-const addExercice = () => {
-  if (newWorkoutUser.value && newWorkoutEquip.value && newWorkoutWeight.value) {
-    fetch("/api/addExercice", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: newWorkoutUser.value,
-        equip: newWorkoutEquip.value,
-        weight: newWorkoutWeight.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }
-}
 
 onMounted(() => {
   getMuscles();

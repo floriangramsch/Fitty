@@ -1,47 +1,37 @@
 <template>
-  <h1>
+  <div className="text-3xl font-bold underline tex">
     {{ name }}
-  </h1>
-  <div v-for="equip in equipListt" :key="equip.id">
-    <Equip :equipId="equip.id" :equipName="equip.name" :type="equip.muscle"></Equip>
   </div>
-
+  <div v-for="equip in equips" :key="equip.id">
+    <Equip
+      :equipId="equip.id"
+      :equipName="equip.name"
+      :type="equip.muscle"
+    ></Equip>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-
 import Equip from "./Equip/Equip.vue";
+import type { EquipType } from '@/types.vue';
 
-defineProps({
-  name: String,
-});
+defineProps<{
+  name: String;
+  equips: Array<EquipType>;
+}>();
 
-const equipListt = ref()
-
-const equipList = ref([
-  {
-    id: 1,
-    value: "Lattzug",
-    type: "Rücken",
-  },
-]);
-
-equipList.value.push({
-  id: 1,
-  value: "Bankdrücken",
-  type: "Brust",
-});
+const equips = ref();
 
 const getEquip = () => {
-  fetch('/api/equip')
-    .then(res => res.json())
-    .then(data => {
-      equipListt.value = data
-    })
-}
+  fetch("/api/equip")
+    .then((res) => res.json())
+    .then((data) => {
+      equips.value = data;
+    });
+};
 
 onMounted(() => {
   getEquip();
-})
+});
 </script>

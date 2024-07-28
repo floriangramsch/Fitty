@@ -15,13 +15,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-const props = defineProps<({
-  equipId: Number,
-  equipName: String,
-  type: String,
-})>();
+const props = defineProps<{
+  equipId: Number;
+  equipName: String;
+  type: String;
+}>();
 const { equipId, equipName, type } = props;
-console.log(equipId)
 
 const users = ref([
   {
@@ -46,16 +45,18 @@ const adjustWeight = (index: number) => {
 };
 
 const getLastWorkout = (user: String) => {
-  return user === "Florian" ? 1 : 2
-}
+  return user === "Florian" ? 1 : 2;
+};
 
 const getWeight = (workout_id: Number, equipId: Number) => {
   fetch(`/api/weight/${workout_id}/${equipId}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      workout_id === 1 ? users.value[0].weight = data[0]?.weight : users.value[1].weight = data[0]?.weight
-    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      workout_id === 1
+        ? (users.value[0].weight = data[0]?.weight)
+        : (users.value[1].weight = data[0]?.weight);
+    });
 };
 
 onMounted(() => {

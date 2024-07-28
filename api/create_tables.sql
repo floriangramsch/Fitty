@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL
 );
-
 -- Tabelle für Workouts
 CREATE TABLE IF NOT EXISTS Workout (
     workout_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,6 +14,9 @@ CREATE TABLE IF NOT EXISTS Workout (
     end DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
+
+INSERT INTO Workout (user_id, start, end) VALUES (1, '2022-01-01 08:00:00', '2022-01-01 09:00:00');
+INSERT INTO Workout (user_id, start, end) VALUES (2, '2022-01-02 10:00:00', '2022-01-02 11:00:00');
 
 -- Tabelle für Muskelgruppen
 CREATE TABLE IF NOT EXISTS MuscleGroup (
