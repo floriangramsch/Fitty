@@ -1,6 +1,10 @@
 <template>
   <form>
-    <input v-model="newMuscle" />
+    <label>Musklename:</label>
+    <input
+      v-model="newMuscle"
+      class="p-1 border border-gray-300 rounded-md ml-1"
+    />
     <button @click.prevent="addMuscle">Füge neuen Muskle hinzu!</button>
   </form>
 </template>
@@ -23,8 +27,7 @@ const addMuscle = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        newMuscle.value = "";
-        console.log(data);
+        window.location.reload();
       });
   }
 };

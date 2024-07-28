@@ -1,37 +1,20 @@
 <template>
-  <div className="text-3xl font-bold underline tex">
-    {{ name }}
-  </div>
-  <div v-for="equip in equips" :key="equip.id">
-    <Equip
-      :equipId="equip.id"
-      :equipName="equip.name"
-      :type="equip.muscle"
-    ></Equip>
+  <div
+    v-for="equip in equips"
+    :key="equip.id"
+    class="p-1 m-1 border rounded border-[#D8A48F]"
+  >
+    <Equip :equipId="equip.id" :equipName="equip.name" :type="equip.muscle" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Equip from "./Equip/Equip.vue";
-import type { EquipType } from '@/types.vue';
+import type { EquipType } from "@/types.vue";
 
 defineProps<{
   name: String;
   equips: Array<EquipType>;
 }>();
-
-const equips = ref();
-
-const getEquip = () => {
-  fetch("/api/equip")
-    .then((res) => res.json())
-    .then((data) => {
-      equips.value = data;
-    });
-};
-
-onMounted(() => {
-  getEquip();
-});
 </script>

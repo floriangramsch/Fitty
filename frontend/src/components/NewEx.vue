@@ -1,27 +1,39 @@
 <template>
   <form>
-    <select v-model="newWorkoutUser">
+    <select
+      v-model="newWorkoutUser"
+      class="p-1 border border-gray-300 rounded-md"
+    >
+      <option value="" disabled selected>Wer?</option>
       <option v-for="user in users" :key="user.user_id" :value="user">
         {{ user.name }}
       </option>
     </select>
-    <select v-model="newWorkoutEquip">
+    <select
+      v-model="newWorkoutEquip"
+      class="p-1 border border-gray-300 rounded-md"
+    >
+      <option value="" disabled selected>Was?</option>
       <option v-for="equip in equips" :key="equip.id" :value="equip">
         {{ equip.name }}
       </option>
     </select>
-    <input v-model="newWorkoutWeight" style="width: 30px" />
-    <button @click="addExercice">Neues Gewicht!</button>
+    <input
+      v-model="newWorkoutWeight"
+      style="width: 40px"
+      class="p-1 border border-gray-300 rounded-md ml-1"
+    />
+    <button @click.prevent="addExercice">Neues Gewicht!</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { UserType, EquipType } from '@/types.vue';
+import type { UserType, EquipType } from "@/types.vue";
 
-const newWorkoutUser = ref();
-const newWorkoutEquip = ref();
-const newWorkoutWeight = ref();
+const newWorkoutUser = ref("");
+const newWorkoutEquip = ref("");
+const newWorkoutWeight = ref("");
 
 defineProps<{
   users: Array<UserType>;
@@ -43,7 +55,7 @@ const addExercice = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        window.location.reload();
       });
   }
 };

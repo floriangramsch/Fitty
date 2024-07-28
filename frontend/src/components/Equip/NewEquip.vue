@@ -1,17 +1,24 @@
 <template>
   <form>
-    <label>Name</label>
-    <input v-model="newEquipName" />
-    <select v-model="newEquipMuscle">
+    <label>Gerätename:</label>
+    <input
+      v-model="newEquipName"
+      class="p-1 border border-gray-300 rounded-md ml-1"
+    />
+    <select
+      v-model="newEquipMuscle"
+      class="p-1 border border-gray-300 rounded-md"
+    >
+      <option value="" disabled selected>Select a muscle</option>
       <option
         v-for="muscle in muscles"
         :key="muscle.muscle_group_id"
         :value="muscle"
+        class="py-1"
       >
         {{ muscle.name }}
       </option>
     </select>
-
     <button @click.prevent="addNewEquip">Füge neues Gerät hinzu</button>
   </form>
 </template>
@@ -21,7 +28,7 @@ import { ref } from "vue";
 import type { MuscleType } from "@/types.vue";
 
 const newEquipName = ref("");
-const newEquipMuscle = ref();
+const newEquipMuscle = ref("");
 
 defineProps<{
   muscles: Array<MuscleType>;
@@ -41,8 +48,7 @@ const addNewEquip = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        window.location.href = "";
-        // window.location.reload();
+        window.location.reload();
       });
   }
 };

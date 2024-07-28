@@ -1,13 +1,25 @@
 <template>
-  <div class="text-3xl font-bold underline tex">
-    tes
-  </div>
-  <div>
-    <EquipList name="McFitty" :equips="equips"></EquipList>
-
-    <NewEquip :muscles="muscles" />
-    <NewMuskle />
-    <NewEx :users="users" :equips="equips" />
+  <div class="bg-[#869D7A] text-[#4A50A0]" style="height: 100%">
+    
+    <template v-if="logged.isLogged">
+      <Wrapper>
+        <template #EquipList>
+          <EquipList name="McFitty" :equips="equips"></EquipList>
+        </template>
+        <template #NewEquip>
+          <NewEquip :muscles="muscles" />
+        </template>
+        <template #NewMuskle>
+          <NewMuskle />
+        </template>
+        <template #NewEx>
+          <NewEx :users="users" :equips="equips" />
+        </template>
+      </Wrapper>
+    </template>
+    <template v-else>
+      <Start :users="users" v-model="logged"/>
+    </template>
   </div>
 </template>
 
@@ -17,10 +29,17 @@ import EquipList from "./components/EquipList.vue";
 import NewEquip from "./components/Equip/NewEquip.vue";
 import NewMuskle from "./components/NewMuskle.vue";
 import NewEx from "./components/NewEx.vue";
+import Wrapper from "./components/Wrapper.vue";
+import Start from "./components/Start.vue";
 
-const users = ref();
-const equips = ref();
-const muscles = ref();
+const users = ref([]);
+const equips = ref([]);
+const muscles = ref([]);
+
+const logged = ref({
+  isLogged: false,
+  workoutId: undefined
+});
 
 const getUsers = () => {
   fetch("/api/users")
@@ -34,7 +53,6 @@ const getEquip = () => {
   fetch("/api/equip")
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       equips.value = data;
     });
 };

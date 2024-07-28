@@ -9,11 +9,13 @@ const port = 3001;
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors({
-  origin: '*',
-  methods: 'GET, POST, DELETE, OPTIONS',
-  allowedHeaders: 'Content-Type'
-}));
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET, POST, DELETE, OPTIONS",
+    allowedHeaders: "Content-Type",
+  })
+);
 
 // MariaDB-Verbindung einrichten
 const db = mysql.createConnection({
@@ -104,33 +106,37 @@ app.post("/addMuscle", (req, res) => {
 
 // exercice
 app.post("/addExercice", (req, res) => {
-    const { user, equip, weight } = req.body;
-    // const muscleGroupId = muscle.muscle_group_id;
-    // const { newMuscle } = req.body;
-    db.query(
-      "INSERT INTO Exercice (workout_id, equip_id, weight) VALUES (?, ?, ?)",
-      [user.user_id, equip.id, weight],
-      (err, results) => {
-        if (err) {
-          return res.status(500).send(err);
-        }
-        res
-          .status(201)
-          .send({ message: `Exercice added with ID: ${results.insertId}` });
+  const { user, equip, weight } = req.body;
+  // const muscleGroupId = muscle.muscle_group_id;
+  // const { newMuscle } = req.body;
+  db.query(
+    "INSERT INTO Exercice (workout_id, equip_id, weight) VALUES (?, ?, ?)",
+    [user.user_id, equip.id, weight],
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
       }
-    );
-  });
+      res
+        .status(201)
+        .send({ message: `Exercice added with ID: ${results.insertId}` });
+    }
+  );
+});
 
 // Weight
 app.get("/weight/:id/:equipId", (req, res) => {
-    const { id, equipId } = req.params;
-    db.query("SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?", [id, equipId], (err, results) => {
+  const { id, equipId } = req.params;
+  db.query(
+    "SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?",
+    [id, equipId],
+    (err, results) => {
       if (err) {
         return res.status(500).send(err);
       }
       res.json(results);
-    });
-  });
+    }
+  );
+});
 
 // Server starten
 app.listen(port, () => {
