@@ -12,12 +12,12 @@
       <Start :users="users" v-model="logged" />
     </template>
   </div>
-  <nav class="fixed bottom-0 w-full h-10">
+  <nav class="fixed bottom-0 w-full">
     <div class="flex justify-evenly bg-[#4A50A0]">
-      <div class="flex-grow">
+      <div class="flex-grow ">
         <button
           @click="showDialogMuskle = true"
-          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] pb-5 w-full"
         >
           Neuer Muskle
         </button>
@@ -30,7 +30,7 @@
       <div class="flex-grow">
         <button
           @click="showDialogEquip = true"
-          class="bg-[#4A50A0] hover:bg-[#4A50F0] border border-[#D8A48F] text-white p-1 w-full"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] border border-[#D8A48F] text-white pb-5 w-full"
         >
           Neues Gerät
         </button>
@@ -42,7 +42,7 @@
       <div v-if="logged.isLogged" class="flex-grow">
         <button
           @click="logout"
-          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] pb-5 w-full"
         >
           Ausloggen
         </button>
