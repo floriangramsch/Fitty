@@ -1,8 +1,7 @@
 <template>
-  <form class="h-screen flex flex-col space-y-2 items-center justify-center">
+  <form class="flex flex-col space-y-2 items-center mt-16">
     <label class="text-4xl">Wer bist du?</label>
     <select v-model="loggUser" class="p-1 border border-gray-300 rounded-md">
-      <!-- <option value="" disabled selected>Bebi?</option> -->
       <option value="" disabled>Bebi?</option>
       <option
         v-for="user in users"
@@ -58,11 +57,15 @@ const loginUser = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
         emit("update:modelValue", {
           user: loggUser.value,
           isLogged: true,
-          workout: { id: data.message },
+          workout: {
+            workoutId: data.workout_id,
+            userId: data.user_id,
+            start: data.start,
+            end: data.end,
+          },
         });
       });
   }
@@ -73,12 +76,9 @@ const resumeWorkout = () => {
     fetch(`/api/resumeWorkout/${loggUser.value.user_id}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        console.log(data.workout_id);
         emit("update:modelValue", {
           user: loggUser.value,
           isLogged: true,
-          // workout: data,
           workout: {
             workoutId: data.workout_id,
             userId: data.user_id,

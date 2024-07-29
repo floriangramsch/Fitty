@@ -1,44 +1,46 @@
 <template>
   <div class="bg-[#869D7A] text-[#4A50A0]" style="height: 100%">
-    <div>
-      <button
-        @click="showDialogMuskle = true"
-        class="bg-[#4A50A0] text-white p-1 rounded"
-      >
-        Neuer Muskle
-      </button>
-
-      <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
-        <NewMuskle />
-      </Dialog>
-    </div>
-
-    <div>
-      <button
-        @click="showDialogEquip = true"
-        class="bg-[#4A50A0] text-white p-1 rounded"
-      >
-        Neues Gerät
-      </button>
-      <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
-        <NewEquip :muscles="muscles" />
-      </Dialog>
-    </div>
-
     <template v-if="logged.isLogged">
       <h1>Welcome {{ logged.user?.name }} from {{ logged.workout?.start }}</h1>
       <Wrapper>
-        <template #EquipList>
-          <EquipList :equips="equips" :workout="logged.workout" />
-        </template>
         <template #NewEx>
           <NewEx :equips="equips" :workout="logged.workout" />
         </template>
       </Wrapper>
     </template>
     <template v-else>
+      <EquipList :equips="equips" :workout="logged.workout" />
       <Start :users="users" v-model="logged" />
     </template>
+
+    <nav class="fixed bottom-0 w-full">
+      <div class="flex justify-evenly bg-[#4A50A0]">
+        <div class="flex-grow">
+          <button
+            @click="showDialogMuskle = true"
+            class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
+          >
+            Neuer Muskle
+          </button>
+
+          <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
+            <NewMuskle />
+          </Dialog>
+        </div>
+
+        <div class="flex-grow">
+          <button
+            @click="showDialogEquip = true"
+            class="bg-[#4A50A0] hover:bg-[#4A50F0] border border-[#D8A48F] text-white p-1 w-full"
+          >
+            Neues Gerät
+          </button>
+          <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
+            <NewEquip :muscles="muscles" />
+          </Dialog>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 
@@ -96,11 +98,6 @@ const getMuscles = () => {
       muscles.value = data;
     })
     .catch((err) => console.log(err));
-};
-
-const showAddEquip = () => {
-  const e = document.getElementById("equipList");
-  e?.classList.add("hidden");
 };
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 <template>
-  {{ equipName }} [{{ type }}] id: {{ equipId }}
+  {{ equipName }} [{{ type }}]
   <div v-for="(user) in users" class="weight">
     <div>{{ user.user }}: {{ user.weight }}</div>
   </div>
@@ -28,7 +28,6 @@ const users = ref([
 ]);
 
 // const getLastWorkout = (user: number, equipId: Number) => {
-//   console.log(props.workout)
 //   fetch(`/api/weight/${props.workout?.workoutId}/${equipId}`)
 //     .then((res) => res.json())
 //     .then((data) => {
@@ -39,7 +38,6 @@ const users = ref([
 // };
 
 const getWeight = (user: number, equipId: Number) => {
-  console.log(props.workout)
   fetch(`/api/weight/${user}/${equipId}`)
     .then((res) => res.json())
     .then((data) => {

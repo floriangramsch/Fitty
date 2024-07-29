@@ -122,19 +122,19 @@ app.post("/addExercice", (req, res) => {
 });
 
 // Weight
-app.get("/weight/:workoutId/:equipId", (req, res) => {
-  const { workoutId, equipId } = req.params;
-  db.query(
-    "SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?",
-    [workoutId, equipId],
-    (err, results) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      res.json(results);
-    }
-  );
-});
+// app.get("/weight/:workoutId/:equipId", (req, res) => {
+//   const { workoutId, equipId } = req.params;
+//   db.query(
+//     "SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?",
+//     [workoutId, equipId],
+//     (err, results) => {
+//       if (err) {
+//         return res.status(500).send(err);
+//       }
+//       res.json(results);
+//     }
+//   );
+// });
 
 app.get("/weight/:userId/:equipId", (req, res) => {
   const { userId, equipId } = req.params;
@@ -165,7 +165,17 @@ app.post("/addWorkout", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.status(201).send({ message: `${results.insertId}` });
+      const workoutId = results.insertId;
+      db.query(
+        "SELECT * FROM Workout WHERE workout_id = ?",
+        [workoutId],
+        (err, workoutResults) => {
+          if (err) {
+            return res.status(500).send(err);
+          }
+          res.status(201).json(workoutResults[0]);
+        }
+      );
     }
   );
 });
