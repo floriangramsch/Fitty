@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import Equip from "./Equip/Equip.vue";
 import type { EquipType, WorkoutType } from "@/types.vue";
 
@@ -20,3 +19,11 @@ defineProps<{
   equips: Array<EquipType>;
 }>();
 </script>
+
+<!-- <style scoped>
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+</style> -->

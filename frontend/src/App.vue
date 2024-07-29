@@ -6,10 +6,14 @@
         <br />
         {{ formatTime(logged.workout?.start) }}
       </h1>
-      <EquipList :equips="equips" :workout="logged.workout" />
+      <div class="equip-list-container">
+        <EquipList :equips="equips" :workout="logged.workout" />
+      </div>
     </template>
     <template v-else>
-      <EquipList :equips="equips" :workout="logged.workout" />
+      <div class="equip-list-container">
+        <EquipList :equips="equips" :workout="logged.workout" />
+      </div>
       <Start :users="users" v-model="logged" />
     </template>
   </div>
@@ -153,4 +157,9 @@ const formatTime = (time: Date | undefined) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.equip-list-container {
+  max-height: 50vh; /* Oder eine andere passende Höhe */
+  overflow-y: auto;
+}
+</style>
