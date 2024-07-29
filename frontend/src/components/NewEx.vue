@@ -4,7 +4,7 @@
       {{ equip.name }} [{{ equip.muscle }}]
       <input
         v-model="newWorkoutWeight"
-        style="width: 40px"
+        style="width: 40px; color: white;"
         class="p-1 bg-[#4A50A0] border border-gray-300 rounded-md ml-1"
       />
     </div>
