@@ -2,7 +2,8 @@
   <div class="bg-[#869D7A] text-[#4A50A0] p-5" style="height: 100%">
     <template v-if="logged.isLogged">
       <h1 class="text-3xl mb-10">
-        Welcome {{ logged.user?.name }} from
+        Hallo Se bebi {{ logged.user?.name }}
+        <br />
         {{ formatTime(logged.workout?.start) }}
       </h1>
       <EquipList :equips="equips" :workout="logged.workout" />
@@ -14,7 +15,7 @@
   </div>
   <nav class="fixed bottom-0 w-full">
     <div class="flex justify-evenly bg-[#4A50A0]">
-      <div class="flex-grow ">
+      <div class="flex-grow">
         <button
           @click="showDialogMuskle = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
@@ -141,8 +142,13 @@ watch(logged, saveLoggedState, { deep: true });
 
 const formatTime = (time: Date | undefined) => {
   if (time) {
-    const formattedTime = new Date(time).toLocaleString();
-    return formattedTime;
+    const formattedTime = new Date(time).toLocaleString("de-DE", {
+      day: "numeric",
+      month: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    });
+    return formattedTime + " Uhr";
   }
 };
 </script>
