@@ -17,7 +17,7 @@
       <div class="flex-grow ">
         <button
           @click="showDialogMuskle = true"
-          class="bg-[#4A50A0] text-white border border-[#D8A48F] pb-10 w-full"
+          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
           Neuer Muskle
         </button>
@@ -30,7 +30,7 @@
       <div class="flex-grow">
         <button
           @click="showDialogEquip = true"
-          class="bg-[#4A50A0] border border-[#D8A48F] text-white pb-10 w-full"
+          class="text-lg bg-[#4A50A0] border border-[#D8A48F] text-white pt-2 pb-10 w-full"
         >
           Neues Gerät
         </button>
@@ -42,7 +42,7 @@
       <div v-if="logged.isLogged" class="flex-grow">
         <button
           @click="logout"
-          class="bg-[#4A50A0] text-white border border-[#D8A48F] pb-10 w-full"
+          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
           Workout beenden
         </button>
