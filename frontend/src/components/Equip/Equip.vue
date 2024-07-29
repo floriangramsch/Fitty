@@ -1,16 +1,17 @@
 <template>
-  {{ equip.name }} [{{ equip.muscle }}]
   <div @click.prevent="showDialogWeight = workout ? true : false">
-    <div v-for="user in usersPb" class="weight">
-      <div>{{ user.user }}: {{ user.weight }} kg</div>
-    </div>
-    <div v-for="user in usersThis" class="weight">
-      <div v-if="user.userId === props.workout?.userId && user.weight">
-        This:
-        {{ user.weight }} kg
+    {{ equip.name }} [{{ equip.muscle }}]
+    <div>
+      <div v-for="user in usersPb" class="weight">
+        <div v-if="user.weight">{{ user.user }}: {{ user.weight }} kg</div>
+      </div>
+      <div v-for="user in usersThis" class="weight">
+        <div v-if="user.userId === props.workout?.userId && user.weight">
+          This:
+          {{ user.weight }} kg
+        </div>
       </div>
     </div>
-
   </div>
   <Dialog :isOpen="showDialogWeight" @close="showDialogWeight = false">
     <NewEx :equip="equip" :workout="workout" />

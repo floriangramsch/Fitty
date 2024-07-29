@@ -14,7 +14,6 @@
       <div class="equip-list-container">
         <EquipList :equips="equips" :workout="logged.workout" />
       </div>
-      <!-- <Start :users="users" v-model="logged" /> -->
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
