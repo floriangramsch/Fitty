@@ -1,15 +1,14 @@
 <template>
   <form>
-    {{ equip.name }}
-    <input
-      v-model="newWorkoutWeight"
-      style="width: 40px"
-      class="p-1 border border-gray-300 rounded-md ml-1"
-    />
-    <button
-      @click="addExercice"
-      class="bg-[#4A50A0] text-white p-1 rounded"
-    >
+    <div>
+      {{ equip.name }} [{{ equip.muscle }}]
+      <input
+        v-model="newWorkoutWeight"
+        style="width: 40px"
+        class="p-1 bg-[#4A50A0] border border-gray-300 rounded-md ml-1"
+      />
+    </div>
+    <button @click="addExercice" class="bg-[#4A50A0] text-white p-2 rounded">
       Trainiert!
     </button>
   </form>
@@ -47,5 +46,4 @@ const addExercice = () => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

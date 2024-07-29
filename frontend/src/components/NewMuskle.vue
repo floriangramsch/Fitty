@@ -9,7 +9,7 @@
     </div>
     <button
       @click="addMuscle"
-      class="mt-4 bg-[#4A50A0] hover:bg-[#4A50F0] text-white p-2 rounded"
+      class="mt-4 bg-[#4A50A0] text-white p-2 rounded"
     >
       Füge neuen Muskle hinzu!
     </button>

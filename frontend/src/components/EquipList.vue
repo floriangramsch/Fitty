@@ -1,14 +1,11 @@
 <template>
-  <div class="flex">
+  <div class="flex flex-wrap">
     <div
-      v-for="equip in equips"
+      v-for="(equip, index) in equips"
       :key="equip.id"
       class="p-1 m-1 border rounded border-[#D8A48F]"
     >
-      <Equip
-        :equip="equip"
-        :workout="workout"
-      />
+      <Equip :equip="equip" :workout="workout" />
     </div>
   </div>
 </template>

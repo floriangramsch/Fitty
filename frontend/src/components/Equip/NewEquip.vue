@@ -1,14 +1,18 @@
 <template>
   <form>
-    <div>
-      <label>Gerätename:</label>
-      <input
-        v-model="newEquipName"
-        class="p-1 border border-gray-300 rounded-md ml-1"
-      />
+    <div class="flex flex-col">
+      <div>
+        <label>Gerätename:</label>
+        <input
+          v-model="newEquipName"
+          style="background-color: #4A50A0"
+          class="p-1 m-1 rounded-md ml-1"
+        />
+      </div>
       <select
         v-model="newEquipMuscle"
-        class="p-1 border border-gray-300 rounded-md"
+        style="background-color: #4A50A0"
+        class="p-1 m-1 rounded-md"
       >
         <option value="" disabled selected>Select a muscle</option>
         <option
@@ -23,7 +27,7 @@
     </div>
     <button
       @click="addNewEquip"
-      class="mt-4 bg-[#4A50A0] hover:bg-[#4A50F0] text-white p-2 rounded"
+      class="mt-4 bg-[#4A50A0] text-white p-2 rounded"
     >
       Füge neues Gerät hinzu!
     </button>
