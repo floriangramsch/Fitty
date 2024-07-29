@@ -1,6 +1,6 @@
 <template>
   <form>
-    <select
+    <!-- <select
       v-model="newWorkoutUser"
       class="p-1 border border-gray-300 rounded-md"
     >
@@ -8,7 +8,7 @@
       <option v-for="user in users" :key="user.user_id" :value="user">
         {{ user.name }}
       </option>
-    </select>
+    </select> -->
     <select
       v-model="newWorkoutEquip"
       class="p-1 border border-gray-300 rounded-md"
@@ -23,39 +23,40 @@
       style="width: 40px"
       class="p-1 border border-gray-300 rounded-md ml-1"
     />
-    <button @click.prevent="addExercice">Neues Gewicht!</button>
+    <button @click.prevent="addExercice">Trainiert!</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { UserType, EquipType } from "@/types.vue";
+import type { UserType, EquipType, WorkoutType } from "@/types.vue";
 
-const newWorkoutUser = ref("");
+// const newWorkoutUser = ref("");
 const newWorkoutEquip = ref("");
 const newWorkoutWeight = ref("");
 
-defineProps<{
-  users: Array<UserType>;
+const props = defineProps<{
+  // users: Array<UserType>;
+  workout: WorkoutType | undefined;
   equips: Array<EquipType>;
 }>();
 
 const addExercice = () => {
-  if (newWorkoutUser.value && newWorkoutEquip.value && newWorkoutWeight.value) {
+  if (newWorkoutEquip.value && newWorkoutWeight.value) {
     fetch("/api/addExercice", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user: newWorkoutUser.value,
+        workout_id: props.workout?.workoutId,
         equip: newWorkoutEquip.value,
         weight: newWorkoutWeight.value,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        window.location.reload();
+        // window.location.reload();
       });
   }
 };

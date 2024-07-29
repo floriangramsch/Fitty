@@ -106,12 +106,10 @@ app.post("/addMuscle", (req, res) => {
 
 // exercice
 app.post("/addExercice", (req, res) => {
-  const { user, equip, weight } = req.body;
-  // const muscleGroupId = muscle.muscle_group_id;
-  // const { newMuscle } = req.body;
+  const { workout_id, equip, weight } = req.body;
   db.query(
     "INSERT INTO Exercice (workout_id, equip_id, weight) VALUES (?, ?, ?)",
-    [user.user_id, equip.id, weight],
+    [workout_id, equip.id, weight],
     (err, results) => {
       if (err) {
         return res.status(500).send(err);
@@ -124,16 +122,47 @@ app.post("/addExercice", (req, res) => {
 });
 
 // Weight
-app.get("/weight/:id/:equipId", (req, res) => {
-  const { id, equipId } = req.params;
+app.get("/weight/:workoutId/:equipId", (req, res) => {
+  const { workoutId, equipId } = req.params;
   db.query(
     "SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?",
-    [id, equipId],
+    [workoutId, equipId],
     (err, results) => {
       if (err) {
         return res.status(500).send(err);
       }
       res.json(results);
+    }
+  );
+});
+
+// Workout
+app.post("/addWorkout", (req, res) => {
+  const { user } = req.body;
+  const dateTime = new Date();
+  db.query(
+    "INSERT INTO Workout (user_id, start, end) VALUES (?, ?, ?)",
+    [user.user_id, dateTime, dateTime],
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.status(201).send({ message: `${results.insertId}` });
+    }
+  );
+});
+
+app.get("/resumeWorkout/:userId", (req, res) => {
+  const { userId } = req.params;
+  db.query(
+    "SELECT * FROM Workout WHERE user_id = ? ORDER BY start DESC LIMIT 1",
+    [userId],
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      const workout = results[0];
+      res.json(workout);
     }
   );
 });

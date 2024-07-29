@@ -14,4 +14,11 @@ export type EquipType = {
   name: string;
   muscle: string;
 };
+
+export type WorkoutType = {
+  workoutId: number;
+  userId: number;
+  start: Date;
+  end: Date;
+};
 </script>

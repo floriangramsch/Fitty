@@ -21,11 +21,15 @@ services:
       - /app/node_modules
     networks:
       - fitty
+    depends_on:
+      - api
   proxy:
     build: ./proxy
     ports: ['7778:80']
     networks:
       - fitty
+    depends_on:
+      - frontend
 
 networks:
   fitty:
