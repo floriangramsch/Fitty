@@ -1,19 +1,20 @@
 <template>
-  {{ equipName }} [{{ type }}]
-  <div v-for="(user, index) in users" class="weight">
+  {{ equipName }} [{{ type }}] id: {{ equipId }}
+  <div v-for="(user) in users" class="weight">
     <div>{{ user.user }}: {{ user.weight }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { WorkoutType } from "@/types.vue";
 import { onMounted, ref } from "vue";
 
 const props = defineProps<{
   equipId: Number;
   equipName: String;
   type: String;
+  workout: WorkoutType | undefined;
 }>();
-const { equipId, equipName, type } = props;
 
 const users = ref([
   {
@@ -26,23 +27,31 @@ const users = ref([
   },
 ]);
 
-const getLastWorkout = (user: String) => {
-  return user === "Florian" ? 1 : 2;
-};
+// const getLastWorkout = (user: number, equipId: Number) => {
+//   console.log(props.workout)
+//   fetch(`/api/weight/${props.workout?.workoutId}/${equipId}`)
+//     .then((res) => res.json())
+//     .then((data) => {
+//       user === 1
+//         ? (users.value[0].weight = data[0]?.weight)
+//         : (users.value[1].weight = data[0]?.weight);
+//     });
+// };
 
-const getWeight = (workout_id: Number, equipId: Number) => {
-  fetch(`/api/weight/${workout_id}/${equipId}`)
+const getWeight = (user: number, equipId: Number) => {
+  console.log(props.workout)
+  fetch(`/api/weight/${user}/${equipId}`)
     .then((res) => res.json())
     .then((data) => {
-      workout_id === 1
+      user === 1
         ? (users.value[0].weight = data[0]?.weight)
         : (users.value[1].weight = data[0]?.weight);
     });
 };
 
 onMounted(() => {
-  getWeight(getLastWorkout("Florian"), equipId);
-  getWeight(getLastWorkout("Sonja"), equipId);
+  getWeight(1, props.equipId);
+  getWeight(2, props.equipId);
 });
 </script>
 

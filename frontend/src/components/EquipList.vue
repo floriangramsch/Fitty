@@ -4,16 +4,16 @@
     :key="equip.id"
     class="p-1 m-1 border rounded border-[#D8A48F]"
   >
-    <Equip :equipId="equip.id" :equipName="equip.name" :type="equip.muscle" />
+    <Equip :equipId="equip.id" :equipName="equip.name" :type="equip.muscle" :workout="workout"/>
   </div>
 </template>
 
 <script setup lang="ts">
 import Equip from "./Equip/Equip.vue";
-import type { EquipType } from "@/types.vue";
+import type { EquipType, WorkoutType } from "@/types.vue";
 
 defineProps<{
-  name: String;
+  workout: WorkoutType | undefined;
   equips: Array<EquipType>;
 }>();
 </script>

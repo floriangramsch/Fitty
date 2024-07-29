@@ -136,6 +136,24 @@ app.get("/weight/:workoutId/:equipId", (req, res) => {
   );
 });
 
+app.get("/weight/:userId/:equipId", (req, res) => {
+  const { userId, equipId } = req.params;
+  const query = `
+    SELECT e.weight
+    FROM Exercice e
+    JOIN Workout w ON e.workout_id = w.workout_id
+    WHERE w.user_id = ? AND e.equip_id = ?
+    ORDER BY w.end DESC
+    LIMIT 1;
+  `;
+  db.query(query, [userId, equipId], (err, results) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(results);
+  });
+});
+
 // Workout
 app.post("/addWorkout", (req, res) => {
   const { user } = req.body;

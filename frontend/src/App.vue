@@ -1,16 +1,35 @@
 <template>
   <div class="bg-[#869D7A] text-[#4A50A0]" style="height: 100%">
+    <div>
+      <button
+        @click="showDialogMuskle = true"
+        class="bg-[#4A50A0] text-white p-1 rounded"
+      >
+        Neuer Muskle
+      </button>
+
+      <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
+        <NewMuskle />
+      </Dialog>
+    </div>
+
+    <div>
+      <button
+        @click="showDialogEquip = true"
+        class="bg-[#4A50A0] text-white p-1 rounded"
+      >
+        Neues Gerät
+      </button>
+      <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
+        <NewEquip :muscles="muscles" />
+      </Dialog>
+    </div>
+
     <template v-if="logged.isLogged">
       <h1>Welcome {{ logged.user?.name }} from {{ logged.workout?.start }}</h1>
       <Wrapper>
         <template #EquipList>
-          <EquipList name="McFitty" :equips="equips"></EquipList>
-        </template>
-        <template #NewEquip>
-          <NewEquip :muscles="muscles" />
-        </template>
-        <template #NewMuskle>
-          <NewMuskle />
+          <EquipList :equips="equips" :workout="logged.workout" />
         </template>
         <template #NewEx>
           <NewEx :equips="equips" :workout="logged.workout" />
@@ -32,10 +51,13 @@ import NewEx from "./components/NewEx.vue";
 import Wrapper from "./components/Wrapper.vue";
 import Start from "./components/Start.vue";
 import type { UserType, WorkoutType } from "./types.vue";
+import Dialog from "./components/Dialog.vue";
 
 const users = ref([]);
 const equips = ref([]);
 const muscles = ref([]);
+const showDialogEquip = ref(false);
+const showDialogMuskle = ref(false);
 
 type Logged = {
   isLogged: boolean;
@@ -76,6 +98,11 @@ const getMuscles = () => {
     .catch((err) => console.log(err));
 };
 
+const showAddEquip = () => {
+  const e = document.getElementById("equipList");
+  e?.classList.add("hidden");
+};
+
 onMounted(() => {
   getMuscles();
   getEquip();
@@ -83,31 +110,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
