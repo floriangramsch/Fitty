@@ -14,7 +14,7 @@
       <div class="equip-list-container">
         <EquipList :equips="equips" :workout="logged.workout" />
       </div>
-      <Start :users="users" v-model="logged" />
+      <!-- <Start :users="users" v-model="logged" /> -->
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
@@ -29,6 +29,18 @@
 
         <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
           <NewMuskle />
+        </Dialog>
+      </div>
+
+      <div v-if="!logged.isLogged" class="flex-grow">
+        <button
+          @click="showDialogLogin = true"
+          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
+        >
+          Worki Worki
+        </button>
+        <Dialog :isOpen="showDialogLogin" @close="showDialogLogin = false">
+          <Start :users="users" v-model="logged" />
         </Dialog>
       </div>
 
@@ -71,6 +83,7 @@ const equips = ref([]);
 const muscles = ref([]);
 const showDialogEquip = ref(false);
 const showDialogMuskle = ref(false);
+const showDialogLogin = ref(false);
 
 type Logged = {
   isLogged: boolean;
@@ -104,6 +117,7 @@ const logout = () => {
     user: undefined,
     workout: undefined,
   };
+  showDialogLogin.value = false;
   localStorage.removeItem("logged");
 };
 
@@ -159,7 +173,7 @@ const formatTime = (time: Date | undefined) => {
 
 <style scoped>
 .equip-list-container {
-  max-height: 50vh; /* Oder eine andere passende Höhe */
+  max-height: 80vh;
   overflow-y: auto;
 }
 </style>
