@@ -1,47 +1,54 @@
 <template>
-  <div class="bg-[#869D7A] text-[#4A50A0]" style="height: 100%">
+  <div class="bg-[#869D7A] text-[#4A50A0] p-5" style="height: 100%">
     <template v-if="logged.isLogged">
-      <h1>Welcome {{ logged.user?.name }} from {{ logged.workout?.start }}</h1>
-      <Wrapper>
-        <template #NewEx>
-          <NewEx :equips="equips" :workout="logged.workout" />
-        </template>
-      </Wrapper>
+      <h1 class="text-3xl mb-10">
+        Welcome {{ logged.user?.name }} from
+        {{ formatTime(logged.workout?.start) }}
+      </h1>
+      <EquipList :equips="equips" :workout="logged.workout" />
     </template>
     <template v-else>
       <EquipList :equips="equips" :workout="logged.workout" />
       <Start :users="users" v-model="logged" />
     </template>
-
-    <nav class="fixed bottom-0 w-full">
-      <div class="flex justify-evenly bg-[#4A50A0]">
-        <div class="flex-grow">
-          <button
-            @click="showDialogMuskle = true"
-            class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
-          >
-            Neuer Muskle
-          </button>
-
-          <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
-            <NewMuskle />
-          </Dialog>
-        </div>
-
-        <div class="flex-grow">
-          <button
-            @click="showDialogEquip = true"
-            class="bg-[#4A50A0] hover:bg-[#4A50F0] border border-[#D8A48F] text-white p-1 w-full"
-          >
-            Neues Gerät
-          </button>
-          <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
-            <NewEquip :muscles="muscles" />
-          </Dialog>
-        </div>
-      </div>
-    </nav>
   </div>
+  <nav class="fixed bottom-0 w-full h-10">
+    <div class="flex justify-evenly bg-[#4A50A0]">
+      <div class="flex-grow">
+        <button
+          @click="showDialogMuskle = true"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
+        >
+          Neuer Muskle
+        </button>
+
+        <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
+          <NewMuskle />
+        </Dialog>
+      </div>
+
+      <div class="flex-grow">
+        <button
+          @click="showDialogEquip = true"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] border border-[#D8A48F] text-white p-1 w-full"
+        >
+          Neues Gerät
+        </button>
+        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
+          <NewEquip :muscles="muscles" />
+        </Dialog>
+      </div>
+
+      <div v-if="logged.isLogged" class="flex-grow">
+        <button
+          @click="logout"
+          class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white border border-[#D8A48F] p-1 w-full"
+        >
+          Ausloggen
+        </button>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script setup lang="ts">
@@ -49,11 +56,10 @@ import { ref, onMounted, type Ref } from "vue";
 import EquipList from "./components/EquipList.vue";
 import NewEquip from "./components/Equip/NewEquip.vue";
 import NewMuskle from "./components/NewMuskle.vue";
-import NewEx from "./components/NewEx.vue";
-import Wrapper from "./components/Wrapper.vue";
 import Start from "./components/Start.vue";
 import type { UserType, WorkoutType } from "./types.vue";
 import Dialog from "./components/Dialog.vue";
+import { watch } from "vue";
 
 const users = ref([]);
 const equips = ref([]);
@@ -72,6 +78,29 @@ const logged: Ref<Logged> = ref({
   user: undefined,
   workout: undefined,
 });
+
+// Funktion zum Speichern des Anmeldezustands im Local Storage
+const saveLoggedState = () => {
+  localStorage.setItem("logged", JSON.stringify(logged.value));
+};
+
+// Funktion zum Laden des Anmeldezustands aus dem Local Storage
+const loadLoggedState = () => {
+  const savedLogged = localStorage.getItem("logged");
+  if (savedLogged) {
+    logged.value = JSON.parse(savedLogged);
+  }
+};
+
+// Funktion zum Ausloggen
+const logout = () => {
+  logged.value = {
+    isLogged: false,
+    user: undefined,
+    workout: undefined,
+  };
+  localStorage.removeItem("logged");
+};
 
 const getUsers = () => {
   fetch("/api/users")
@@ -101,10 +130,21 @@ const getMuscles = () => {
 };
 
 onMounted(() => {
+  loadLoggedState();
   getMuscles();
   getEquip();
   getUsers();
 });
+
+// Beobachte Änderungen im Anmeldezustand und speichere diese
+watch(logged, saveLoggedState, { deep: true });
+
+const formatTime = (time: Date | undefined) => {
+  if (time) {
+    const formattedTime = new Date(time).toLocaleString();
+    return formattedTime;
+  }
+};
 </script>
 
 <style scoped></style>

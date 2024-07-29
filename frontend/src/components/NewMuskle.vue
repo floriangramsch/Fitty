@@ -1,11 +1,18 @@
 <template>
   <form>
-    <label>Musklename:</label>
-    <input
-      v-model="newMuscle"
-      class="p-1 border border-gray-300 rounded-md ml-1"
-    />
-    <button @click.prevent="addMuscle">Füge neuen Muskle hinzu!</button>
+    <div>
+      <label>Musklename:</label>
+      <input
+        v-model="newMuscle"
+        class="p-1 border border-gray-300 rounded-md ml-1"
+      />
+    </div>
+    <button
+      @click="addMuscle"
+      class="mt-4 bg-[#4A50A0] hover:bg-[#4A50F0] text-white p-2 rounded"
+    >
+      Füge neuen Muskle hinzu!
+    </button>
   </form>
 </template>
 
@@ -27,12 +34,10 @@ const addMuscle = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // window.location.reload();
+        window.location.reload();
       });
   }
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

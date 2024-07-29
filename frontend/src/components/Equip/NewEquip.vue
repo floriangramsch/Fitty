@@ -1,25 +1,32 @@
 <template>
   <form>
-    <label>Gerätename:</label>
-    <input
-      v-model="newEquipName"
-      class="p-1 border border-gray-300 rounded-md ml-1"
-    />
-    <select
-      v-model="newEquipMuscle"
-      class="p-1 border border-gray-300 rounded-md"
-    >
-      <option value="" disabled selected>Select a muscle</option>
-      <option
-        v-for="muscle in muscles"
-        :key="muscle.muscle_group_id"
-        :value="muscle"
-        class="py-1"
+    <div>
+      <label>Gerätename:</label>
+      <input
+        v-model="newEquipName"
+        class="p-1 border border-gray-300 rounded-md ml-1"
+      />
+      <select
+        v-model="newEquipMuscle"
+        class="p-1 border border-gray-300 rounded-md"
       >
-        {{ muscle.name }}
-      </option>
-    </select>
-    <button @click.prevent="addNewEquip">Füge neues Gerät hinzu</button>
+        <option value="" disabled selected>Select a muscle</option>
+        <option
+          v-for="muscle in muscles"
+          :key="muscle.muscle_group_id"
+          :value="muscle"
+          class="py-1"
+        >
+          {{ muscle.name }}
+        </option>
+      </select>
+    </div>
+    <button
+      @click="addNewEquip"
+      class="mt-4 bg-[#4A50A0] hover:bg-[#4A50F0] text-white p-2 rounded"
+    >
+      Füge neues Gerät hinzu!
+    </button>
   </form>
 </template>
 
@@ -48,7 +55,7 @@ const addNewEquip = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // window.location.reload();
+        window.location.reload();
       });
   }
 };

@@ -52,7 +52,9 @@ app.get("/equip", (req, res) => {
   db.query(
     `SELECT Equip.equip_id AS id, Equip.name AS name, MuscleGroup.name AS muscle
      FROM Equip 
-     JOIN MuscleGroup ON Equip.muscle_group_id = MuscleGroup.muscle_group_id`,
+     JOIN MuscleGroup ON Equip.muscle_group_id = MuscleGroup.muscle_group_id
+     ORDER BY MuscleGroup.name
+     `,
     (err, results) => {
       if (err) {
         return res.status(500).send(err);
@@ -106,10 +108,10 @@ app.post("/addMuscle", (req, res) => {
 
 // exercice
 app.post("/addExercice", (req, res) => {
-  const { workout_id, equip, weight } = req.body;
+  const { workout_id, equip_id, weight } = req.body;
   db.query(
     "INSERT INTO Exercice (workout_id, equip_id, weight) VALUES (?, ?, ?)",
-    [workout_id, equip.id, weight],
+    [workout_id, equip_id, weight],
     (err, results) => {
       if (err) {
         return res.status(500).send(err);
@@ -122,19 +124,21 @@ app.post("/addExercice", (req, res) => {
 });
 
 // Weight
-// app.get("/weight/:workoutId/:equipId", (req, res) => {
-//   const { workoutId, equipId } = req.params;
-//   db.query(
-//     "SELECT weight FROM Exercice Where workout_id = ? AND equip_id = ?",
-//     [workoutId, equipId],
-//     (err, results) => {
-//       if (err) {
-//         return res.status(500).send(err);
-//       }
-//       res.json(results);
-//     }
-//   );
-// });
+app.get("/weight/lastWorkout/:userId/:equipId/:workoutId", (req, res) => {
+  const { userId, equipId, workoutId } = req.params;
+  const query2 = `
+    SELECT e.weight
+    FROM Exercice e
+    JOIN Workout w ON e.workout_id = w.workout_id
+    WHERE e.workout_id = ? AND w.user_id = ? AND e.equip_id = ?;
+  `;
+  db.query(query2, [workoutId, userId, equipId], (err, results) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(results);
+  });
+});
 
 app.get("/weight/:userId/:equipId", (req, res) => {
   const { userId, equipId } = req.params;
