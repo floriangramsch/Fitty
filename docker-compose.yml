@@ -10,6 +10,11 @@ services:
       - /app/node_modules
     networks:
       - fitty
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   frontend:
     build:
       context: ./frontend

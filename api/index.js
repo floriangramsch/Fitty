@@ -23,6 +23,10 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000,  // 10 Sekunden
 });
 
 db.connect((err) => {
@@ -85,6 +89,7 @@ app.post("/addEquip", (req, res) => {
 app.get("/muscles", (req, res) => {
   db.query("SELECT * FROM MuscleGroup", (err, results) => {
     if (err) {
+      console.error("Fucking again?:", err);
       return res.status(500).send(err);
     }
     res.json(results);
