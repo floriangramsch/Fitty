@@ -12,7 +12,8 @@
     </template>
     <template v-else>
       <div class="equip-list-container">
-        <EquipList :equips="equips" :workout="logged.workout" />
+        <!-- <EquipList :equips="equips" :workout="logged.workout" /> -->
+        <MultiSelect />
       </div>
     </template>
   </div>
@@ -76,6 +77,7 @@ import Start from "./components/Start.vue";
 import type { UserType, WorkoutType } from "./types.vue";
 import Dialog from "./components/Dialog.vue";
 import { watch } from "vue";
+import MultiSelect from "./components/MultiSelect.vue";
 
 const users = ref([]);
 const equips = ref([]);
