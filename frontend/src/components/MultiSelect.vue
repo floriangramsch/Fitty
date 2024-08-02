@@ -2,9 +2,11 @@
 import { computed, ref } from "vue";
 import {
   ComboboxAnchor,
+  ComboboxCancel,
   ComboboxInput,
   ComboboxPortal,
   ComboboxRoot,
+  ComboboxTrigger,
 } from "radix-vue";
 import {
   CommandEmpty,
@@ -21,11 +23,11 @@ import {
 } from "@/components/ui/tags-input";
 
 const frameworks = [
-  { value: "next.js", label: "Next.js" },
-  { value: "sveltekit", label: "SvelteKit" },
-  { value: "nuxt", label: "Nuxt" },
-  { value: "remix", label: "Remix" },
-  { value: "astro", label: "Astro" },
+  { value: "next.js", label: "Next.js", selected: false },
+  { value: "sveltekit", label: "SvelteKit", selected: false },
+  { value: "nuxt", label: "Nuxt", selected: false },
+  { value: "remix", label: "Remix", selected: false },
+  { value: "astro", label: "Astro", selected: false },
 ];
 
 const modelValue = ref<string[]>([]);
@@ -38,7 +40,7 @@ const filteredFrameworks = computed(() =>
 </script>
 
 <template>
-  <TagsInput class=" px-0 gap-0 w-80" :model-value="modelValue">
+  <TagsInput class="px-0 gap-0 w-80" :model-value="modelValue">
     <div class="flex gap-2 flex-wrap items-center px-3">
       <TagsInputItem v-for="item in modelValue" :key="item" :value="item">
         <TagsInputItemText />
@@ -50,16 +52,18 @@ const filteredFrameworks = computed(() =>
       v-model="modelValue"
       v-model:open="open"
       v-model:searchTerm="searchTerm"
-      class="w-full"
+      class=""
     >
       <ComboboxAnchor as-child>
         <ComboboxInput placeholder="Framework..." as-child>
           <TagsInputInput
-            class="w-full px-3"
+            class="px-3"
             :class="modelValue.length > 0 ? 'mt-2' : ''"
             @keydown.enter.prevent
           />
         </ComboboxInput>
+        <ComboboxTrigger>v</ComboboxTrigger>
+        <ComboboxCancel />
       </ComboboxAnchor>
 
       <ComboboxPortal>
