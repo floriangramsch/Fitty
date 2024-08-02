@@ -12,8 +12,8 @@
     </template>
     <template v-else>
       <div class="equip-list-container">
-        <!-- <EquipList :equips="equips" :workout="logged.workout" /> -->
-        <MultiSelect />
+        <EquipList :equips="equips" :workout="logged.workout" />
+        <!-- <MultiSelect /> -->
       </div>
     </template>
   </div>
