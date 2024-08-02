@@ -1,7 +1,7 @@
 <template>
-  <div class="m-1 flex overflow-y-auto">
+  <div class="m-1 flex pt-48 overflow-y-auto">
     <div
-      v-for="(equip, index) in equips"
+      v-for="equip in equips"
       :key="equip.id"
       class="p-1 flex justify-center min-w-full border rounded border-[#D8A48F]"
     >
@@ -20,5 +20,4 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

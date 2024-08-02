@@ -1,13 +1,11 @@
 <template>
-  <div @click.prevent="showDialogWeight = workout ? true : false">
-    {{ equip.name }} [{{ equip.muscle }}]
+  <div class="flex" @click.prevent="showDialogWeight = workout ? true : false">
     <div>
-      <div v-for="user in usersPb" class="weight">
+      {{ equip.name }} [{{ equip.muscle }}]
+      <div v-for="user in users" class="weight">
         <div v-if="user.weight !== undefined">
           {{ user.user }}: {{ user.weight }} kg
         </div>
-      </div>
-      <div v-for="user in usersThis" class="weight">
         <div v-if="user.userId === props.workout?.userId && user.weight">
           This:
           {{ user.weight }} kg
@@ -17,6 +15,7 @@
         </div>
       </div>
     </div>
+    <!-- <div class="ml-10 flex justify-center items-center">test</div> -->
   </div>
   <Dialog :isOpen="showDialogWeight" @close="showDialogWeight = false">
     <NewEx :equip="equip" :workout="workout" />
@@ -36,27 +35,18 @@ const props = defineProps<{
   workout: WorkoutType | undefined;
 }>();
 
-const usersPb = ref([
-  {
-    user: "Flo",
-    weight: undefined,
-  },
-  {
-    user: "Sonja",
-    weight: undefined,
-  },
-]);
-
-const usersThis = ref([
+const users = ref([
   {
     userId: 1,
     user: "Flo",
     weight: undefined,
+    thisWeight: undefined,
   },
   {
     userId: 2,
     user: "Sonja",
     weight: undefined,
+    thisWeight: undefined,
   },
 ]);
 
@@ -66,8 +56,8 @@ const getLastWorkout = (user: number, equipId: number, workoutId: number) => {
     .then((data) => {
       console.log(data);
       user === 1
-        ? (usersThis.value[0].weight = data[0]?.weight)
-        : (usersThis.value[1].weight = data[0]?.weight);
+        ? (users.value[0].thisWeight = data[0]?.weight)
+        : (users.value[1].thisWeight = data[0]?.weight);
     });
 };
 
@@ -76,8 +66,8 @@ const getWeight = (user: number, equipId: number) => {
     .then((res) => res.json())
     .then((data) => {
       user === 1
-        ? (usersPb.value[0].weight = data[0]?.weight)
-        : (usersPb.value[1].weight = data[0]?.weight);
+        ? (users.value[0].weight = data[0]?.weight)
+        : (users.value[1].weight = data[0]?.weight);
     });
 };
 
