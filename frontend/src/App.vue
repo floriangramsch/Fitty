@@ -11,10 +11,9 @@
       </div>
     </template>
     <template v-else>
-      <div class="equip-list-container">
-        <EquipList :equips="equips" :workout="logged.workout" />
-        <!-- <MultiSelect /> -->
-      </div>
+      <EquipList :equips="equips" :workout="logged.workout" />
+      <!-- <MultiSelect /> -->
+      <WorkoutList :workouts="workouts" />
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
@@ -78,10 +77,13 @@ import type { UserType, WorkoutType } from "./types.vue";
 import Dialog from "./components/Dialog.vue";
 import { watch } from "vue";
 import MultiSelect from "./components/MultiSelect.vue";
+import WorkoutList from "./components/WorkoutList.vue";
+import { formatTime } from "./helpers";
 
 const users = ref([]);
 const equips = ref([]);
 const muscles = ref([]);
+const workouts = ref([]);
 const showDialogEquip = ref(false);
 const showDialogMuskle = ref(false);
 const showDialogLogin = ref(false);
@@ -149,32 +151,24 @@ const getMuscles = () => {
     .catch((err) => console.log(err));
 };
 
+const getWorkouts = () => {
+  fetch("/api/workouts")
+    .then((res) => res.json())
+    .then((data) => {
+      workouts.value = data;
+    })
+    .catch((err) => console.log(err));
+};
+
 onMounted(() => {
   loadLoggedState();
   getMuscles();
   getEquip();
   getUsers();
+  getWorkouts();
 });
 
 // Beobachte Änderungen im Anmeldezustand und speichere diese
 watch(logged, saveLoggedState, { deep: true });
-
-const formatTime = (time: Date | undefined) => {
-  if (time) {
-    const formattedTime = new Date(time).toLocaleString("de-DE", {
-      day: "numeric",
-      month: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    });
-    return formattedTime + " Uhr";
-  }
-};
 </script>
-
-<style scoped>
-.equip-list-container {
-  max-height: 80vh;
-  overflow-y: auto;
-}
-</style>
+<style scoped></style>

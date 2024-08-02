@@ -79,7 +79,6 @@ app.post("/addEquip", (req, res) => {
 app.get("/muscles", (req, res) => {
   pool.query("SELECT * FROM MuscleGroup", (err, results) => {
     if (err) {
-      console.error("Fucking again?:", err);
       return res.status(500).send(err);
     }
     res.json(results);
@@ -154,6 +153,14 @@ app.get("/weight/:userId/:equipId", (req, res) => {
 });
 
 // Workout
+app.get("/workouts", (req, res) => {
+  pool.query("SELECT * FROM Workout", (err, results) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(results);
+  });
+});
 app.post("/addWorkout", (req, res) => {
   const { user } = req.body;
   const dateTime = new Date();

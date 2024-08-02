@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-wrap">
+  <div class="m-1 flex overflow-y-auto">
     <div
       v-for="(equip, index) in equips"
       :key="equip.id"
-      class="p-1 m-1 border rounded border-[#D8A48F]"
+      class="p-1 flex justify-center min-w-full border rounded border-[#D8A48F]"
     >
       <Equip :equip="equip" :workout="workout" />
     </div>
@@ -20,10 +20,5 @@ defineProps<{
 }>();
 </script>
 
-<!-- <style scoped>
-.flex-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  overflow-y: auto;
-}
-</style> -->
+<style scoped>
+</style>

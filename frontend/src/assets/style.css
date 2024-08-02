@@ -3,7 +3,21 @@
 @tailwind utilities;
 
 #app {
-  position:fixed;
+  position: fixed;
   height: 100%;
   width: 100%;
+  /* min-width: 0;
+  min-height: 0; */
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
