@@ -17,24 +17,14 @@ app.use(
   })
 );
 
-// MariaDB-Verbindung einrichten
-const db = mysql.createConnection({
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0,
-  connectTimeout: 10000,  // 10 Sekunden
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error("Error connecting to the database:", err);
-    return;
-  }
-  console.log("Connected to the database");
+  queueLimit: 0
 });
 
 // Beispielroute
@@ -43,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  db.query("SELECT * FROM User", (err, results) => {
+  pool.query("SELECT * FROM User", (err, results) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -53,7 +43,7 @@ app.get("/users", (req, res) => {
 
 // Equip
 app.get("/equip", (req, res) => {
-  db.query(
+  pool.query(
     `SELECT Equip.equip_id AS id, Equip.name AS name, MuscleGroup.name AS muscle
      FROM Equip 
      JOIN MuscleGroup ON Equip.muscle_group_id = MuscleGroup.muscle_group_id
@@ -71,7 +61,7 @@ app.post("/addEquip", (req, res) => {
   const { name, muscle } = req.body;
   const muscleGroupId = muscle.muscle_group_id;
 
-  db.query(
+  pool.query(
     "INSERT INTO Equip (name, muscle_group_id) VALUES (?, ?)",
     [name, muscleGroupId],
     (err, results) => {
@@ -87,7 +77,7 @@ app.post("/addEquip", (req, res) => {
 
 // Muscles
 app.get("/muscles", (req, res) => {
-  db.query("SELECT * FROM MuscleGroup", (err, results) => {
+  pool.query("SELECT * FROM MuscleGroup", (err, results) => {
     if (err) {
       console.error("Fucking again?:", err);
       return res.status(500).send(err);
@@ -97,7 +87,7 @@ app.get("/muscles", (req, res) => {
 });
 app.post("/addMuscle", (req, res) => {
   const { newMuscle } = req.body;
-  db.query(
+  pool.query(
     "INSERT INTO MuscleGroup (name) VALUES (?)",
     [newMuscle],
     (err, results) => {
@@ -114,7 +104,7 @@ app.post("/addMuscle", (req, res) => {
 // exercice
 app.post("/addExercice", (req, res) => {
   const { workout_id, equip_id, weight } = req.body;
-  db.query(
+  pool.query(
     "INSERT INTO Exercice (workout_id, equip_id, weight) VALUES (?, ?, ?)",
     [workout_id, equip_id, weight],
     (err, results) => {
@@ -137,7 +127,7 @@ app.get("/weight/lastWorkout/:userId/:equipId/:workoutId", (req, res) => {
     JOIN Workout w ON e.workout_id = w.workout_id
     WHERE e.workout_id = ? AND w.user_id = ? AND e.equip_id = ?;
   `;
-  db.query(query2, [workoutId, userId, equipId], (err, results) => {
+  pool.query(query2, [workoutId, userId, equipId], (err, results) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -155,7 +145,7 @@ app.get("/weight/:userId/:equipId", (req, res) => {
     ORDER BY w.end DESC
     LIMIT 1;
   `;
-  db.query(query, [userId, equipId], (err, results) => {
+  pool.query(query, [userId, equipId], (err, results) => {
     if (err) {
       return res.status(500).send(err);
     }
@@ -167,7 +157,7 @@ app.get("/weight/:userId/:equipId", (req, res) => {
 app.post("/addWorkout", (req, res) => {
   const { user } = req.body;
   const dateTime = new Date();
-  db.query(
+  pool.query(
     "INSERT INTO Workout (user_id, start, end) VALUES (?, ?, ?)",
     [user.user_id, dateTime, dateTime],
     (err, results) => {
@@ -175,7 +165,7 @@ app.post("/addWorkout", (req, res) => {
         return res.status(500).send(err);
       }
       const workoutId = results.insertId;
-      db.query(
+      pool.query(
         "SELECT * FROM Workout WHERE workout_id = ?",
         [workoutId],
         (err, workoutResults) => {
@@ -191,7 +181,7 @@ app.post("/addWorkout", (req, res) => {
 
 app.get("/resumeWorkout/:userId", (req, res) => {
   const { userId } = req.params;
-  db.query(
+  pool.query(
     "SELECT * FROM Workout WHERE user_id = ? ORDER BY start DESC LIMIT 1",
     [userId],
     (err, results) => {

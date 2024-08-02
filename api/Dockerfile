@@ -11,4 +11,4 @@ COPY . .
 EXPOSE 3001
 
 # Startbefehl
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
