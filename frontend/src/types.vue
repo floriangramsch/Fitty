@@ -1,4 +1,10 @@
 <script lang="ts">
+export type Logged = {
+  isLogged: boolean;
+  user: UserType | undefined;
+  workout: WorkoutType | undefined;
+};
+
 export type UserType = {
   user_id: number;
   name: string;
@@ -16,8 +22,8 @@ export type EquipType = {
 };
 
 export type WorkoutType = {
-  workoutId: number;
-  userId: number;
+  workout_id: number;
+  user_id: number;
   start: Date;
   end: Date;
 };

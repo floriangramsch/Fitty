@@ -1,6 +1,6 @@
 <template>
   <div
-    class="m-1 flex snap-x snap-mandatory pt-48 overflow-x-auto no-scrollbar"
+    class="m-1 flex snap-x snap-mandatory mt-48 overflow-x-auto no-scrollbar"
   >
     <div
       v-for="equip in equips"
@@ -14,11 +14,12 @@
 
 <script setup lang="ts">
 import Equip from "./Equip/Equip.vue";
-import type { EquipType, WorkoutType } from "@/types.vue";
+import type { EquipType, MuscleType, WorkoutType } from "@/types.vue";
 
 defineProps<{
   workout: WorkoutType | undefined;
-  equips: Array<EquipType>;
+  equips: Array<EquipType> | undefined;
+  muscles: Array<MuscleType> | undefined;
 }>();
 </script>
 

@@ -34,7 +34,7 @@ import type { UserType, WorkoutType } from "@/types.vue";
 const loggUser = ref<UserType | string>("");
 
 defineProps<{
-  users: Array<UserType>;
+  users: Array<UserType> | undefined;
   modelValue: {
     isLogged: boolean;
     user: UserType | undefined;

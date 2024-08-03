@@ -6,16 +6,16 @@ import Dialog from "./Dialog.vue";
 import NewWorkout from "./NewWorkout.vue";
 
 defineProps<{
-  workouts: Array<any>;
+  workouts: Array<WorkoutType> | undefined;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
 
-const editWorkout = (workout: any) => {
+const editWorkout = (workout: WorkoutType) => {
   emit("update:modelValue", {
     user: {
       user_id: workout.user_id,
-      name: workout.user_d === 1 ? "Flo" : "Sonja",
+      name: workout.user_id === 1 ? "Flo" : "Sonja",
     },
     isLogged: true,
     workout: workout,

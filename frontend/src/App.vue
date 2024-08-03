@@ -10,12 +10,19 @@
         {{ formatTime(logged.workout?.start) }}
       </h1>
       <div class="equip-list-container">
-        <EquipList :equips="equips" :workout="logged.workout" />
+        <EquipList
+          :equips="equips"
+          :workout="logged.workout"
+          :muscles="muscles"
+        />
       </div>
     </template>
     <template v-else>
-      <EquipList :equips="equips" :workout="logged.workout" />
-      <!-- <MultiSelect /> -->
+      <EquipList
+        :equips="equips"
+        :workout="logged.workout"
+        :muscles="muscles"
+      />
       <WorkoutList :workouts="workouts" v-model="logged" />
     </template>
   </div>
@@ -34,7 +41,15 @@
         </Dialog>
       </div>
 
-      <div v-if="!logged.isLogged" class="flex-grow">
+      <div v-if="logged.isLogged" class="flex-grow">
+        <button
+          @click="logout"
+          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
+        >
+          Workout beenden
+        </button>
+      </div>
+      <div v-else class="flex-grow">
         <button
           @click="showDialogLogin = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
@@ -57,15 +72,6 @@
           <NewEquip :muscles="muscles" />
         </Dialog>
       </div>
-
-      <div v-if="logged.isLogged" class="flex-grow">
-        <button
-          @click="logout"
-          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
-        >
-          Workout beenden
-        </button>
-      </div>
     </div>
   </nav>
 </template>
@@ -76,26 +82,26 @@ import EquipList from "./components/EquipList.vue";
 import NewEquip from "./components/Equip/NewEquip.vue";
 import NewMuskle from "./components/NewMuskle.vue";
 import Start from "./components/Start.vue";
-import type { UserType, WorkoutType } from "./types.vue";
+import type {
+  EquipType,
+  MuscleType,
+  Logged,
+  UserType,
+  WorkoutType,
+} from "./types.vue";
 import Dialog from "./components/Dialog.vue";
 import { watch } from "vue";
 import MultiSelect from "./components/MultiSelect.vue";
 import WorkoutList from "./components/WorkoutList.vue";
 import { formatTime } from "./helpers";
 
-const users = ref([]);
-const equips = ref([]);
-const muscles = ref([]);
-const workouts = ref([]);
+const users = ref<Array<UserType>>();
+const equips = ref<Array<EquipType>>();
+const muscles = ref<Array<MuscleType>>();
+const workouts = ref<Array<WorkoutType>>();
 const showDialogEquip = ref(false);
 const showDialogMuskle = ref(false);
 const showDialogLogin = ref(false);
-
-type Logged = {
-  isLogged: boolean;
-  user: UserType | undefined;
-  workout: WorkoutType | undefined;
-};
 
 const logged: Ref<Logged> = ref({
   isLogged: false,
@@ -130,8 +136,7 @@ const logout = () => {
 const getUsers = () => {
   fetch("/api/users")
     .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
+    .then((data: Array<UserType>) => {
       users.value = data;
     })
     .catch((err) => console.log(err));
@@ -140,7 +145,7 @@ const getUsers = () => {
 const getEquip = () => {
   fetch("/api/equip")
     .then((res) => res.json())
-    .then((data) => {
+    .then((data: Array<EquipType>) => {
       equips.value = data;
     })
     .catch((err) => console.log(err));
@@ -149,7 +154,7 @@ const getEquip = () => {
 const getMuscles = () => {
   fetch("/api/muscles")
     .then((res) => res.json())
-    .then((data) => {
+    .then((data: Array<MuscleType>) => {
       muscles.value = data;
     })
     .catch((err) => console.log(err));
@@ -158,7 +163,7 @@ const getMuscles = () => {
 const getWorkouts = () => {
   fetch("/api/workouts")
     .then((res) => res.json())
-    .then((data) => {
+    .then((data: Array<WorkoutType>) => {
       workouts.value = data;
     })
     .catch((err) => console.log(err));

@@ -1,10 +1,10 @@
 <template>
   <form>
     <div>
-      {{ equip.name }} [{{ equip.muscle }}]
+      {{ equip?.name }} [{{ equip.muscle }}]
       <input
         v-model="newWorkoutWeight"
-        style="width: 40px; color: white;"
+        style="width: 40px; color: white"
         class="p-1 bg-[#4A50A0] border border-gray-300 rounded-md ml-1"
       />
     </div>
@@ -33,8 +33,8 @@ const addExercice = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        workout_id: props.workout?.workoutId,
-        equip_id: props.equip.id,
+        workout_id: props.workout?.workout_id,
+        equip_id: props.equip?.id,
         weight: newWorkoutWeight.value,
       }),
     })

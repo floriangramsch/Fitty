@@ -6,11 +6,11 @@
         <div v-if="user.weight !== undefined">
           {{ user.user }}: {{ user.weight }} kg
         </div>
-        <div v-if="user.userId === props.workout?.userId && user.weight">
+        <div v-if="user.userId === props.workout?.user_id && user.weight !== undefined">
           This:
           {{ user.weight }} kg
         </div>
-        <div v-else-if="user.userId === props.workout?.userId">
+        <div v-else-if="user.userId === props.workout?.user_id">
           This: Trainiere!
         </div>
       </div>
@@ -54,7 +54,6 @@ const getLastWorkout = (user: number, equipId: number, workoutId: number) => {
   fetch(`/api/weight/lastWorkout/${user}/${equipId}/${workoutId}`)
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
       user === 1
         ? (users.value[0].thisWeight = data[0]?.weight)
         : (users.value[1].thisWeight = data[0]?.weight);
@@ -76,9 +75,9 @@ onMounted(() => {
   getWeight(2, props.equip.id);
   if (props.workout) {
     getLastWorkout(
-      props.workout.userId,
+      props.workout.user_id,
       props.equip.id,
-      props.workout.workoutId
+      props.workout.workout_id
     );
   }
 });
