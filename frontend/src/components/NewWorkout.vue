@@ -9,21 +9,6 @@
           class="p-1 m-1 rounded-md ml-1"
         />
       </div>
-      <select
-        v-model="newEquipMuscle"
-        style="background-color: #5d7851"
-        class="p-1 m-1 rounded-md"
-      >
-        <option value="" disabled selected>Select a muscle</option>
-        <option
-          v-for="muscle in muscles"
-          :key="muscle.muscle_group_id"
-          :value="muscle"
-          class="py-1"
-        >
-          {{ muscle.name }}
-        </option>
-      </select>
     </div>
     <button
       @click="addNewEquip"
@@ -36,14 +21,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { MuscleType } from "@/types.vue";
 
 const newEquipName = ref("");
 const newEquipMuscle = ref("");
 
-defineProps<{
-  muscles: Array<MuscleType>;
-}>();
+// defineProps<{
+//   muscles: Array<MuscleType>;
+// }>();
 
 const addNewEquip = () => {
   if (newEquipName.value && newEquipMuscle.value) {
@@ -64,32 +48,3 @@ const addNewEquip = () => {
   }
 };
 </script>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>

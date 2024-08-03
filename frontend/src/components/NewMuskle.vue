@@ -1,16 +1,14 @@
 <template>
-  <form>
+  <form style="color: #263222;">
     <div>
       <label>Musklename:</label>
       <input
         v-model="newMuscle"
-        class="p-1 border border-gray-300 rounded-md ml-1"
+        style="background-color: #5d7851"
+        class="p-1 rounded-md ml-1"
       />
     </div>
-    <button
-      @click="addMuscle"
-      class="mt-4 bg-[#4A50A0] text-white p-2 rounded"
-    >
+    <button @click="addMuscle" class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded">
       Füge neuen Muskle hinzu!
     </button>
   </form>

@@ -16,7 +16,7 @@
     <template v-else>
       <EquipList :equips="equips" :workout="logged.workout" />
       <!-- <MultiSelect /> -->
-      <WorkoutList :workouts="workouts" />
+      <WorkoutList :workouts="workouts" v-model="logged" />
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
@@ -131,6 +131,7 @@ const getUsers = () => {
   fetch("/api/users")
     .then((response) => response.json())
     .then((data) => {
+      console.log(data)
       users.value = data;
     })
     .catch((err) => console.log(err));
