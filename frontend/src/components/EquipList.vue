@@ -1,9 +1,9 @@
 <template>
-  <div class="m-1 flex pt-48 overflow-y-auto">
+  <div class="m-1 flex snap-x snap-mandatory pt-48 overflow-y-auto">
     <div
       v-for="equip in equips"
       :key="equip.id"
-      class="p-1 flex justify-center min-w-full border rounded border-[#D8A48F]"
+      class="p-1 flex snap-start justify-center min-w-full border rounded border-[#D8A48F]"
     >
       <Equip :equip="equip" :workout="workout" />
     </div>
