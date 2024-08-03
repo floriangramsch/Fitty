@@ -1,5 +1,7 @@
 <template>
-  <div class="m-1 flex snap-x snap-mandatory pt-48 overflow-y-auto">
+  <div
+    class="m-1 flex snap-x snap-mandatory pt-48 overflow-x-auto no-scrollbar"
+  >
     <div
       v-for="equip in equips"
       :key="equip.id"
