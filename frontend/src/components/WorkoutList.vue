@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="m-4 flex snap-x snap-mandatory overflow-x-auto no-scrollbar">
+  <div class="m-4 flex snap-x snap-mandatory overflow-x-auto no-scrollbar cursor-pointer">
     <div
       class="p-1 flex min-w-full snap-start justify-center border rounded border-[#D8A48F]"
       v-for="workout in workouts"

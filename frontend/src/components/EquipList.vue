@@ -5,7 +5,7 @@
     <div
       v-for="equip in equips"
       :key="equip.id"
-      class="p-1 flex snap-start justify-center min-w-full border rounded border-[#D8A48F]"
+      class="p-1 flex snap-start justify-center min-w-full border rounded border-[#D8A48F] cursor-pointer"
     >
       <Equip :equip="equip" :workout="workout" />
     </div>

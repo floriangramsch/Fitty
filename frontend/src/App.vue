@@ -1,5 +1,8 @@
 <template>
   <div class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full">
+    <div class="flex">
+      <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer"> @ </a>
+    </div>
     <template v-if="logged.isLogged">
       <h1 class="text-3xl mb-10">
         Hallo Se bebi {{ logged.user?.name }}
@@ -170,5 +173,12 @@ onMounted(() => {
 
 // Beobachte Änderungen im Anmeldezustand und speichere diese
 watch(logged, saveLoggedState, { deep: true });
+
+const handleRefresh = async () => {
+  await getMuscles();
+  await getEquip();
+  await getUsers();
+  await getWorkouts();
+};
 </script>
 <style scoped></style>
