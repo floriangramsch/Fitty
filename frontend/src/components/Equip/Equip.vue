@@ -6,7 +6,11 @@
         <div v-if="user.weight !== undefined">
           {{ user.user }}: {{ user.weight }} kg
         </div>
-        <div v-if="user.userId === props.workout?.user_id && user.weight !== undefined">
+        <div
+          v-if="
+            user.userId === props.workout?.user_id && user.weight !== undefined
+          "
+        >
           This:
           {{ user.weight }} kg
         </div>
@@ -23,10 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import type { EquipType, WorkoutType } from "@/types.vue";
+import type { EquipType, WorkoutType } from "@/util/types.vue";
 import { onMounted, ref } from "vue";
-import Dialog from "../Dialog.vue";
-import NewEx from "../NewEx.vue";
+import Dialog from "../Dialogs/Dialog.vue";
+import NewEx from "../Dialogs/NewEx.vue";
 
 const showDialogWeight = ref(false);
 

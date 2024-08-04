@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col space-y-2 items-center mt-16">
+  <form class="flex flex-col space-y-2 items-center">
     <label class="text-4xl">Wer bist du?</label>
     <select v-model="loggUser" class="p-1 border border-gray-300 rounded-md">
       <option value="" disabled>Bebi?</option>
@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { UserType, WorkoutType } from "@/types.vue";
+import type { UserType, WorkoutType } from "@/util/types.vue";
 
 const loggUser = ref<UserType | string>("");
 

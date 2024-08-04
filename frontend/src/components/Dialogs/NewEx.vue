@@ -1,14 +1,14 @@
 <template>
-  <form>
+  <form style="color: #263222;">
     <div>
       {{ equip?.name }} [{{ equip.muscle }}]
       <input
         v-model="newWorkoutWeight"
-        style="width: 40px; color: white"
-        class="p-1 bg-[#4A50A0] border border-gray-300 rounded-md ml-1"
+        style="width: 64px"
+        class="p-1 bg-[#5d7851] rounded-md ml-1"
       />
     </div>
-    <button @click="addExercice" class="bg-[#4A50A0] text-white p-2 rounded">
+    <button @click="addExercice" class="bg-[#5d7851] p-2 rounded">
       Trainiert!
     </button>
   </form>
@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { EquipType, WorkoutType } from "@/types.vue";
+import type { EquipType, WorkoutType } from "@/util/types.vue";
 
 const newWorkoutWeight = ref("");
 

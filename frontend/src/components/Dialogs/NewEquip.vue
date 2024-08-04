@@ -1,5 +1,5 @@
 <template>
-  <form style="color: #263222;">
+  <form style="color: #263222">
     <div class="flex flex-col">
       <div>
         <label>Gerätename:</label>
@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { MuscleType } from "@/types.vue";
+import type { MuscleType } from "@/util/types.vue";
 
 const newEquipName = ref("");
 const newEquipMuscle = ref("");

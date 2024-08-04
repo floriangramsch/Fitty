@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import Equip from "./Equip/Equip.vue";
-import type { EquipType, MuscleType, WorkoutType } from "@/types.vue";
+import Equip from "./Equip.vue";
+import type { EquipType, MuscleType, WorkoutType } from "@/util/types.vue";
 
 defineProps<{
   workout: WorkoutType | undefined;

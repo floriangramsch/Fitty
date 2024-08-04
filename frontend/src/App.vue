@@ -1,23 +1,23 @@
 <template>
-  <div class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full text-xl">
+  <div
+    class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full text-2xl"
+  >
     <div class="flex">
       <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
         <i class="fa-solid fa-rotate-right"></i>
       </a>
     </div>
     <template v-if="logged.isLogged">
-      <h1 class="text-3xl mb-10">
-        Hallo Se bebi {{ logged.user?.name }}
+      <h1 class="flex justify-center text-3xl mb-10">
+        Hallo Se Bebi {{ logged.user?.name }}
         <br />
         {{ formatTime(logged.workout?.start) }}
       </h1>
-      <div class="equip-list-container">
-        <EquipList
-          :equips="equips"
-          :workout="logged.workout"
-          :muscles="muscles"
-        />
-      </div>
+      <EquipList
+        :equips="equips"
+        :workout="logged.workout"
+        :muscles="muscles"
+      />
     </template>
     <template v-else>
       <EquipList
@@ -35,7 +35,7 @@
           @click="showDialogMuskle = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-person-rifle"></i>
+          <i class="fa-solid fa-person-rifle text-3xl"></i>
         </button>
 
         <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
@@ -48,7 +48,7 @@
           @click="logout"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-cat"></i>
+          <i class="fa-solid fa-cat text-3xl"></i>
         </button>
       </div>
       <div v-else class="flex-grow">
@@ -56,7 +56,7 @@
           @click="showDialogLogin = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-dumbbell"></i>
+          <i class="fa-solid fa-dumbbell text-3xl"></i>
         </button>
         <Dialog :isOpen="showDialogLogin" @close="showDialogLogin = false">
           <Start :users="users" v-model="logged" />
@@ -68,7 +68,7 @@
           @click="showDialogEquip = true"
           class="text-lg bg-[#4A50A0] border border-[#D8A48F] text-white pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-plus"></i>
+          <i class="fa-solid fa-plus text-3xl"></i>
         </button>
         <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
           <NewEquip :muscles="muscles" />
@@ -80,22 +80,22 @@
 
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from "vue";
-import EquipList from "./components/EquipList.vue";
-import NewEquip from "./components/Equip/NewEquip.vue";
-import NewMuskle from "./components/NewMuskle.vue";
-import Start from "./components/Start.vue";
+import EquipList from "./components/Equip/EquipList.vue";
+import NewEquip from "./components/Dialogs/NewEquip.vue";
+import NewMuskle from "./components/Dialogs/NewMuskle.vue";
+import Start from "./components/Dialogs/Start.vue";
 import type {
   EquipType,
   MuscleType,
   Logged,
   UserType,
   WorkoutType,
-} from "./types.vue";
-import Dialog from "./components/Dialog.vue";
+} from "./util/types.vue";
+import Dialog from "./components/Dialogs/Dialog.vue";
 import { watch } from "vue";
 import MultiSelect from "./components/MultiSelect.vue";
-import WorkoutList from "./components/WorkoutList.vue";
-import { formatTime } from "./helpers";
+import WorkoutList from "./components/Workout/WorkoutList.vue";
+import { formatTime } from "./util/helpers";
 
 const users = ref<Array<UserType>>();
 const equips = ref<Array<EquipType>>();
