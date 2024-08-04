@@ -33,7 +33,7 @@
       <div class="flex-grow">
         <button
           @click="showDialogMuskle = true"
-          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
+          class="text-lg bg-[#4A50A0] text-black border border-[#D8A48F] pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-person-rifle text-3xl"></i>
         </button>
