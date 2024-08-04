@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full">
+  <div class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full text-xl">
     <div class="flex">
-      <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer"> @ </a>
+      <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
+        <i class="fa-solid fa-rotate-right"></i>
+      </a>
     </div>
     <template v-if="logged.isLogged">
       <h1 class="text-3xl mb-10">
@@ -33,7 +35,7 @@
           @click="showDialogMuskle = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          Neuer Muskle
+          <i class="fa-solid fa-person-rifle"></i>
         </button>
 
         <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
@@ -46,7 +48,7 @@
           @click="logout"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          Workout beenden
+          <i class="fa-solid fa-cat"></i>
         </button>
       </div>
       <div v-else class="flex-grow">
@@ -54,7 +56,7 @@
           @click="showDialogLogin = true"
           class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
         >
-          Worki Worki
+          <i class="fa-solid fa-dumbbell"></i>
         </button>
         <Dialog :isOpen="showDialogLogin" @close="showDialogLogin = false">
           <Start :users="users" v-model="logged" />
@@ -66,7 +68,7 @@
           @click="showDialogEquip = true"
           class="text-lg bg-[#4A50A0] border border-[#D8A48F] text-white pt-2 pb-10 w-full"
         >
-          Neues Gerät
+          <i class="fa-solid fa-plus"></i>
         </button>
         <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
           <NewEquip :muscles="muscles" />
