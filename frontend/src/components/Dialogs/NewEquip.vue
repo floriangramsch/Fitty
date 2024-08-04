@@ -1,20 +1,18 @@
 <template>
-  <form style="color: #263222">
+  <form>
     <div class="flex flex-col">
       <div>
         <label>Gerätename:</label>
         <input
           v-model="newEquipName"
-          style="background-color: #5d7851"
-          class="p-1 m-1 rounded-md ml-1"
+          class="p-1 m-1 rounded-md ml-1 bg-sonja-akz2"
         />
       </div>
       <select
         v-model="newEquipMuscle"
-        style="background-color: #5d7851"
-        class="p-1 m-1 rounded-md"
+        class="p-1 m-1 rounded-md bg-sonja-akz"
       >
-        <option value="" disabled selected>Select a muscle</option>
+        <option value="" disabled selected>Muskle..</option>
         <option
           v-for="muscle in muscles"
           :key="muscle.muscle_group_id"
@@ -27,7 +25,7 @@
     </div>
     <button
       @click="addNewEquip"
-      class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded"
+      class="mt-4 bg-sonja-akz p-2 rounded"
     >
       Neues Gerät!
     </button>

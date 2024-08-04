@@ -1,14 +1,16 @@
 <template>
   <div
-    class="flex flex-col bg-[#869D7A] text-[#4A50A0] p-5 min-h-full text-2xl"
+    class="flex flex-col bg-sonja-bg text-sonja-text p-5 min-h-full text-2xl"
   >
     <div class="flex">
       <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
-        <i class="fa-solid fa-rotate-right"></i>
+        <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
       </a>
     </div>
     <template v-if="logged.isLogged">
-      <h1 class="flex justify-center text-3xl mb-10">
+      <h1
+        class="flex justify-center bg-sonja-fg text-sonja-text text-3xl mb-10 rounded"
+      >
         Hallo Se Bebi {{ logged.user?.name }}
         <br />
         {{ formatTime(logged.workout?.start) }}
@@ -29,11 +31,11 @@
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
-    <div class="flex justify-evenly bg-[#4A50A0]">
+    <div class="flex justify-evenly bg-sonja-akz text-sonja-text">
       <div class="flex-grow">
         <button
           @click="showDialogMuskle = true"
-          class="text-lg bg-[#4A50A0] text-black border border-[#D8A48F] pt-2 pb-10 w-full"
+          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-person-rifle text-3xl"></i>
         </button>
@@ -46,7 +48,7 @@
       <div v-if="logged.isLogged" class="flex-grow">
         <button
           @click="logout"
-          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
+          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-cat text-3xl"></i>
         </button>
@@ -54,7 +56,7 @@
       <div v-else class="flex-grow">
         <button
           @click="showDialogLogin = true"
-          class="text-lg bg-[#4A50A0] text-white border border-[#D8A48F] pt-2 pb-10 w-full"
+          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-dumbbell text-3xl"></i>
         </button>
@@ -66,7 +68,7 @@
       <div class="flex-grow">
         <button
           @click="showDialogEquip = true"
-          class="text-lg bg-[#4A50A0] border border-[#D8A48F] text-white pt-2 pb-10 w-full"
+          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-plus text-3xl"></i>
         </button>

@@ -1,16 +1,15 @@
 <template>
-  <form style="color: #263222">
+  <form>
     <div>
       <label>Musklename:</label>
       <input
         v-model="newMuscle"
-        style="background-color: #5d7851"
-        class="p-1 rounded-md ml-1"
+        class="p-1 rounded-md ml-1 bg-sonja-akz2"
       />
     </div>
     <button
       @click="addMuscle"
-      class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded"
+      class="mt-4 bg-sonja-akz text-sonja-akz2 p-2 rounded"
     >
       Neuer Muskle!
     </button>

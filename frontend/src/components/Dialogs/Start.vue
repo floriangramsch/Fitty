@@ -1,7 +1,7 @@
 <template>
   <form class="flex flex-col space-y-2 items-center">
     <label class="text-4xl">Wer bist du?</label>
-    <select v-model="loggUser" class="p-1 border border-gray-300 rounded-md">
+    <select v-model="loggUser" class="p-1 bg-sonja-akz rounded-md">
       <option value="" disabled>Bebi?</option>
       <option
         v-for="user in users"
@@ -13,13 +13,13 @@
       </option>
     </select>
     <button
-      class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white font-bold py-2 px-4 rounded"
+      class="bg-sonja-akz font-bold py-2 px-4 rounded"
       @click.prevent="loginUser"
     >
-      Worki Worki
+      Neues Training
     </button>
     <button
-      class="bg-[#4A50A0] hover:bg-[#4A50F0] text-white font-bold py-2 px-4 rounded"
+      class="bg-sonja-akz font-bold py-2 px-4 rounded"
       @click.prevent="resumeWorkout"
     >
       Weiter trainieren?

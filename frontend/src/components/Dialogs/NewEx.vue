@@ -1,14 +1,14 @@
 <template>
-  <form style="color: #263222">
+  <form>
     <div>
       {{ equip?.name }} [{{ equip.muscle }}]
       <input
         v-model="newWorkoutWeight"
         style="width: 64px"
-        class="p-1 bg-[#5d7851] rounded-md ml-1"
+        class="p-1 bg-sonja-akz2 rounded-md ml-1"
       />
     </div>
-    <button @click="addExercice" class="mt-4 bg-[#5d7851] p-2 rounded">
+    <button @click="addExercice" class="mt-4 bg-sonja-akz p-2 rounded">
       Neues Gewicht!
     </button>
   </form>

@@ -7,11 +7,11 @@
     <div
       @click.stop
       ref="dialog"
-      class="bg-[#a7b99c] p-4 rounded shadow-md w-80"
+      class="bg-sonja-fg text-sonja-text p-4 rounded shadow-md w-80"
     >
       <button
         @click="close"
-        class="flex ml-auto mb-4 bg-[#2e3d28] text-white p-2 rounded"
+        class="flex ml-auto mb-4 bg-sonja-akz p-2 rounded"
       >
         <i class="fa-solid fa-x"></i>
       </button>

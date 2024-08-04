@@ -14,18 +14,6 @@ module.exports = {
   ],
 
   theme: {
-    colors: {
-      // Sonja: "#082f49",
-      // Sonja2: "#111827",
-      // Sonja3: "#27272a",
-      // Sonja4: "#e7e5e4",
-      // Sonja5: "#bfdbfe",
-      Sonja: "#27272a",
-      Sonja2: "#a8a29e",
-      Sonja3: "#1e293b",
-      Sonja4: "#0d9488",
-      Sonja5: "#eef2ff",
-    },
     fontFamily: {
       sans: ["Graphik", "sans-serif"],
       serif: ["Merriweather", "serif"],
@@ -39,6 +27,20 @@ module.exports = {
     },
     extend: {
       colors: {
+        // sonja: {
+        //   bg: "#082f49",
+        //   fg: "#111827",
+        //   text: "#27272a",
+        //   akz: "#e7e5e4",
+        //   akz2: "#bfdbfe",
+        // },
+        sonja: {
+          bg: "#27272a",
+          fg: "#a8a29e",
+          text: "#1e293b",
+          akz: "#0d9488",
+          akz2: "#eef2ff",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
