@@ -29,7 +29,7 @@
       @click="addNewEquip"
       class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded"
     >
-      Füge neues Gerät hinzu!
+      Neues Gerät!
     </button>
   </form>
 </template>

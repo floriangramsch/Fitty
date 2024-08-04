@@ -1,9 +1,14 @@
 <template>
   <div
+    @click="handleOverlayClick"
     v-if="isOpen"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 text-xl"
   >
-    <div class="bg-[#a7b99c] p-4 rounded shadow-md w-80">
+    <div
+      @click.stop
+      ref="dialog"
+      class="bg-[#a7b99c] p-4 rounded shadow-md w-80"
+    >
       <button
         @click="close"
         class="flex ml-auto mb-4 bg-[#2e3d28] text-white p-2 rounded"
@@ -16,6 +21,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
 defineProps<{
   isOpen: boolean;
 }>();
@@ -26,5 +33,13 @@ const emit = defineEmits<{
 
 const close = () => {
   emit("close");
+};
+
+const dialog = ref<HTMLElement | null>(null);
+
+const handleOverlayClick = (e: MouseEvent) => {
+  if (dialog.value && !dialog.value.contains(e.target as Node)) {
+    close();
+  }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <form style="color: #263222;">
+  <form style="color: #263222">
     <div>
       {{ equip?.name }} [{{ equip.muscle }}]
       <input
@@ -8,8 +8,8 @@
         class="p-1 bg-[#5d7851] rounded-md ml-1"
       />
     </div>
-    <button @click="addExercice" class="bg-[#5d7851] p-2 rounded">
-      Trainiert!
+    <button @click="addExercice" class="mt-4 bg-[#5d7851] p-2 rounded">
+      Neues Gewicht!
     </button>
   </form>
 </template>

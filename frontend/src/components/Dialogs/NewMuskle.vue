@@ -1,5 +1,5 @@
 <template>
-  <form style="color: #263222;">
+  <form style="color: #263222">
     <div>
       <label>Musklename:</label>
       <input
@@ -8,8 +8,11 @@
         class="p-1 rounded-md ml-1"
       />
     </div>
-    <button @click="addMuscle" class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded">
-      Füge neuen Muskle hinzu!
+    <button
+      @click="addMuscle"
+      class="mt-4 bg-[#5d7851] text-[#263222] p-2 rounded"
+    >
+      Neuer Muskle!
     </button>
   </form>
 </template>
