@@ -28,10 +28,10 @@ module.exports = {
     extend: {
       colors: {
         // sonja: {
-        //   bg: "#082f49",
-        //   fg: "#111827",
-        //   text: "#27272a",
-        //   akz: "#e7e5e4",
+        //   fg: "#082f49",
+        //   bg: "#111827",
+        //   akz: "#27272a",
+        //   text: "#e7e5e4",
         //   akz2: "#bfdbfe",
         // },
         sonja: {
