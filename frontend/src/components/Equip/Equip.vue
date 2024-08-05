@@ -87,5 +87,3 @@ watchEffect(() => {
   }
 });
 </script>
-
-<style></style>

@@ -203,5 +203,5 @@ app.get("/resumeWorkout/:userId", (req, res) => {
 
 // Server starten
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+  console.add(`Server running on port ${port}`);
 });

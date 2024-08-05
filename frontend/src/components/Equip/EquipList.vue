@@ -34,5 +34,3 @@ defineProps<{
   users: Array<UserType> | undefined;
 }>();
 </script>
-
-<style scoped></style>

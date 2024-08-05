@@ -53,7 +53,7 @@
           <NewEquip :muscles="muscles" />
         </Dialog>
       </div>
-      
+
       <div v-if="logged.isLogged" class="flex-grow">
         <button
           @click="logout"
@@ -144,7 +144,7 @@ const loadLoggedState = () => {
 const logout = () => {
   logged.value = {
     isLogged: false,
-    user: undefined,
+    user: logged.value.user,
     workout: undefined,
   };
   showDialogLogin.value = false;
