@@ -11,7 +11,7 @@
     >
       <button
         @click="close"
-        class="flex ml-auto mb-4 bg-sonja-akz p-2 rounded"
+        class="flex ml-auto bg-sonja-akz p-2 rounded"
       >
         <i class="fa-solid fa-x"></i>
       </button>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="m-4 flex snap-x snap-mandatory overflow-x-auto no-scrollbar cursor-pointer"
+    class="flex snap-x snap-mandatory overflow-x-auto no-scrollbar cursor-pointer"
   >
     <div
       @click="editWorkout(workout)"
@@ -10,17 +10,19 @@
     >
       {{ formatTime(workout.start) }}
       <br />
-      von {{ workout.user_id === 1 ? "Flo" : "Sonja" }}
+      von
+      {{ users?.find((user) => user.user_id === workout.user_id)?.name || "" }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { WorkoutType } from "@/util/types.vue";
+import type { UserType, WorkoutType } from "@/util/types.vue";
 import formatTime from "@/util/helpers";
 
-defineProps<{
+const props = defineProps<{
   workouts: Array<WorkoutType> | undefined;
+  users: Array<UserType> | undefined;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
@@ -29,7 +31,9 @@ const editWorkout = (workout: WorkoutType) => {
   emit("update:modelValue", {
     user: {
       user_id: workout.user_id,
-      name: workout.user_id === 1 ? "Flo" : "Sonja",
+      name:
+        props.users?.find((user) => user.user_id === workout.user_id)?.name ||
+        "",
     },
     isLogged: true,
     workout: workout,

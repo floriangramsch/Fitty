@@ -24,7 +24,7 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 // Beispielroute
@@ -154,7 +154,7 @@ app.get("/weight/:userId/:equipId", (req, res) => {
 
 // Workout
 app.get("/workouts", (req, res) => {
-  pool.query("SELECT * FROM Workout", (err, results) => {
+  pool.query("SELECT * FROM Workout ORDER BY start DESC", (err, results) => {
     if (err) {
       return res.status(500).send(err);
     }

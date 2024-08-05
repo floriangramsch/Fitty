@@ -86,7 +86,7 @@ const resumeWorkout = () => {
             end: data.end,
           },
         });
-      });
+      }); 
   }
 };
 </script>

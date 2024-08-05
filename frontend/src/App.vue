@@ -1,15 +1,23 @@
 <template>
-  <div
-    class="flex flex-col bg-sonja-bg text-sonja-text p-5 min-h-full text-2xl"
-  >
-    <div class="flex">
+  <div class="flex flex-col bg-sonja-bg text-sonja-text h-screen text-2xl">
+    <div class="absolute right-1">
       <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
         <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
       </a>
     </div>
+    <div class="absolute left-1">
+      <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
+        <img
+          v-if="logged.user?.name === 'Florian'"
+          src="@/../public/gym2.jpg"
+          class="max-h-[9vh] max-w-[9vh]"
+        />
+        <img v-else class="max-h-[9vh] max-w-[9vh]" src="@/../public/gym.jpg" />
+      </a>
+    </div>
     <template v-if="logged.isLogged">
       <h1
-        class="flex justify-center bg-sonja-fg text-sonja-text text-3xl mb-10 rounded"
+        class="absolute left-1/4 justify-center bg-black text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
       >
         Hallo Se Bebi {{ logged.user?.name }}
         <br />
@@ -19,6 +27,7 @@
         :equips="equips"
         :workout="logged.workout"
         :muscles="muscles"
+        :users="users"
       />
     </template>
     <template v-else>
@@ -26,29 +35,29 @@
         :equips="equips"
         :workout="logged.workout"
         :muscles="muscles"
+        :users="users"
       />
-      <WorkoutList :workouts="workouts" v-model="logged" />
     </template>
   </div>
   <nav class="fixed bottom-0 w-full">
     <div class="flex justify-evenly bg-sonja-akz text-sonja-text">
       <div class="flex-grow">
         <button
-          @click="showDialogMuskle = true"
-          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
+          @click="showDialogEquip = true"
+          class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-person-rifle text-3xl"></i>
+          <i class="fa-solid fa-plus text-3xl"></i>
         </button>
-
-        <Dialog :isOpen="showDialogMuskle" @close="showDialogMuskle = false">
+        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
           <NewMuskle />
+          <NewEquip :muscles="muscles" />
         </Dialog>
       </div>
-
+      
       <div v-if="logged.isLogged" class="flex-grow">
         <button
           @click="logout"
-          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
+          class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-cat text-3xl"></i>
         </button>
@@ -56,7 +65,7 @@
       <div v-else class="flex-grow">
         <button
           @click="showDialogLogin = true"
-          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
+          class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-dumbbell text-3xl"></i>
         </button>
@@ -67,13 +76,17 @@
 
       <div class="flex-grow">
         <button
-          @click="showDialogEquip = true"
-          class="text-lg border border-sonja-fg pt-2 pb-10 w-full"
+          @click="showDialogWorkouts = true"
+          class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-plus text-3xl"></i>
+          <i class="fa-solid fa-calendar text-3xl"></i>
         </button>
-        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
-          <NewEquip :muscles="muscles" />
+
+        <Dialog
+          :isOpen="showDialogWorkouts"
+          @close="showDialogWorkouts = false"
+        >
+          <WorkoutList :workouts="workouts" :users="users" v-model="logged" />
         </Dialog>
       </div>
     </div>
@@ -106,6 +119,7 @@ const workouts = ref<Array<WorkoutType>>();
 const showDialogEquip = ref(false);
 const showDialogMuskle = ref(false);
 const showDialogLogin = ref(false);
+const showDialogWorkouts = ref(false);
 
 const logged: Ref<Logged> = ref({
   isLogged: false,
@@ -142,6 +156,7 @@ const getUsers = () => {
     .then((response) => response.json())
     .then((data: Array<UserType>) => {
       users.value = data;
+      logged.value.user = data[Math.floor(Math.random() * 2)];
     })
     .catch((err) => console.log(err));
 };
@@ -189,6 +204,17 @@ const handleRefresh = async () => {
   await getEquip();
   await getUsers();
   await getWorkouts();
+};
+
+const switchUser = () => {
+  if (users.value?.length === 2) {
+    if (logged.value.user?.name === "Florian") {
+      logged.value.user = users.value[1];
+    } else {
+      logged.value.user = users.value[0];
+    }
+    logged.value.isLogged = false;
+  }
 };
 </script>
 <style scoped></style>
