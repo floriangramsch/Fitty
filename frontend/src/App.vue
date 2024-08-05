@@ -1,43 +1,49 @@
 <template>
-  <div class="flex flex-col bg-sonja-bg text-sonja-text h-screen text-2xl">
-    <div class="absolute right-1">
-      <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
-        <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
-      </a>
-    </div>
-    <div class="absolute left-1">
-      <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
-        <img
-          v-if="logged.user?.name === 'Florian'"
-          src="@/../public/gym2.jpg"
-          class="max-h-[9vh] max-w-[9vh]"
+  <div v-if="usersLoaded && equipsLoaded && musclesLoaded && workoutsLoaded">
+    <div class="flex flex-col bg-sonja-bg text-sonja-text h-screen text-2xl">
+      <div class="absolute right-1">
+        <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
+          <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
+        </a>
+      </div>
+      <div class="absolute left-1">
+        <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
+          <img
+            v-if="logged.user?.name === 'Florian'"
+            src="@/../public/gym2.jpg"
+            class="max-h-[9vh] max-w-[9vh]"
+          />
+          <img
+            v-else
+            class="max-h-[9vh] max-w-[9vh]"
+            src="@/../public/gym.jpg"
+          />
+        </a>
+      </div>
+      <template v-if="logged.isLogged">
+        <h1
+          class="absolute left-1/4 justify-center bg-black text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
+        >
+          Hallo Se Bebi {{ logged.user?.name }}
+          <br />
+          {{ formatTime(logged.workout?.start) }}
+        </h1>
+        <EquipList
+          :equips="equips"
+          :workout="logged.workout"
+          :muscles="muscles"
+          :users="users"
         />
-        <img v-else class="max-h-[9vh] max-w-[9vh]" src="@/../public/gym.jpg" />
-      </a>
+      </template>
+      <template v-else>
+        <EquipList
+          :equips="equips"
+          :workout="logged.workout"
+          :muscles="muscles"
+          :users="users"
+        />
+      </template>
     </div>
-    <template v-if="logged.isLogged">
-      <h1
-        class="absolute left-1/4 justify-center bg-black text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
-      >
-        Hallo Se Bebi {{ logged.user?.name }}
-        <br />
-        {{ formatTime(logged.workout?.start) }}
-      </h1>
-      <EquipList
-        :equips="equips"
-        :workout="logged.workout"
-        :muscles="muscles"
-        :users="users"
-      />
-    </template>
-    <template v-else>
-      <EquipList
-        :equips="equips"
-        :workout="logged.workout"
-        :muscles="muscles"
-        :users="users"
-      />
-    </template>
   </div>
   <nav class="fixed bottom-0 w-full">
     <div class="flex justify-evenly bg-sonja-akz text-sonja-text">
@@ -73,7 +79,6 @@
           <Start :users="users" v-model="logged" />
         </Dialog>
       </div>
-
       <div class="flex-grow">
         <button
           @click="showDialogWorkouts = true"
@@ -117,9 +122,13 @@ const equips = ref<Array<EquipType>>();
 const muscles = ref<Array<MuscleType>>();
 const workouts = ref<Array<WorkoutType>>();
 const showDialogEquip = ref(false);
-const showDialogMuskle = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
+
+const usersLoaded = ref(false);
+const workoutsLoaded = ref(false);
+const equipsLoaded = ref(false);
+const musclesLoaded = ref(false);
 
 const logged: Ref<Logged> = ref({
   isLogged: false,
@@ -157,6 +166,7 @@ const getUsers = () => {
     .then((data: Array<UserType>) => {
       users.value = data;
       logged.value.user = data[Math.floor(Math.random() * 2)];
+      usersLoaded.value = true;
     })
     .catch((err) => console.log(err));
 };
@@ -166,6 +176,7 @@ const getEquip = () => {
     .then((res) => res.json())
     .then((data: Array<EquipType>) => {
       equips.value = data;
+      equipsLoaded.value = true;
     })
     .catch((err) => console.log(err));
 };
@@ -175,6 +186,7 @@ const getMuscles = () => {
     .then((res) => res.json())
     .then((data: Array<MuscleType>) => {
       muscles.value = data;
+      musclesLoaded.value = true;
     })
     .catch((err) => console.log(err));
 };
@@ -184,6 +196,7 @@ const getWorkouts = () => {
     .then((res) => res.json())
     .then((data: Array<WorkoutType>) => {
       workouts.value = data;
+      workoutsLoaded.value = true;
     })
     .catch((err) => console.log(err));
 };
