@@ -1,4 +1,10 @@
 <template>
+  <div class="overflow-hidden min-h-[90vh]">
+    <img
+      :src="`@/../public/gym${Math.floor(Math.random() * 9)}.jpg`"
+      class="w-full h-full object-cover object-center"
+    />
+  </div>
   <div
     class="relative bottom-36 bg-black bg-opacity-25 backdrop-blur-md rounded p-1"
     @click.prevent="showDialogWeight = workout ? true : false"
