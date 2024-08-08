@@ -6,6 +6,11 @@
           <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
         </a>
       </div>
+      <div class="absolute right-1 top-8">
+        <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
+          <i class="fa-solid fa-cat text-sonja-akz"></i>
+        </a>
+      </div>
       <div class="absolute left-1">
         <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
           <img
@@ -22,13 +27,22 @@
       </div>
       <template v-if="logged.isLogged">
         <h1
-          class="absolute left-1/4 justify-center bg-black text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
+          class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
+          :class="showAlt ? 'bg-sonja-fg' : 'bg-black'"
         >
           Hallo Se Bebi {{ logged.user?.name }}
           <br />
           {{ formatTime(logged.workout?.start) }}
         </h1>
+        <EquipListAlt
+          v-if="showAlt"
+          :equips="equips"
+          :workout="logged.workout"
+          :muscles="muscles"
+          :users="users"
+        />
         <EquipList
+          v-else
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
@@ -36,7 +50,15 @@
         />
       </template>
       <template v-else>
+        <EquipListAlt
+          v-if="showAlt"
+          :equips="equips"
+          :workout="logged.workout"
+          :muscles="muscles"
+          :users="users"
+        />
         <EquipList
+          v-else="showAlt"
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
@@ -116,6 +138,7 @@ import { watch } from "vue";
 import MultiSelect from "./components/MultiSelect.vue";
 import WorkoutList from "./components/Workout/WorkoutList.vue";
 import { formatTime } from "./util/helpers";
+import EquipListAlt from "./components/EquipAlt/EquipListAlt.vue";
 
 const users = ref<Array<UserType>>();
 const equips = ref<Array<EquipType>>();
@@ -124,6 +147,7 @@ const workouts = ref<Array<WorkoutType>>();
 const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
+const showAlt = ref(true);
 
 const usersLoaded = ref(false);
 const workoutsLoaded = ref(false);
@@ -230,4 +254,3 @@ const switchUser = () => {
   }
 };
 </script>
-<style scoped></style>
