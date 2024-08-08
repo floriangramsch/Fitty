@@ -7,8 +7,9 @@
       <div
         v-if="!filter || equip.muscle === filter.name"
         :key="equip.id"
-        class="flex flex-col snap-start items-center min-w-full bg-sonja-fg rounded cursor-pointer"
+        class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
       >
+        {{ filteredEquips }}
         <EquipAlt :equip="equip" :workout="workout" :users="users" />
       </div>
     </template>
@@ -29,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import type {
   EquipType,
   MuscleType,
@@ -42,16 +43,22 @@ import EquipAlt from "./EquipAlt.vue";
 
 const showDialogFilter = ref(false);
 const filter = ref<MuscleType>();
-const filteredEquips = ref<MuscleType[]>();
+// const filteredEquips = ref<MuscleType[]>();
 
-watch(filter, () => {
-  console.log("test");
-});
-
-defineProps<{
+const props = defineProps<{
   workout: WorkoutType | undefined;
   equips: Array<EquipType> | undefined;
   muscles: Array<MuscleType> | undefined;
   users: Array<UserType> | undefined;
 }>();
+
+watch(props.equips, () => {
+  console.log("test");
+});
+
+const filteredEquips = computed(() =>
+  props.equips?.filter((equip) => {
+    equip.muscle === filter.value?.name;
+  })
+);
 </script>

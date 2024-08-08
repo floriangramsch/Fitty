@@ -8,7 +8,7 @@
       </div>
       <div class="absolute right-1 top-8">
         <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
-          <i class="fa-solid fa-cat text-sonja-akz"></i>
+          <i class="fa-brands fa-tiktok text-sonja-akz"></i>
         </a>
       </div>
       <div class="absolute left-1">
