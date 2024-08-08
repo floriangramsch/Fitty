@@ -23,9 +23,10 @@ import formatTime from "@/util/helpers";
 const props = defineProps<{
   workouts: Array<WorkoutType> | undefined;
   users: Array<UserType> | undefined;
+  close: Boolean;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "update:close"]);
 
 const editWorkout = (workout: WorkoutType) => {
   emit("update:modelValue", {
@@ -38,5 +39,6 @@ const editWorkout = (workout: WorkoutType) => {
     isLogged: true,
     workout: workout,
   });
+  emit("update:close", false)
 };
 </script>

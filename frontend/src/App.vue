@@ -113,7 +113,12 @@
           :isOpen="showDialogWorkouts"
           @close="showDialogWorkouts = false"
         >
-          <WorkoutList :workouts="workouts" :users="users" v-model="logged" />
+          <WorkoutList
+            :workouts="workouts"
+            :users="users"
+            v-model="logged"
+            v-model:close="showDialogWorkouts"
+          />
         </Dialog>
       </div>
     </div>
