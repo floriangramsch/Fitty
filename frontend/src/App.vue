@@ -251,6 +251,7 @@ const switchUser = () => {
       logged.value.user = users.value[0];
     }
     logged.value.isLogged = false;
+    showDialogLogin.value = false;
   }
 };
 </script>
