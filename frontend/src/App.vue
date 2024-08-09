@@ -34,37 +34,21 @@
           <br />
           {{ formatTime(logged.workout?.start) }}
         </h1>
-        <EquipListAlt
-          v-if="showAlt && equips && muscles"
-          :equips="equips"
-          :workout="logged.workout"
-          :muscles="muscles"
-          :users="users"
-        />
-        <EquipList
-          v-else-if="equips && muscles"
-          :equips="equips"
-          :workout="logged.workout"
-          :muscles="muscles"
-          :users="users"
-        />
       </template>
-      <template v-else>
-        <EquipListAlt
-          v-if="showAlt && equips && muscles"
-          :equips="equips"
-          :workout="logged.workout"
-          :muscles="muscles"
-          :users="users"
-        />
-        <EquipList
-          v-else-if="equips && muscles"
-          :equips="equips"
-          :workout="logged.workout"
-          :muscles="muscles"
-          :users="users"
-        />
-      </template>
+      <EquipListAlt
+        v-if="showAlt && equips && muscles"
+        :equips="equips"
+        :workout="logged.workout"
+        :muscles="muscles"
+        :users="users"
+      />
+      <EquipList
+        v-else-if="!showAlt && equips && muscles"
+        :equips="equips"
+        :workout="logged.workout"
+        :muscles="muscles"
+        :users="users"
+      />
     </div>
   </div>
   <nav class="fixed bottom-0 w-full">

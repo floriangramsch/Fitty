@@ -40,7 +40,7 @@ import Dialog from "../Dialogs/Dialog.vue";
 import EquipAlt from "./EquipAlt.vue";
 
 const showDialogFilter = ref(false);
-const filter = ref<MuscleType>();
+const filter = ref<MuscleType[]>([]);
 
 const props = defineProps<{
   workout: WorkoutType | undefined;
@@ -49,9 +49,10 @@ const props = defineProps<{
   users: Array<UserType> | undefined;
 }>();
 
-const filteredEquips = computed(() =>
-  props.equips.filter((equip) =>
-    filter.value ? equip.muscle === filter.value.name : true
-  )
-);
+const filteredEquips = computed(() => {
+  const names: string[] = filter.value.map((muscle) => muscle.name);
+  return filter.value.length !== 0
+    ? props.equips.filter((equip) => names.includes(equip.muscle))
+    : props.equips;
+});
 </script>
