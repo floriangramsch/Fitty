@@ -12,19 +12,19 @@
     </div>
   </div>
 
-  <div class="absolute right-2 bottom-64">
-    <button @click="showDialogFilter = true">
-      <i class="fa-solid fa-filter text-sonja-akz"></i>
-    </button>
-  </div>
-
-  <Dialog :isOpen="showDialogFilter" @close="showDialogFilter = false">
-    <Filter
-      :muscles="muscles"
-      v-model="filter"
-      v-model:close="showDialogFilter"
-    />
-  </Dialog>
+  <Filter
+    class="absolute right-2 bottom-36 mr-8 bg-sonja-akz rounded-md shadow-lg"
+    :isOpen="showDialogFilter"
+    :muscles="muscles"
+    v-model="filter"
+    v-model:close="showDialogFilter"
+  />
+  <button
+    class="absolute right-2 bottom-36"
+    @click="showDialogFilter = !showDialogFilter"
+  >
+    <i class="fa-solid fa-filter text-sonja-akz"></i>
+  </button>
 </template>
 
 <script setup lang="ts">

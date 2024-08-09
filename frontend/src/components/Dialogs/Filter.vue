@@ -1,51 +1,53 @@
 <template>
-  <form class="flex flex-col space-y-2 items-center">
-    {{ filterMuscle }}
-    <select v-model="filterMuscle" class="p-1 m-1 rounded-md bg-sonja-akz">
-      <option value="undefined" disabled selected>Muskle..</option>
-      <option
-        v-for="muscle in muscles"
-        :key="muscle.muscle_group_id"
-        :value="muscle"
-        @click="console.log(muscle)"
-        class="py-1"
-      >
-        {{ muscle.name }}
-      </option>
-    </select>
-    <button
-      class="bg-sonja-akz font-bold py-2 px-4 rounded"
-      @click.prevent="filterMuscles"
+  <div v-if="isOpen">
+    <div
+      v-for="muscle in listMuscles"
+      :key="muscle.muscle_group_id"
+      @click="filterMuscles(muscle)"
+      class="py-0.5 px-2 hover:bg-gray-200 cursor-pointer"
     >
-      Filter
-    </button>
-  </form>
+      {{ muscle.name }}
+    </div>
+    <div
+      @click="reset"
+      class="border-t border-sonja-akz2 py-1 px-2 hover:bg-gray-200 cursor-pointer"
+    >
+      Reset
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import type { MuscleType } from "@/util/types.vue";
 
-const filterMuscle = ref<MuscleType>();
+const filterMuscle = ref<MuscleType | null>(null);
+const filterMuscleList = ref<MuscleType[]>([]);
 
 const props = defineProps<{
+  isOpen: boolean;
   muscles: Array<MuscleType>;
 }>();
 
-// const filteredMuscles = computed(() => {
-//   // const names: string[] = filter.value.map((muscle) => muscle.name);
-//   return filterMuscle.value.length !== 0
-//     ? props.equips.filter((equip) => names.includes(equip.muscle))
-//     : props.equips;
-// });
+// Berechnung der verbleibenden Muskeln
+const listMuscles = computed(() => {
+  const names: string[] = filterMuscleList.value.map((muscle) => muscle.name);
+  return filterMuscleList.value.length !== 0
+    ? props.muscles.filter((muscle) => !names.includes(muscle.name))
+    : props.muscles;
+});
 
-const model = defineModel<MuscleType[]>();
-const close = defineModel<Boolean>("close");
+// Model für v-model
+const model = defineModel<MuscleType[]>(); // Verwende das v-model
 
-const filterMuscles = () => {
-  if (filterMuscle.value !== undefined) {
-    model.value?.push(filterMuscle.value);
-  }
-  close.value = false;
+const filterMuscles = (muscle: MuscleType) => {
+  filterMuscleList.value.push(muscle);
+  model.value = filterMuscleList.value;
+  filterMuscle.value = null;
+};
+
+const reset = () => {
+  filterMuscleList.value = [];
+  model.value = props.muscles;
 };
 </script>
