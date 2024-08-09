@@ -80,8 +80,8 @@ const filteredfromMuscles = computed(() => {
     searchFilter.value !== ""
       ? filteredMuscles.filter((f) => {
           return (
-            f.name.toLowerCase().includes(searchFilter.value) ||
-            f.muscle.toLowerCase().includes(searchFilter.value)
+            f.name.toLowerCase().includes(searchFilter.value.toLowerCase()) ||
+            f.muscle.toLowerCase().includes(searchFilter.value.toLowerCase())
           );
         })
       : filteredMuscles;
