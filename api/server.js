@@ -32,6 +32,17 @@ app.get("/", (req, res) => {
   res.send("Hello, this is the Fitty backend!");
 });
 
+// All
+app.get("/all", (req, res) => {
+  pool.query("SELECT * FROM User", (err, results) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.json(results);
+  });
+});
+
+// Users
 app.get("/users", (req, res) => {
   pool.query("SELECT * FROM User", (err, results) => {
     if (err) {

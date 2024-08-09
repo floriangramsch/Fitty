@@ -45,5 +45,3 @@ const addExercice = () => {
   }
 };
 </script>
-
-<style scoped></style>

@@ -39,14 +39,13 @@
         v-if="showAlt && equips && muscles && users"
         :logged="logged"
         :equips="equips"
-        :workout="logged.workout"
         :muscles="muscles"
         :users="users"
       />
       <EquipList
-        v-else-if="!showAlt && equips && muscles"
+        v-else-if="!showAlt && equips && muscles && users"
+        :logged="logged"
         :equips="equips"
-        :workout="logged.workout"
         :muscles="muscles"
         :users="users"
       />
@@ -214,12 +213,22 @@ const getWorkouts = () => {
     .catch((err) => console.log(err));
 };
 
+const getAll = () => {
+  fetch("/api/all")
+    .then((res) => res.json())
+    .then((data: Array<WorkoutType>) => {
+      console.log(data);
+    })
+    .catch((err) => console.log(err));
+};
+
 onMounted(() => {
   loadLoggedState();
   getMuscles();
   getEquip();
   getUsers();
   getWorkouts();
+  getAll();
 });
 
 // Beobachte Änderungen im Anmeldezustand und speichere diese

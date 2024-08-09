@@ -7,7 +7,7 @@
       :key="equip.id"
       class="flex flex-col snap-start items-center min-h-screen min-w-full bg-sonja-fg rounded cursor-pointer"
     >
-      <Equip :equip="equip" :workout="workout" :users="users" />
+      <Equip :equip="equip" :logged="logged" :users="users" />
     </div>
   </div>
 
@@ -33,6 +33,7 @@ import { computed, ref } from "vue";
 import Equip from "./Equip.vue";
 import type {
   EquipType,
+  LoggedType,
   MuscleType,
   UserType,
   WorkoutType,
@@ -43,10 +44,10 @@ const showDialogFilter = ref(false);
 const filter = ref<MuscleType[]>([]);
 
 const props = defineProps<{
-  workout: WorkoutType | undefined;
+  logged: LoggedType;
   equips: Array<EquipType>;
   muscles: Array<MuscleType>;
-  users: Array<UserType> | undefined;
+  users: Array<UserType>;
 }>();
 
 const filteredEquips = computed(() => {

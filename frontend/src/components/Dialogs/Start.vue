@@ -30,13 +30,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { Logged, UserType, WorkoutType } from "@/util/types.vue";
+import type { LoggedType, UserType, WorkoutType } from "@/util/types.vue";
 
 // const loggUser = ref<UserType | string>("");
 
 const props = defineProps<{
   users: Array<UserType> | undefined;
-  modelValue: Logged;
+  modelValue: LoggedType;
 }>();
 
 const emit = defineEmits(["update:modelValue"]);
