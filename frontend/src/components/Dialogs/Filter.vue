@@ -4,13 +4,13 @@
       v-for="muscle in listMuscles"
       :key="muscle.muscle_group_id"
       @click="filterMuscles(muscle)"
-      class="py-0.5 px-2 hover:bg-gray-200 cursor-pointer"
+      class="py-0.5 px-2 cursor-pointer"
     >
       {{ muscle.name }}
     </div>
     <div
       @click="reset"
-      class="border-t border-sonja-akz2 py-1 px-2 hover:bg-gray-200 cursor-pointer"
+      class="border-t border-sonja-akz2 py-1 px-2 cursor-pointer"
     >
       Reset
     </div>

@@ -11,18 +11,18 @@
     </div>
   </div>
 
+  <Filter
+    class="absolute right-2 bottom-36 mr-8 bg-sonja-akz rounded-md shadow-lg"
+    :isOpen="showDialogFilter"
+    :muscles="muscles"
+    v-model="filter"
+    v-model:close="showDialogFilter"
+  />
   <div class="absolute right-2 bottom-64">
-    <button @click="showDialogFilter = true">
+    <button @click="showDialogFilter = !showDialogFilter">
       <i class="fa-solid fa-filter text-sonja-akz"></i>
     </button>
   </div>
-  <Dialog :isOpen="showDialogFilter" @close="showDialogFilter = false">
-    <Filter
-      :muscles="muscles"
-      v-model="filter"
-      v-model:close="showDialogFilter"
-    />
-  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -34,11 +34,10 @@ import type {
   UserType,
   WorkoutType,
 } from "@/util/types.vue";
-import Dialog from "../Dialogs/Dialog.vue";
 import Filter from "../Dialogs/Filter.vue";
 
 const showDialogFilter = ref(false);
-const filter = ref<MuscleType>();
+const filter = ref<MuscleType[]>([]);
 
 const props = defineProps<{
   workout: WorkoutType | undefined;
@@ -47,9 +46,10 @@ const props = defineProps<{
   users: Array<UserType> | undefined;
 }>();
 
-const filteredEquips = computed(() =>
-  props.equips.filter((equip) =>
-    filter.value ? equip.muscle === filter.value.name : true
-  )
-);
+const filteredEquips = computed(() => {
+  const names: string[] = filter.value.map((muscle) => muscle.name);
+  return filter.value.length !== 0
+    ? props.equips.filter((equip) => names.includes(equip.muscle))
+    : props.equips;
+});
 </script>

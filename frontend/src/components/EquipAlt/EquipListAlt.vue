@@ -36,7 +36,6 @@ import type {
   WorkoutType,
 } from "@/util/types.vue";
 import Filter from "../Dialogs/Filter.vue";
-import Dialog from "../Dialogs/Dialog.vue";
 import EquipAlt from "./EquipAlt.vue";
 
 const showDialogFilter = ref(false);
