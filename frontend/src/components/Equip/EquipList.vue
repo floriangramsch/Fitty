@@ -2,15 +2,13 @@
   <div
     class="flex flex-col snap-y snap-mandatory overflow-y-scroll no-scrollbar"
   >
-    <template v-for="equip in equips">
-      <div
-        v-if="!filter || equip.muscle === filter.name"
-        :key="equip.id"
-        class="flex flex-col snap-start items-center min-h-screen min-w-full bg-sonja-fg rounded cursor-pointer"
-      >
-        <Equip :equip="equip" :workout="workout" :users="users" />
-      </div>
-    </template>
+    <div
+      v-for="equip in filteredEquips"
+      :key="equip.id"
+      class="flex flex-col snap-start items-center min-h-screen min-w-full bg-sonja-fg rounded cursor-pointer"
+    >
+      <Equip :equip="equip" :workout="workout" :users="users" />
+    </div>
   </div>
 
   <div class="absolute right-2 bottom-64">
@@ -28,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import Equip from "./Equip.vue";
 import type {
   EquipType,
@@ -42,10 +40,16 @@ import Filter from "../Dialogs/Filter.vue";
 const showDialogFilter = ref(false);
 const filter = ref<MuscleType>();
 
-defineProps<{
+const props = defineProps<{
   workout: WorkoutType | undefined;
-  equips: Array<EquipType> | undefined;
-  muscles: Array<MuscleType> | undefined;
+  equips: Array<EquipType>;
+  muscles: Array<MuscleType>;
   users: Array<UserType> | undefined;
 }>();
+
+const filteredEquips = computed(() =>
+  props.equips.filter((equip) =>
+    filter.value ? equip.muscle === filter.value.name : true
+  )
+);
 </script>

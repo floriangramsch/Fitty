@@ -42,7 +42,7 @@
           :users="users"
         />
         <EquipList
-          v-else
+          v-else-if="equips && muscles"
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
@@ -58,7 +58,7 @@
           :users="users"
         />
         <EquipList
-          v-else="showAlt"
+          v-else-if="equips && muscles"
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
