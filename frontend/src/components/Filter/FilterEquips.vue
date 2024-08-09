@@ -1,4 +1,7 @@
 <template>
+  <button class="absolute right-0 bottom-0" @click="isOpen = !isOpen">
+    <i class="fa-solid fa-magnifying-glass text-sonja-akz"></i>
+  </button>
   <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
     <input ref="input" v-model="search" @input="filter" @keydown="closeInput" />
   </div>
@@ -9,11 +12,10 @@ import { nextTick, ref, watch } from "vue";
 import type { EquipType } from "@/util/types.vue";
 
 const search = ref<string>("");
-
 const input = ref<HTMLElement | null>(null);
+const isOpen = ref<boolean>(false);
 
-const props = defineProps<{
-  isOpen: boolean;
+defineProps<{
   equips: Array<EquipType>;
 }>();
 
@@ -23,17 +25,13 @@ const setFocus = () => {
   });
 };
 
-watch(
-  () => props.isOpen,
-  () => {
-    if (props.isOpen) {
-      setFocus();
-    }
+watch(isOpen, () => {
+  if (isOpen) {
+    setFocus();
   }
-);
+});
 
 const model = defineModel<string>();
-const close = defineModel<boolean>("close");
 
 const filter = () => {
   model.value = search.value;
@@ -43,10 +41,13 @@ const closeInput = (event: KeyboardEvent) => {
   if (event.key === "Escape") {
     search.value = "";
     model.value = "";
-    close.value = false;
+    isOpen.value = false;
   } else if (event.key === "Enter") {
+    if (search.value === "") {
+      model.value = "";
+    }
     search.value = "";
-    close.value = false;
+    isOpen.value = false;
   }
 };
 </script>

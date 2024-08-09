@@ -1,4 +1,8 @@
 <template>
+  <button class="absolute right-0 bottom-0" @click="isOpen = !isOpen">
+    <i class="fa-solid fa-filter text-sonja-akz"></i>
+  </button>
+
   <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
     <div
       v-for="muscle in muscles"
@@ -26,9 +30,9 @@ import type { MuscleType } from "@/util/types.vue";
 
 const filterMuscle = ref<MuscleType | null>(null);
 const filterMuscleList = ref<MuscleType[]>([]);
+const isOpen = ref<boolean>(false);
 
 const props = defineProps<{
-  isOpen: boolean;
   muscles: Array<MuscleType>;
 }>();
 

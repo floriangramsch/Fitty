@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col mt-20 snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
-    :class="filteredfromMuscles.length > 5 ? 'pb-24' : 'pb-0'"
+    :class="filteredfromMuscles.length > 5 ? 'mb-24' : 'mb-0'"
   >
     <div
       v-for="equip in filteredfromMuscles"
@@ -13,33 +13,12 @@
   </div>
 
   <div class="absolute right-2 bottom-52">
-    <FilterEquips
-      :isOpen="showEquipFilter"
-      :equips="equips"
-      v-model="searchFilter"
-      v-model:close="showEquipFilter"
-    />
-    <button
-      class="absolute right-0 bottom-0"
-      @click="showEquipFilter = !showEquipFilter"
-    >
-      <i class="fa-solid fa-magnifying-glass text-sonja-akz"></i>
-    </button>
-  </div>
-
-  <div class="absolute right-2 bottom-44">
-    <FilterMuscles
-      :isOpen="showMusclesFilter"
-      :muscles="muscles"
-      v-model="filter"
-      v-model:close="showMusclesFilter"
-    />
-    <button
-      class="absolute right-0 bottom-0"
-      @click="showMusclesFilter = !showMusclesFilter"
-    >
-      <i class="fa-solid fa-filter text-sonja-akz"></i>
-    </button>
+    <div class="absolute right-0 bottom-8">
+      <FilterEquips :equips="equips" v-model="searchFilter" />
+    </div>
+    <div class="absolute right-0 bottom-0">
+      <FilterMuscles :muscles="muscles" v-model="filter" />
+    </div>
   </div>
 </template>
 
@@ -55,8 +34,6 @@ import EquipAlt from "./EquipAlt.vue";
 import FilterMuscles from "../Filter/FilterMuscles.vue";
 import FilterEquips from "../Filter/FilterEquips.vue";
 
-const showMusclesFilter = ref(false);
-const showEquipFilter = ref(false);
 const filter = ref<MuscleType[]>([]);
 const searchFilter = ref<string>("");
 
