@@ -28,14 +28,13 @@ const filterMuscle = ref("");
 
 defineProps<{
   muscles: Array<MuscleType> | undefined;
-  modelValue: MuscleType | undefined;
-  close: Boolean;
 }>();
 
-const emit = defineEmits(["update:modelValue", "update:close"]);
+const model = defineModel();
+const close = defineModel("close");
 
 const filterMuscles = () => {
-  emit("update:modelValue", filterMuscle);
-  emit("update:close", false);
+  model.value = filterMuscle.value;
+  close.value = false;
 };
 </script>

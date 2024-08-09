@@ -35,7 +35,7 @@
           {{ formatTime(logged.workout?.start) }}
         </h1>
         <EquipListAlt
-          v-if="showAlt"
+          v-if="showAlt && equips && muscles"
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
@@ -51,7 +51,7 @@
       </template>
       <template v-else>
         <EquipListAlt
-          v-if="showAlt"
+          v-if="showAlt && equips && muscles"
           :equips="equips"
           :workout="logged.workout"
           :muscles="muscles"
