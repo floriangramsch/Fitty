@@ -1,5 +1,5 @@
 <script lang="ts">
-export type Logged = {
+export type LoggedType = {
   isLogged: boolean;
   user: UserType | undefined;
   workout: WorkoutType | undefined;

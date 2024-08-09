@@ -1,16 +1,6 @@
 <template>
   <div v-if="usersLoaded && equipsLoaded && musclesLoaded && workoutsLoaded">
     <div class="flex flex-col bg-sonja-bg text-sonja-text h-screen text-2xl">
-      <div class="absolute right-1">
-        <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
-          <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
-        </a>
-      </div>
-      <div class="absolute right-1 top-8">
-        <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
-          <i class="fa-brands fa-tiktok text-sonja-akz"></i>
-        </a>
-      </div>
       <div class="absolute left-1">
         <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
           <img
@@ -25,6 +15,16 @@
           />
         </a>
       </div>
+      <div class="absolute right-1">
+        <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
+          <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
+        </a>
+      </div>
+      <div class="absolute right-1 top-8">
+        <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
+          <i class="fa-brands fa-tiktok text-sonja-akz"></i>
+        </a>
+      </div>
       <template v-if="logged.isLogged">
         <h1
           class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
@@ -36,7 +36,8 @@
         </h1>
       </template>
       <EquipListAlt
-        v-if="showAlt && equips && muscles"
+        v-if="showAlt && equips && muscles && users"
+        :logged="logged"
         :equips="equips"
         :workout="logged.workout"
         :muscles="muscles"
@@ -118,9 +119,9 @@ import Start from "./components/Dialogs/Start.vue";
 import type {
   EquipType,
   MuscleType,
-  Logged,
   UserType,
   WorkoutType,
+  LoggedType,
 } from "./util/types.vue";
 import Dialog from "./components/Dialogs/Dialog.vue";
 import { watch } from "vue";
@@ -143,7 +144,7 @@ const workoutsLoaded = ref(false);
 const equipsLoaded = ref(false);
 const musclesLoaded = ref(false);
 
-const logged: Ref<Logged> = ref({
+const logged: Ref<LoggedType> = ref({
   isLogged: false,
   user: undefined,
   workout: undefined,
@@ -178,7 +179,6 @@ const getUsers = () => {
     .then((response) => response.json())
     .then((data: Array<UserType>) => {
       users.value = data;
-      logged.value.user = data[Math.floor(Math.random() * 2)];
       usersLoaded.value = true;
     })
     .catch((err) => console.log(err));
@@ -239,6 +239,7 @@ const switchUser = () => {
     } else {
       logged.value.user = users.value[0];
     }
+    logged.value.workout = undefined;
     logged.value.isLogged = false;
     showDialogLogin.value = false;
   }

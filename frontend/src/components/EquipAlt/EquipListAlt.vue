@@ -8,7 +8,7 @@
       :key="equip.id"
       class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
     >
-      <EquipAlt :equip="equip" :workout="workout" :users="users" />
+      <EquipAlt :equip="equip" :logged="logged" :users="users" />
     </div>
   </div>
 
@@ -26,6 +26,7 @@
 import { computed, ref } from "vue";
 import type {
   EquipType,
+  LoggedType,
   MuscleType,
   UserType,
   WorkoutType,
@@ -38,10 +39,10 @@ const filter = ref<MuscleType[]>([]);
 const searchFilter = ref<string>("");
 
 const props = defineProps<{
-  workout: WorkoutType | undefined;
+  logged: LoggedType;
   equips: Array<EquipType>;
   muscles: Array<MuscleType>;
-  users: Array<UserType> | undefined;
+  users: Array<UserType>;
 }>();
 
 const filteredfromMuscles = computed(() => {

@@ -8,7 +8,7 @@
       />
     </div>
     <button
-      @click="addMuscle"
+      @click.prevent="addMuscle"
       class="mt-4 bg-sonja-akz text-sonja-akz2 p-2 rounded"
     >
       Neuer Muskle!

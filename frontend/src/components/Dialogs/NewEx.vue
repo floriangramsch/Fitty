@@ -8,7 +8,7 @@
         class="p-1 bg-sonja-akz2 rounded-md ml-1"
       />
     </div>
-    <button @click="addExercice" class="mt-4 bg-sonja-akz p-2 rounded">
+    <button @click.prevent="addExercice" class="mt-4 bg-sonja-akz p-2 rounded">
       Neues Gewicht!
     </button>
   </form>
@@ -21,7 +21,7 @@ import type { EquipType, WorkoutType } from "@/util/types.vue";
 const newWorkoutWeight = ref("");
 
 const props = defineProps<{
-  workout: WorkoutType | undefined;
+  workout: WorkoutType;
   equip: EquipType;
 }>();
 
@@ -40,7 +40,7 @@ const addExercice = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // window.location.reload();
+        window.location.reload();
       });
   }
 };

@@ -24,7 +24,7 @@
       </select>
     </div>
     <button
-      @click="addNewEquip"
+      @click.prevent="addNewEquip"
       class="mt-4 bg-sonja-akz p-2 rounded"
     >
       Neues Gerät!

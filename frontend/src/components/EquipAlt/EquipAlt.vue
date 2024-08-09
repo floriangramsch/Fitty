@@ -1,36 +1,32 @@
 <template>
   <div
-    class="bottom-36 rounded p-1"
-    @click.prevent="showDialogWeight = workout ? true : false"
+    class="p-1"
+    @click.prevent="showDialogWeight = logged.workout ? true : false"
   >
-    <div>
-      {{ equip.name }} [{{ equip.muscle }}]
-      <div v-for="user in usersWeight" class="weight">
-        <div v-if="user.weight !== undefined">
-          {{ user.user }}: {{ user.weight }} kg
-        </div>
-        <div
-          v-if="
-            user.userId === props.workout?.user_id && user.weight !== undefined
-          "
-        >
-          This:
-          {{ user.weight }} kg
-        </div>
-        <div v-else-if="user.userId === props.workout?.user_id">
-          This: Trainiere!
-        </div>
+    <div class="font-bold">{{ equip.name }} [{{ equip.muscle }}]</div>
+    <div v-if="logged.workout">
+      <div>{{ getThisWeight }} ({{ getUserPB(getWorker()) }})</div>
+      <div>
+        {{ getOtherPB(getOther()) }}
+      </div>
+    </div>
+    <div v-else>
+      <div>
+        {{ getUserPB(getWorker()) }}
+      </div>
+      <div>
+        {{ getOtherPB(getOther()) }}
       </div>
     </div>
   </div>
-  <Dialog :isOpen="showDialogWeight" @close="showDialogWeight = false">
-    <NewEx :equip="equip" :workout="workout" />
+  <Dialog v-if="logged.workout" :isOpen="showDialogWeight" @close="showDialogWeight = false">
+    <NewEx :equip="equip" :workout="logged.workout" />
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import type { EquipType, UserType, WorkoutType } from "@/util/types.vue";
-import { onMounted, ref, watchEffect } from "vue";
+import type { EquipType, LoggedType, UserType } from "@/util/types.vue";
+import { computed, onMounted, ref, watchEffect } from "vue";
 import Dialog from "../Dialogs/Dialog.vue";
 import NewEx from "../Dialogs/NewEx.vue";
 
@@ -38,29 +34,75 @@ const showDialogWeight = ref(false);
 
 const props = defineProps<{
   equip: EquipType;
-  workout: WorkoutType | undefined;
-  users: Array<UserType> | undefined;
+  logged: LoggedType;
+  users: Array<UserType>;
 }>();
 
 const usersWeight = ref(
-  props.users?.map((user) => {
-    return {
-      userId: user.user_id,
-      user: user.name,
-      weight: undefined,
-      thisWeight: undefined,
-    };
-  }) ?? []
+  props.users?.map((user) => ({
+    userId: user.user_id,
+    user: user.name,
+    weight: undefined,
+    thisWeight: undefined,
+  })) ?? []
 );
+
+const getThisWeight = computed(() => {
+  const user = getWorker();
+  const userWeight = usersWeight.value.find(
+    (u) => u.userId === user?.user_id
+  )?.thisWeight;
+
+  if (userWeight === "tbd!") {
+    return user?.name + ": tbd!";
+  }
+  return user?.name + ": " + userWeight + " kg";
+});
+
+const getUserPB = (user: UserType | undefined) => {
+  const userWeight = usersWeight.value.find(
+    (u) => u.userId === user?.user_id
+  )?.weight;
+  if (userWeight === undefined) {
+    return "PB: tbd!";
+  }
+  return "PB: " + userWeight + " kg";
+};
+
+const getOtherPB = (user: UserType | undefined) => {
+  const userWeight = usersWeight.value.find(
+    (u) => u.userId === user?.user_id
+  )?.weight;
+  if (!userWeight) {
+    return user?.name + ": tbd!";
+  }
+  if (userWeight === undefined) {
+    return "tbd!";
+  }
+  return user?.name + ": " + userWeight + " kg";
+};
 
 const getLastWorkout = (user: number, equipId: number, workoutId: number) => {
   fetch(`/api/weight/lastWorkout/${user}/${equipId}/${workoutId}`)
     .then((res) => res.json())
     .then((data) => {
-      user === 1
-        ? (usersWeight.value[0].thisWeight = data[0]?.weight)
-        : (usersWeight.value[1].thisWeight = data[0]?.weight);
+      const foundUser = usersWeight.value.find((u) => u.userId === user);
+      if (foundUser) {
+        foundUser.thisWeight = data[0]?.weight ?? "tbd!";
+      }
     });
+};
+
+const getWorker = () => {
+  return props.users?.find(
+    (user) => user.user_id === props.logged.user?.user_id
+  );
+};
+
+const getOther = () => {
+  return props.users?.find(
+    (user) => user.user_id !== props.logged.user?.user_id
+  );
 };
 
 const getWeight = (user: number, equipId: number) => {
@@ -77,11 +119,11 @@ watchEffect(() => {
   if (props.users) {
     getWeight(1, props.equip.id);
     getWeight(2, props.equip.id);
-    if (props.workout) {
+    if (props.logged.workout) {
       getLastWorkout(
-        props.workout.user_id,
+        props.logged.workout.user_id,
         props.equip.id,
-        props.workout.workout_id
+        props.logged.workout.workout_id
       );
     }
   }

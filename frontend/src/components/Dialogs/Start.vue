@@ -58,8 +58,8 @@ const loginUser = () => {
           user: props.modelValue.user,
           isLogged: true,
           workout: {
-            workoutId: data.workout_id,
-            userId: data.user_id,
+            workout_id: data.workout_id,
+            user_id: data.user_id,
             start: data.start,
             end: data.end,
           },
@@ -77,8 +77,8 @@ const resumeWorkout = () => {
           user: props.modelValue.user,
           isLogged: true,
           workout: {
-            workoutId: data.workout_id,
-            userId: data.user_id,
+            workout_id: data.workout_id,
+            user_id: data.user_id,
             start: data.start,
             end: data.end,
           },
