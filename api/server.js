@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cors = require("cors");
 require("dotenv").config();
+const getWorkouts = require('./workouts');
 
 const app = express();
 const port = 3001;
@@ -32,14 +33,14 @@ app.get("/", (req, res) => {
   res.send("Hello, this is the Fitty backend!");
 });
 
-// All
-app.get("/all", (req, res) => {
-  pool.query("SELECT * FROM User", (err, results) => {
-    if (err) {
-      return res.status(500).send(err);
-    }
-    res.json(results);
-  });
+app.get("/all", async (req, res) => {
+  try {
+    const workouts = await getWorkouts();
+    res.json(workouts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Fehler beim Abrufen der Workouts" });
+  }
 });
 
 // Users
