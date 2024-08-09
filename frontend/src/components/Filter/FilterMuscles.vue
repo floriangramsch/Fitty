@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen">
+  <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
     <div
       v-for="muscle in listMuscles"
       :key="muscle.muscle_group_id"

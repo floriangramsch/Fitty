@@ -11,15 +11,18 @@
     </div>
   </div>
 
-  <Filter
-    class="absolute right-2 bottom-36 mr-8 bg-sonja-akz rounded-md shadow-lg"
-    :isOpen="showDialogFilter"
-    :muscles="muscles"
-    v-model="filter"
-    v-model:close="showDialogFilter"
-  />
-  <div class="absolute right-2 bottom-64">
-    <button @click="showDialogFilter = !showDialogFilter">
+  <div class="absolute right-2 bottom-44">
+    <Filter
+      class="mr-8 bg-sonja-akz rounded-md shadow-lg"
+      :isOpen="showDialogFilter"
+      :muscles="muscles"
+      v-model="filter"
+      v-model:close="showDialogFilter"
+    />
+    <button
+      class="absolute right-0 bottom-0"
+      @click="showDialogFilter = !showDialogFilter"
+    >
       <i class="fa-solid fa-filter text-sonja-akz"></i>
     </button>
   </div>
@@ -34,7 +37,7 @@ import type {
   UserType,
   WorkoutType,
 } from "@/util/types.vue";
-import Filter from "../Dialogs/Filter.vue";
+import Filter from "../Filter/FilterMuscles.vue";
 
 const showDialogFilter = ref(false);
 const filter = ref<MuscleType[]>([]);
