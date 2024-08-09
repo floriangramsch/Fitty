@@ -1,12 +1,15 @@
 <template>
   <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
     <div
-      v-for="muscle in listMuscles"
+      v-for="muscle in muscles"
       :key="muscle.muscle_group_id"
       @click="filterMuscles(muscle)"
-      class="py-0.5 px-2 cursor-pointer"
+      class="flex py-0.5 px-2 cursor-pointer"
+      :class="isFiltered(muscle) ? 'bg-sonja-akz2' : 'bg-sonja-akz'"
     >
-      {{ muscle.name }}
+      <div>
+        {{ muscle.name }}
+      </div>
     </div>
     <div
       @click="reset"
@@ -29,6 +32,11 @@ const props = defineProps<{
   muscles: Array<MuscleType>;
 }>();
 
+const isFiltered = (muscle: MuscleType) => {
+  const names: string[] = filterMuscleList.value.map((muscle) => muscle.name);
+  return names.includes(muscle.name);
+};
+
 // Berechnung der verbleibenden Muskeln
 const listMuscles = computed(() => {
   const names: string[] = filterMuscleList.value.map((muscle) => muscle.name);
@@ -40,8 +48,15 @@ const listMuscles = computed(() => {
 // Model für v-model
 const model = defineModel<MuscleType[]>(); // Verwende das v-model
 
+// update die zu filternden Musklen
 const filterMuscles = (muscle: MuscleType) => {
-  filterMuscleList.value.push(muscle);
+  if (isFiltered(muscle)) {
+    filterMuscleList.value = filterMuscleList.value.filter(
+      (m) => m.muscle_group_id !== muscle.muscle_group_id
+    );
+  } else {
+    filterMuscleList.value.push(muscle);
+  }
   model.value = filterMuscleList.value;
   filterMuscle.value = null;
 };
