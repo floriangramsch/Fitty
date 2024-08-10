@@ -9,7 +9,7 @@ const pool = mysql.createConnection({
 });
 
 // Hilfsfunktion für Abfragen, die ein Promise zurückgibt
-const query = (sql, params) => {
+const query = (pool, sql, params) => {
   return new Promise((resolve, reject) => {
     pool.query(sql, params, (err, results) => {
       if (err) {
@@ -21,7 +21,7 @@ const query = (sql, params) => {
 };
 
 // Hauptfunktion, die die Workouts und dazugehörige Exercices abfragt
-const getWorkouts = async () => {
+const getWorkouts = async (pool) => {
   try {
     const sql = `
       SELECT *
@@ -29,11 +29,15 @@ const getWorkouts = async () => {
       JOIN User u ON w.user_id = u.user_id
     `;
 
-    const workoutResults = await query(sql);
+    const workoutResults = await query(pool, sql);
 
     const workouts = { equips: {}, workouts: {} };
-    const equips = await getEquips();
+
+    const equips = await getEquips(pool);
     workouts["equips"] = equips;
+    workouts["users"] = await getUsers(pool);
+    workouts["muscles"] = await getMuscles(pool);
+    console.log(workouts["muscles"]);
 
     for (const row of workoutResults) {
       workouts["workouts"][row.workout_id] = {
@@ -46,7 +50,7 @@ const getWorkouts = async () => {
         equips: {},
       };
       for (const [key, value] of Object.entries(equips)) {
-        const weight = await getWeight(row.workout_id, key);
+        const weight = await getWeight(pool, row.workout_id, key);
         workouts["workouts"][row.workout_id].equips[key] = weight;
       }
     }
@@ -57,50 +61,86 @@ const getWorkouts = async () => {
   }
 };
 
-const getWeight = async (workout_id, equip_id) => {
+const getWeight = async (pool, workout_id, equip_id) => {
   const sql = `
     SELECT weight FROM Exercice e
     WHERE e.workout_id = ? AND e.equip_id = ?
     
   `;
-  const exerciceResults = await query(sql, [workout_id, equip_id]);
+  const exerciceResults = await query(pool, sql, [workout_id, equip_id]);
 
   return exerciceResults.length > 0 ? exerciceResults[0].weight : null;
 };
 
-const getEquips = async () => {
+const getEquips = async (pool) => {
   const sql = `
-  SELECT * FROM Equip
+  SELECT equip_id, eq.name AS equip_name, m.name as muscle_name 
+  FROM Equip eq
+  LEFT JOIN MuscleGroup m 
+  ON m.muscle_group_id = eq.muscle_group_id
 `;
-  const equipResults = await query(sql, []);
+  const equipResults = await query(pool, sql, []);
 
   const equips = {};
 
   for (const row of equipResults) {
     equips[row.equip_id] = {
-      equip_name: row.name,
-      FloPB: await getPB(row.equip_id, 1),
-      SonjaPB: await getPB(row.equip_id, 2),
-      FloLast: await getLast(row.equip_id, 1),
-      SonjaLast: await getLast(row.equip_id, 2),
+      equip_name: row.equip_name,
+      equip_muscle_name: row.muscle_name,
+      FloPB: await getPB(pool, row.equip_id, 1),
+      SonjaPB: await getPB(pool, row.equip_id, 2),
+      FloLast: await getLast(pool, row.equip_id, 1),
+      SonjaLast: await getLast(pool, row.equip_id, 2),
     };
   }
 
   return equips;
 };
 
-const getPB = async (equip_id, user_id) => {
+const getUsers = async (pool) => {
+  const sql = `
+  SELECT * 
+  FROM User eq
+  `;
+  const results = await query(pool, sql, []);
+
+  const users = {};
+  for (const row of results) {
+    users[row.user_id] = {
+      equip_name: row.name,
+    };
+  }
+  return users;
+};
+
+const getMuscles = async (pool) => {
+  const sql = `
+  SELECT * 
+  FROM MuscleGroup
+  `;
+  const results = await query(pool, sql, []);
+
+  const muscles = {};
+  for (const row of results) {
+    muscles[row.muscle_group_id] = {
+      muscle_name: row.name,
+    };
+  }
+  return muscles;
+};
+
+const getPB = async (pool, equip_id, user_id) => {
   const sql = `
     SELECT Max(e.weight) as PB FROM Exercice e
     LEFT JOIN Workout w ON w.workout_id = e.workout_id
     LEFT JOIN Equip eq ON eq.equip_id = e.equip_id
     WHERE e.equip_id = ? AND w.user_id = ?
   `;
-  const results = await query(sql, [equip_id, user_id]);
+  const results = await query(pool, sql, [equip_id, user_id]);
   return results[0].PB;
 };
 
-const getLast = async (equip_id, user_id) => {
+const getLast = async (pool, equip_id, user_id) => {
   const sql = `
     SELECT e.weight FROM Exercice e
     LEFT JOIN Workout w ON w.workout_id = e.workout_id
@@ -109,11 +149,11 @@ const getLast = async (equip_id, user_id) => {
     ORDER BY w.start DESC
     LIMIT 1;
   `;
-  const results = await query(sql, [equip_id, user_id]);
+  const results = await query(pool, sql, [equip_id, user_id]);
   return results.length > 0 ? results[0].weight : null;
 };
 
-// getWorkouts();
+// getWorkouts(pool);
 module.exports = getWorkouts;
 // All
 // {

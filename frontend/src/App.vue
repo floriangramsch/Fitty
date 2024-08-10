@@ -216,8 +216,9 @@ const getWorkouts = () => {
 const getAll = () => {
   fetch("/api/all")
     .then((res) => res.json())
-    .then((data: Array<WorkoutType>) => {
+    .then((data) => {
       console.log(data);
+      muscles.value = data.muscles;
     })
     .catch((err) => console.log(err));
 };
@@ -228,7 +229,7 @@ onMounted(() => {
   getEquip();
   getUsers();
   getWorkouts();
-  getAll();
+  // getAll();
 });
 
 // Beobachte Änderungen im Anmeldezustand und speichere diese

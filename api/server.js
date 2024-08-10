@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.get("/all", async (req, res) => {
   try {
-    const workouts = await getWorkouts();
+    const workouts = await getWorkouts(pool);
     res.json(workouts);
   } catch (err) {
     console.error(err);
