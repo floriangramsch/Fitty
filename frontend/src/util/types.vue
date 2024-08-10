@@ -16,9 +16,7 @@ export type LoggedWorkout = {
   end: Date;
   user: LoggedUser;
   equips: {
-    [equip_id: number]: {
-      weight: number;
-    };
+    [equip_id: number]: number | null;
   };
 };
 
@@ -54,9 +52,7 @@ export type WorkoutType = {
     end: Date;
     user: LoggedUser;
     equips: {
-      [equip_id: number]: {
-        weight: number;
-      };
+      [equip_id: number]: number | null;
     };
   };
 };

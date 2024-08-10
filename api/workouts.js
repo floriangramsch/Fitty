@@ -23,39 +23,14 @@ const query = (pool, sql, params) => {
 // Hauptfunktion, die die Workouts und dazugehörige Exercices abfragt
 const getAll = async (pool) => {
   try {
-    // const sql = `
-    //   SELECT *
-    //   FROM Workout w
-    //   JOIN User u ON w.user_id = u.user_id
-    // `;
-
-    // const workoutResults = await query(pool, sql);
-
     const all = { equips: {}, workouts: {} };
 
     const equips = await getEquips(pool);
     all["equips"] = equips;
     all["users"] = await getUsers(pool);
     all["muscles"] = await getMuscles(pool);
-    all["workouts"] = await getWorkouts(pool, equips)
+    all["workouts"] = await getWorkouts(pool, equips);
 
-    // for (const row of workoutResults) {
-    //   all["workouts"][row.workout_id] = {
-    //     start: row.start,
-    //     end: row.end,
-    //     user: {
-    //       id: row.user_id,
-    //       name: row.name,
-    //     },
-    //     equips: {},
-    //   };
-    //   for (const [key, value] of Object.entries(equips)) {
-    //     const weight = await getWeight(pool, row.workout_id, key);
-    //     all["workouts"][row.workout_id].equips[key] = weight;
-    //   }
-    // }
-
-    console.log(all)
     return all;
   } catch (err) {
     console.error(err);

@@ -19,11 +19,8 @@
 <script setup lang="ts">
 import type { LoggedType, LoggedWorkout, WorkoutType } from "@/util/types.vue";
 
-const props = defineProps<{
-  workouts: WorkoutType;
-}>();
-
 const logged = defineModel<LoggedType>();
+const workouts = defineModel<WorkoutType>("workouts");
 
 const loginUser = () => {
   // if (props.modelValue.user) {
@@ -53,6 +50,8 @@ const loginUser = () => {
 };
 
 const newWorkout = () => {
+  if (!logged.value || !logged.value.user) return;
+
   fetch("/api/addWorkout", {
     method: "Post",
     headers: {
@@ -64,19 +63,30 @@ const newWorkout = () => {
   })
     .then((res) => res.json())
     .then((data: LoggedWorkout) => {
-      console.log(data);
-      // logged.value = {
-      //   isLogged: true,
-      //   user: logged.value?.user,
-      //   workout: data,
-      // };
-      window.location.reload();
-      resumeWorkout();
+      if (!logged.value || !logged.value.user || !workouts.value) return;
+      const nullEquips = Object.keys(workouts.value?.[1]?.equips || {}).reduce(
+        (acc, key) => {
+          acc[Number(key)] = null;
+          return acc;
+        },
+        {} as Record<number, number | null>
+      );
+      const newWorkout = {
+        ...data,
+        user: logged.value?.user,
+        equips: nullEquips,
+      };
+      logged.value = {
+        isLogged: true,
+        user: logged.value?.user,
+        workout: newWorkout,
+      };
+      workouts.value[newWorkout.id] = newWorkout;
     });
 };
 
 const resumeWorkout = () => {
-  const [latestKey, latestWorkout] = Object.entries(props.workouts)
+  const [latestKey, latestWorkout] = Object.entries(workouts.value || {})
     .filter(([key, workout]) => workout.user.id === logged.value?.user?.id)
     .reduce(([latestKey, latestWorkout], [currentKey, currentWorkout]) => {
       return new Date(currentWorkout.start) > new Date(latestWorkout.start)

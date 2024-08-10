@@ -185,7 +185,7 @@ app.post("/addWorkout", (req, res) => {
       }
       const workoutId = results.insertId;
       pool.query(
-        "SELECT * FROM Workout WHERE workout_id = ?",
+        "SELECT workout_id, start, end FROM Workout WHERE workout_id = ?",
         [workoutId],
         (err, workoutResults) => {
           if (err) {

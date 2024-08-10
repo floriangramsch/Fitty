@@ -88,7 +88,7 @@
           :isOpen="showDialogLogin"
           @close="showDialogLogin = false"
         >
-          <Start :workouts="workouts" v-model="logged" />
+          <Start v-model="logged" v-model:workouts="workouts" />
         </Dialog>
       </div>
       <div class="flex-grow">
