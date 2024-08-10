@@ -8,12 +8,10 @@
     </div>
     <div>
       <div v-if="logged.workout">
-        this: ({{ logged.workout.equips[equip.id] }})
+        this: {{ logged.workout.equips[equip.id] }} kg
       </div>
-      <div>Flo: {{ equip.FloPB }}</div>
-      <div>Sonja: {{ equip.SonjaPB }}</div>
-      <div>FloLast: {{ equip.FloLast }}</div>
-      <div>SonjaLast: {{ equip.SonjaLast }}</div>
+      <div>Flo: {{ equip.FloLast }} kg (PB: {{ equip.FloPB }} kg)</div>
+      <div>Sonja: {{ equip.SonjaLast }} kg (PB: {{ equip.SonjaPB }} kg)</div>
     </div>
   </div>
   <Dialog

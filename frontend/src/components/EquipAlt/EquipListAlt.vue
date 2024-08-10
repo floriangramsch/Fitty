@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col mt-20 snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
-    :class="Object.keys(filteredEquips).length > 5 ? 'mb-24' : 'mb-0'"
+    :class="Object.keys(filteredEquips).length > 5 ? 'mb-20' : 'mb-0'"
   >
     <div
       v-for="(equip, id) in filteredEquips"

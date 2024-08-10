@@ -12,7 +12,6 @@
     >
       Weiter trainieren?
     </button>
-    {{ logged?.user?.name }}
   </form>
 </template>
 

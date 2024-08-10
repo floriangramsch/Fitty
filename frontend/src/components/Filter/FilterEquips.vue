@@ -2,8 +2,8 @@
   <button class="absolute right-0 bottom-0" @click="isOpen = !isOpen">
     <i class="fa-solid fa-magnifying-glass text-sonja-akz"></i>
   </button>
-  <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
-    <input ref="input" v-model="search" @input="filter" @keydown="closeInput" />
+  <div v-if="isOpen" class="mr-10 bg-sonja-akz rounded-md shadow-lg">
+    <input class="text-2xl" ref="input" v-model="search" @input="filter" @keydown="closeInput" />
   </div>
 </template>
 
