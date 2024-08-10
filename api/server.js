@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cors = require("cors");
 require("dotenv").config();
-const getWorkouts = require('./workouts');
+const getAll = require('./workouts');
 
 const app = express();
 const port = 3001;
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 app.get("/all", async (req, res) => {
   try {
-    const workouts = await getWorkouts(pool);
+    const workouts = await getAll(pool);
     res.json(workouts);
   } catch (err) {
     console.error(err);
@@ -178,7 +178,7 @@ app.post("/addWorkout", (req, res) => {
   const dateTime = new Date();
   pool.query(
     "INSERT INTO Workout (user_id, start, end) VALUES (?, ?, ?)",
-    [user.user_id, dateTime, dateTime],
+    [user.id, dateTime, dateTime],
     (err, results) => {
       if (err) {
         return res.status(500).send(err);
