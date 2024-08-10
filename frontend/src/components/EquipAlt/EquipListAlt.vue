@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <div class="absolute right-2 bottom-52">
-    <div class="absolute right-0 bottom-8">
+  <div class="absolute right-2 bottom-52 text-3xl">
+    <div class="absolute right-0 bottom-10">
       <FilterEquips :equips="equips" v-model="searchFilter" />
     </div>
     <div class="absolute right-0 bottom-0">

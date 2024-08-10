@@ -138,9 +138,9 @@ import { formatTime } from "./util/helpers";
 import EquipListAlt from "./components/EquipAlt/EquipListAlt.vue";
 
 const users = ref<UserType>({});
-const equips = ref<EquipType>();
-const muscles = ref<MuscleType>();
-const workouts = ref<WorkoutType>();
+const equips = ref<EquipType>({});
+const muscles = ref<MuscleType>({});
+const workouts = ref<WorkoutType>({});
 const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
@@ -192,10 +192,6 @@ const getAll = () => {
 
 onMounted(() => {
   loadLoggedState();
-  // getMuscles();
-  // getEquip();
-  // getUsers();
-  // getWorkouts();
   getAll();
 });
 
