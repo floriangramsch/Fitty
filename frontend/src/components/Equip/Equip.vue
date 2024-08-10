@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="overflow-hidden min-h-[90vh]">
     <img
       :src="`@/../public/gym${Math.floor(Math.random() * 11)}.jpg`"
@@ -101,4 +101,6 @@ watchEffect(() => {
     }
   }
 });
-</script>
+</script> -->
+
+<template></template>

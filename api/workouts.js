@@ -107,7 +107,7 @@ const getUsers = async (pool) => {
   const users = {};
   for (const row of results) {
     users[row.user_id] = {
-      equip_name: row.name,
+      name: row.name,
     };
   }
   return users;

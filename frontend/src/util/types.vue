@@ -1,43 +1,70 @@
 <script lang="ts">
 export type LoggedType = {
   isLogged: boolean;
-  user: UserType | undefined;
-  workout: WorkoutType | undefined;
+  user: LoggedUser | undefined;
+  workout: LoggedWorkout | undefined;
 };
 
-export type UserType = {
-  user_id: number;
+export type LoggedUser = {
+  id: number;
   name: string;
 };
 
-// export type MuscleType = {
-//   muscle_group_id: number;
-//   name: string;
-// };
+export type LoggedWorkout = {
+  id: number;
+  start: Date;
+  end: Date;
+  user: LoggedUser;
+  equips: {
+    [equip_id: number]: {
+      weight: number;
+    };
+  };
+};
+
+export type UserType = {
+  [id: number]: {
+    name: string;
+  };
+};
+
 export type MuscleType = {
   [id: number]: {
     muscle_name: string;
   };
 };
 
-export type AllType = {
-  equips: EquipType,
-  users: UserType,
-  muscles: MuscleType,
-  workouts: WorkoutType,
-}
-
+export type EquipSpecialType = {
+  id: number;
+  equip_name: string;
+  equip_muscle_name: string;
+  FloPB: number;
+  SonjaPB: number;
+  FloLast: number;
+  SonjaLast: number;
+};
 
 export type EquipType = {
-  id: number;
-  name: string;
-  muscle: string;
+  [id: number]: EquipSpecialType;
 };
 
 export type WorkoutType = {
-  workout_id: number;
-  user_id: number;
-  start: Date;
-  end: Date;
+  [workout_id: number]: {
+    start: Date;
+    end: Date;
+    user: LoggedUser;
+    equips: {
+      [equip_id: number]: {
+        weight: number;
+      };
+    };
+  };
+};
+
+export type AllType = {
+  equips: EquipType;
+  users: UserType;
+  muscles: MuscleType;
+  workouts: WorkoutType;
 };
 </script>

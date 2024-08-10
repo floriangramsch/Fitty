@@ -16,7 +16,7 @@ const input = ref<HTMLElement | null>(null);
 const isOpen = ref<boolean>(false);
 
 defineProps<{
-  equips: Array<EquipType>;
+  equips: EquipType;
 }>();
 
 const setFocus = () => {

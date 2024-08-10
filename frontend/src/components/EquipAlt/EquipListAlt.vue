@@ -1,14 +1,18 @@
 <template>
   <div
     class="flex flex-col mt-20 snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
-    :class="filteredfromMuscles.length > 5 ? 'mb-24' : 'mb-0'"
+    :class="Object.keys(filteredEquips).length > 5 ? 'mb-24' : 'mb-0'"
   >
     <div
-      v-for="equip in filteredfromMuscles"
-      :key="equip.id"
+      v-for="(equip, id) in filteredEquips"
+      :key="id"
       class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
     >
-      <EquipAlt :equip="equip" :logged="logged" :users="users" />
+      <EquipAlt
+        :equip="{...equip, id: Number(id)}"
+        :logged="logged"
+        :users="users"
+      />
     </div>
   </div>
 
@@ -40,35 +44,54 @@ const searchFilter = ref<string>("");
 
 const props = defineProps<{
   logged: LoggedType;
-  equips: Array<EquipType>;
+  equips: EquipType;
   muscles: MuscleType;
-  users: Array<UserType>;
+  users: UserType;
 }>();
 
-const filteredfromMuscles = computed(() => {
-  // filter after muscle
-  const filteredMuscles =
-    filter.value.length !== 0
-      ? props.equips.filter((equip) => {
-          // return equip.muscle_id in filter
-          const muscleId = Object.keys(props.muscles).find(
-            (key) => props.muscles[Number(key)].muscle_name === equip.muscle
-          );
-          return muscleId !== undefined && filter.value.includes(Number(muscleId));
-        })
-      : props.equips;
+// Filter nach Suchbegriff
+// const matchesSearchFilter =
+//   searchFilter.value === "" ||
+//   equip.name.toLowerCase().includes(searchFilter.value.toLowerCase()) ||
+//   equip.muscle.toLowerCase().includes(searchFilter.value.toLowerCase());
 
-  // filter after search string
-  const filteredEquips =
-    searchFilter.value !== ""
-      ? filteredMuscles.filter((f) => {
-          return (
-            f.name.toLowerCase().includes(searchFilter.value.toLowerCase()) ||
-            f.muscle.toLowerCase().includes(searchFilter.value.toLowerCase())
-          );
-        })
-      : filteredMuscles;
+// Kombiniere die Filterbedingungen
+// return matchesMuscleFilter && matchesSearchFilter;
 
-  return filteredEquips;
+const filteredEquips = computed(() => {
+  return Object.entries(props.equips)
+    .filter(([id, equip]) => {
+      // Filter nach Muskeln
+      let muscleId;
+
+      if (filter.value.length !== 0) {
+        // Finde die Muskel-ID, wenn ein Filter gesetzt ist
+        muscleId = Object.keys(props.muscles).find(
+          (key) =>
+            props.muscles[Number(key)].muscle_name === equip.equip_muscle_name
+        );
+      }
+
+      // Bestimme, ob das Equipment dem Muskel-Filter entspricht
+      const matchesMuscleFilter =
+        filter.value.length === 0 ||
+        (muscleId !== undefined && filter.value.includes(Number(muscleId)));
+
+      // Filter nach Suchbegriff
+      const matchesSearchFilter =
+        searchFilter.value === "" ||
+        equip.equip_name
+          .toLowerCase()
+          .includes(searchFilter.value.toLowerCase()) ||
+        equip.equip_muscle_name
+          .toLowerCase()
+          .includes(searchFilter.value.toLowerCase());
+
+      return matchesMuscleFilter && matchesSearchFilter;
+    })
+    .reduce((acc: EquipType, [id, equip]) => {
+      acc[Number(id)] = equip;
+      return acc;
+    }, {});
 });
 </script>

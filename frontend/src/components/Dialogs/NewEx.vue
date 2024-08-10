@@ -1,7 +1,7 @@
 <template>
   <form>
     <div>
-      {{ equip?.name }} [{{ equip.muscle }}]
+      {{ equip?.equip_name }} [{{ equip.equip_muscle_name }}]
       <input
         v-model="newWorkoutWeight"
         style="width: 64px"
@@ -16,13 +16,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import type { EquipType, WorkoutType } from "@/util/types.vue";
+import type { EquipSpecialType, LoggedWorkout } from "@/util/types.vue";
 
 const newWorkoutWeight = ref("");
 
 const props = defineProps<{
-  workout: WorkoutType;
-  equip: EquipType;
+  workout: LoggedWorkout;
+  equip: EquipSpecialType;
 }>();
 
 const addExercice = () => {
@@ -33,8 +33,8 @@ const addExercice = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        workout_id: props.workout?.workout_id,
-        equip_id: props.equip?.id,
+        workout_id: props.workout.id,
+        equip_id: props.equip.id,
         weight: newWorkoutWeight.value,
       }),
     })

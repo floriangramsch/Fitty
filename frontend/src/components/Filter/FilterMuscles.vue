@@ -9,7 +9,7 @@
       :key="id"
       @click="filterMuscles(Number(id))"
       class="flex py-0.5 px-2 cursor-pointer"
-      :class="isFiltered(id) ? 'bg-sonja-akz2' : 'bg-sonja-akz'"
+      :class="isFiltered(Number(id)) ? 'bg-sonja-akz2' : 'bg-sonja-akz'"
     >
       <div>
         {{ muscle.muscle_name }}
@@ -28,13 +28,10 @@
 import { computed, ref } from "vue";
 import type { MuscleType } from "@/util/types.vue";
 
-// const filterMuscle = ref<number[]>([]);
-// const filterMuscle = ref<MuscleType | null>(null);
-
 const filterMuscleList = ref<number[]>([]);
 const isOpen = ref<boolean>(false);
 
-const props = defineProps<{
+defineProps<{
   muscles: MuscleType;
 }>();
 

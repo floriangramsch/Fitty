@@ -5,40 +5,35 @@
     <div
       @click="editWorkout(workout)"
       class="p-1 flex min-w-full snap-start justify-center bg-sonja-fg rounded"
-      v-for="workout in workouts"
-      :key="workout.workout_id"
+      v-for="(workout, id) in workouts"
+      :key="id"
     >
       {{ formatTime(workout.start) }}
       <br />
       von
-      {{ users?.find((user) => user.user_id === workout.user_id)?.name || "" }}
+      {{ workout.user.name }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { UserType, WorkoutType } from "@/util/types.vue";
+import type { LoggedUser, UserType, WorkoutType } from "@/util/types.vue";
 import formatTime from "@/util/helpers";
 
-const props = defineProps<{
-  workouts: Array<WorkoutType> | undefined;
-  users: Array<UserType> | undefined;
+defineProps<{
+  workouts: WorkoutType;
+  users: UserType;
   close: Boolean;
 }>();
 
 const emit = defineEmits(["update:modelValue", "update:close"]);
 
-const editWorkout = (workout: WorkoutType) => {
+const editWorkout = (workout: { start: Date; end: Date; user: LoggedUser }) => {
   emit("update:modelValue", {
-    user: {
-      user_id: workout.user_id,
-      name:
-        props.users?.find((user) => user.user_id === workout.user_id)?.name ||
-        "",
-    },
+    user: workout.user,
     isLogged: true,
     workout: workout,
   });
-  emit("update:close", false)
+  emit("update:close", false);
 };
 </script>
