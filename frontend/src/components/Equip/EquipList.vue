@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div
     class="flex flex-col snap-y snap-mandatory overflow-y-scroll no-scrollbar"
   >
@@ -56,4 +56,5 @@ const filteredEquips = computed(() => {
     ? props.equips.filter((equip) => names.includes(equip.muscle))
     : props.equips;
 });
-</script>
+</script> -->
+<template></template>

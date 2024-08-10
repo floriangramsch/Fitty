@@ -14,12 +14,12 @@
       >
         <option value="" disabled selected>Muskle..</option>
         <option
-          v-for="muscle in muscles"
-          :key="muscle.muscle_group_id"
-          :value="muscle"
+          v-for="(muscle, id) in muscles"
+          :key="id"
+          :value="muscle.muscle_name"
           class="py-1"
         >
-          {{ muscle.name }}
+          {{ muscle.muscle_name }}
         </option>
       </select>
     </div>
@@ -40,7 +40,7 @@ const newEquipName = ref("");
 const newEquipMuscle = ref("");
 
 defineProps<{
-  muscles: Array<MuscleType> | undefined;
+  muscles: MuscleType;
 }>();
 
 const addNewEquip = () => {

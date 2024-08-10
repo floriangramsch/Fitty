@@ -10,10 +10,23 @@ export type UserType = {
   name: string;
 };
 
+// export type MuscleType = {
+//   muscle_group_id: number;
+//   name: string;
+// };
 export type MuscleType = {
-  muscle_group_id: number;
-  name: string;
+  [id: number]: {
+    muscle_name: string;
+  };
 };
+
+export type AllType = {
+  equips: EquipType,
+  users: UserType,
+  muscles: MuscleType,
+  workouts: WorkoutType,
+}
+
 
 export type EquipType = {
   id: number;

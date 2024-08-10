@@ -122,7 +122,7 @@ const getMuscles = async (pool) => {
 
   const muscles = {};
   for (const row of results) {
-    muscles[row.muscle_group_id] = {
+    muscles[Number(row.muscle_group_id)] = {
       muscle_name: row.name,
     };
   }

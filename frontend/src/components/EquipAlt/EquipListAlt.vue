@@ -35,22 +35,27 @@ import EquipAlt from "./EquipAlt.vue";
 import FilterMuscles from "../Filter/FilterMuscles.vue";
 import FilterEquips from "../Filter/FilterEquips.vue";
 
-const filter = ref<MuscleType[]>([]);
+const filter = ref<number[]>([]);
 const searchFilter = ref<string>("");
 
 const props = defineProps<{
   logged: LoggedType;
   equips: Array<EquipType>;
-  muscles: Array<MuscleType>;
+  muscles: MuscleType;
   users: Array<UserType>;
 }>();
 
 const filteredfromMuscles = computed(() => {
   // filter after muscle
-  const names: string[] = filter.value.map((muscle) => muscle.name);
   const filteredMuscles =
     filter.value.length !== 0
-      ? props.equips.filter((equip) => names.includes(equip.muscle))
+      ? props.equips.filter((equip) => {
+          // return equip.muscle_id in filter
+          const muscleId = Object.keys(props.muscles).find(
+            (key) => props.muscles[Number(key)].muscle_name === equip.muscle
+          );
+          return muscleId !== undefined && filter.value.includes(Number(muscleId));
+        })
       : props.equips;
 
   // filter after search string

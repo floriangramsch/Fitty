@@ -1,29 +1,31 @@
 <template>
-  <div v-if="usersLoaded && equipsLoaded && musclesLoaded && workoutsLoaded">
+  <div v-if="usersLoaded && equipsLoaded && workoutsLoaded">
     <div class="flex flex-col bg-sonja-bg text-sonja-text h-screen text-2xl">
-      <div class="absolute left-1">
-        <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
-          <img
-            v-if="logged.user?.name === 'Florian'"
-            src="@/../public/gym2.jpg"
-            class="max-h-[9vh] max-w-[9vh]"
-          />
-          <img
-            v-else
-            class="max-h-[9vh] max-w-[9vh]"
-            src="@/../public/gym.jpg"
-          />
-        </a>
-      </div>
-      <div class="absolute right-1">
-        <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
-          <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
-        </a>
-      </div>
-      <div class="absolute right-1 top-8">
-        <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
-          <i class="fa-brands fa-tiktok text-sonja-akz"></i>
-        </a>
+      <div>
+        <div class="absolute left-1">
+          <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
+            <img
+              v-if="logged.user?.name === 'Florian'"
+              src="@/../public/gym2.jpg"
+              class="max-h-[9vh] max-w-[9vh]"
+            />
+            <img
+              v-else
+              class="max-h-[9vh] max-w-[9vh]"
+              src="@/../public/gym.jpg"
+            />
+          </a>
+        </div>
+        <div class="absolute right-1">
+          <a @click.prevent="handleRefresh" class="ml-auto cursor-pointer">
+            <i class="fa-solid fa-rotate-right text-sonja-akz"></i>
+          </a>
+        </div>
+        <div class="absolute right-1 top-8">
+          <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
+            <i class="fa-brands fa-tiktok text-sonja-akz"></i>
+          </a>
+        </div>
       </div>
       <template v-if="logged.isLogged">
         <h1
@@ -42,13 +44,13 @@
         :muscles="muscles"
         :users="users"
       />
-      <EquipList
+      <!-- <EquipList
         v-else-if="!showAlt && equips && muscles && users"
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
         :users="users"
-      />
+      /> -->
     </div>
   </div>
   <nav class="fixed bottom-0 w-full">
@@ -62,7 +64,7 @@
         </button>
         <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
           <NewMuskle />
-          <NewEquip :muscles="muscles" />
+          <NewEquip v-if="muscles" :muscles="muscles" />
         </Dialog>
       </div>
 
@@ -121,6 +123,7 @@ import type {
   UserType,
   WorkoutType,
   LoggedType,
+  AllType,
 } from "./util/types.vue";
 import Dialog from "./components/Dialogs/Dialog.vue";
 import { watch } from "vue";
@@ -131,7 +134,7 @@ import EquipListAlt from "./components/EquipAlt/EquipListAlt.vue";
 
 const users = ref<Array<UserType>>();
 const equips = ref<Array<EquipType>>();
-const muscles = ref<Array<MuscleType>>();
+const muscles = ref<MuscleType>();
 const workouts = ref<Array<WorkoutType>>();
 const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
@@ -193,15 +196,15 @@ const getEquip = () => {
     .catch((err) => console.log(err));
 };
 
-const getMuscles = () => {
-  fetch("/api/muscles")
-    .then((res) => res.json())
-    .then((data: Array<MuscleType>) => {
-      muscles.value = data;
-      musclesLoaded.value = true;
-    })
-    .catch((err) => console.log(err));
-};
+// const getMuscles = () => {
+//   fetch("/api/muscles")
+//     .then((res) => res.json())
+//     .then((data: Array<MuscleType>) => {
+//       muscles.value = data;
+//       musclesLoaded.value = true;
+//     })
+//     .catch((err) => console.log(err));
+// };
 
 const getWorkouts = () => {
   fetch("/api/workouts")
@@ -216,8 +219,7 @@ const getWorkouts = () => {
 const getAll = () => {
   fetch("/api/all")
     .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
+    .then((data: AllType) => {
       muscles.value = data.muscles;
     })
     .catch((err) => console.log(err));
@@ -225,18 +227,18 @@ const getAll = () => {
 
 onMounted(() => {
   loadLoggedState();
-  getMuscles();
+  // getMuscles();
   getEquip();
   getUsers();
   getWorkouts();
-  // getAll();
+  getAll();
 });
 
 // Beobachte Änderungen im Anmeldezustand und speichere diese
 watch(logged, saveLoggedState, { deep: true });
 
 const handleRefresh = async () => {
-  await getMuscles();
+  // await getMuscles();
   await getEquip();
   await getUsers();
   await getWorkouts();
