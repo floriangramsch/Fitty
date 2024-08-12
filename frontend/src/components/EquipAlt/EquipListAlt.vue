@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex flex-col mt-20 snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
+    class="flex flex-col snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
     :class="Object.keys(filteredEquips).length > 5 ? 'mb-20' : 'mb-0'"
   >
     <div
-      v-for="(equip, id) in filteredEquips"
-      :key="id"
+      v-for="(equip, id) in sortedEquips"
+      :key="equip[0]"
       class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
     >
       <EquipAlt
-        :equip="{...equip, id: Number(id)}"
+        :equip="{ ...equip[1], id: Number(id) }"
         :logged="logged"
         :users="users"
       />
@@ -49,15 +49,6 @@ const props = defineProps<{
   users: UserType;
 }>();
 
-// Filter nach Suchbegriff
-// const matchesSearchFilter =
-//   searchFilter.value === "" ||
-//   equip.name.toLowerCase().includes(searchFilter.value.toLowerCase()) ||
-//   equip.muscle.toLowerCase().includes(searchFilter.value.toLowerCase());
-
-// Kombiniere die Filterbedingungen
-// return matchesMuscleFilter && matchesSearchFilter;
-
 const filteredEquips = computed(() => {
   return Object.entries(props.equips)
     .filter(([id, equip]) => {
@@ -93,5 +84,12 @@ const filteredEquips = computed(() => {
       acc[Number(id)] = equip;
       return acc;
     }, {});
+});
+
+const sortedEquips = computed(() => {
+  return Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
+    return a.equip_name.localeCompare(b.equip_name);
+    return a.FloPB - b.FloPB;
+  });
 });
 </script>

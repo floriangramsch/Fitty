@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cors = require("cors");
 require("dotenv").config();
-const getAll = require('./workouts');
+const getAll = require("./workouts");
 
 const app = express();
 const port = 3001;
@@ -209,6 +209,24 @@ app.get("/resumeWorkout/:userId", (req, res) => {
       }
       const workout = results[0];
       res.json(workout);
+    }
+  );
+});
+
+// Exercices
+app.get("/exercices", (req, res) => {
+  pool.query(
+    `
+    Select e.equip_id, weight, start 
+    FROM Equip eq 
+    LEFT JOIN Exercice e ON eq.equip_id = e.equip_id 
+    LEFT JOIN Workout w ON e.workout_id = w.workout_id
+    `,
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
     }
   );
 });

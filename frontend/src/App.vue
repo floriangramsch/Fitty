@@ -28,17 +28,20 @@
         </div>
       </div>
       <template v-if="logged.user">
-        <h1
-          class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
-          :class="showAlt ? 'bg-sonja-fg' : 'bg-black'"
-        >
-          Hallo Se Bebi {{ logged.user?.name }}
-          <br />
-          {{ formatTime(logged.workout?.start) }}
-        </h1>
+        <div class="mb-20">
+          <h1
+            class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
+            :class="showAlt ? 'bg-sonja-fg' : 'bg-black'"
+          >
+            Hallo Se Bebi {{ logged.user?.name }}
+            <br />
+            {{ formatTime(logged.workout?.start) }}
+          </h1>
+        </div>
       </template>
+      <ExerciseOverview v-if="showExercises" />
       <EquipListAlt
-        v-if="showAlt && equips && muscles && users"
+        v-if="showAlt && showEquipList && equips && muscles && users"
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
@@ -55,6 +58,21 @@
   </div>
   <nav class="fixed bottom-0 w-full">
     <div class="flex justify-evenly bg-sonja-akz text-sonja-text">
+      <div class="flex-grow">
+        <button
+          @click="
+            showEquipList = !showEquipList;
+            showExercises = !showExercises;
+          "
+          class="text-lg border-sonja-fg pt-2 pb-10 w-full"
+        >
+          <i class="fa-solid fa-plus text-3xl"></i>
+        </button>
+        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
+          <NewMuskle />
+          <NewEquip v-if="muscles" :muscles="muscles" />
+        </Dialog>
+      </div>
       <div class="flex-grow">
         <button
           @click="showDialogEquip = true"
@@ -136,6 +154,7 @@ import MultiSelect from "./components/MultiSelect.vue";
 import WorkoutList from "./components/Workout/WorkoutList.vue";
 import { formatTime } from "./util/helpers";
 import EquipListAlt from "./components/EquipAlt/EquipListAlt.vue";
+import ExerciseOverview from "./components/Exercises/ExerciseOverview.vue";
 
 const users = ref<UserType>({});
 const equips = ref<EquipType>({});
@@ -145,6 +164,8 @@ const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
 const showAlt = ref(true);
+const showEquipList = ref(true);
+const showExercises = ref(false);
 const allLoaded = ref(false);
 
 const logged: Ref<LoggedType> = ref({
