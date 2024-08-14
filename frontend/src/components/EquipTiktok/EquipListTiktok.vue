@@ -1,18 +1,13 @@
 <template>
   <div
-    class="flex flex-col snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
-    :class="Object.keys(filteredEquips).length > 5 ? 'mb-20' : 'mb-0'"
+    class="flex flex-col snap-y snap-mandatory overflow-y-scroll no-scrollbar"
   >
     <div
-      v-for="(equip, id) in sortedEquips"
-      :key="equip[0]"
-      class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
+      v-for="equip in filteredEquips"
+      :key="equip.id"
+      class="flex flex-col snap-start items-center min-h-screen min-w-full bg-sonja-fg rounded cursor-pointer"
     >
-      <EquipAlt
-        :equip="{ ...equip[1], id: Number(id) }"
-        :logged="logged"
-        :users="users"
-      />
+      <EquipTiktok :equip="equip" :logged="logged" :users="users" />
     </div>
   </div>
 
@@ -35,9 +30,9 @@ import type {
   UserType,
   WorkoutType,
 } from "@/util/types.vue";
-import EquipAlt from "./EquipAlt.vue";
-import FilterEquips from "../Filter/FilterEquips.vue";
 import Filter from "../Filter/Filter.vue";
+import EquipTiktok from "./EquipTiktok.vue";
+import FilterEquips from "../Filter/FilterEquips.vue";
 
 const filter = ref<number[]>([]);
 const searchFilter = ref<string>("");

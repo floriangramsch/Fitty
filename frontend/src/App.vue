@@ -6,13 +6,13 @@
           <a @click.prevent="switchUser" class="ml-auto cursor-pointer">
             <img
               v-if="logged.user?.name === 'Florian'"
-              src="@/../public/gym2.jpg"
-              class="max-h-[9vh] max-w-[9vh]"
+              src="@/../public/flo.jpg"
+              class="max-h-[11vh] max-w-[11vh]"
             />
             <img
               v-else
-              class="max-h-[9vh] max-w-[9vh]"
-              src="@/../public/gym.jpg"
+              class="max-h-[11vh] max-w-[11vh]"
+              src="@/../public/sonja.jpg"
             />
           </a>
         </div>
@@ -39,21 +39,21 @@
           </h1>
         </div>
       </template>
-      <ExerciseOverview v-if="showExercises" v-model="equips" />
-      <EquipListAlt
+      <ExerciseOverview v-if="showExercises" :users="users" v-model="equips" />
+      <EquipList
         v-if="showAlt && showEquipList && equips && muscles && users"
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
         :users="users"
       />
-      <!-- <EquipList
+      <EquipListTiktok
         v-else-if="!showAlt && equips && muscles && users"
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
         :users="users"
-      /> -->
+      />
     </div>
   </div>
   <nav class="fixed bottom-0 w-full">
@@ -66,7 +66,7 @@
           "
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-plus text-3xl"></i>
+          <i class="fa-solid fa-chart-line text-3xl"></i>
         </button>
         <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
           <NewMuskle />
@@ -136,7 +136,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from "vue";
-import EquipList from "./components/Equip/EquipList.vue";
+import EquipListTiktok from "./components/EquipTiktok/EquipListTiktok.vue";
 import NewEquip from "./components/Dialogs/NewEquip.vue";
 import NewMuskle from "./components/Dialogs/NewMuskle.vue";
 import Start from "./components/Dialogs/Start.vue";
@@ -150,10 +150,9 @@ import type {
 } from "./util/types.vue";
 import Dialog from "./components/Dialogs/Dialog.vue";
 import { watch } from "vue";
-import MultiSelect from "./components/MultiSelect.vue";
 import WorkoutList from "./components/Workout/WorkoutList.vue";
 import { formatTime } from "./util/helpers";
-import EquipListAlt from "./components/EquipAlt/EquipListAlt.vue";
+import EquipList from "./components/Equip/EquipList.vue";
 import ExerciseOverview from "./components/Exercises/ExerciseOverview.vue";
 
 const users = ref<UserType>({});
@@ -164,8 +163,8 @@ const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
 const showAlt = ref(true);
-const showEquipList = ref(false);
-const showExercises = ref(true);
+const showEquipList = ref(true);
+const showExercises = ref(false);
 const allLoaded = ref(false);
 
 const logged: Ref<LoggedType> = ref({

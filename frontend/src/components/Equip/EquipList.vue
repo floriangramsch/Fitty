@@ -1,36 +1,33 @@
-<!-- <template>
+<template>
   <div
-    class="flex flex-col snap-y snap-mandatory overflow-y-scroll no-scrollbar"
+    class="flex flex-col snap-y snap-mandatory bg-sonja-fg overflow-y-scroll no-scrollbar"
+    :class="Object.keys(filteredEquips).length > 5 ? 'mb-20' : 'mb-0'"
   >
     <div
-      v-for="equip in filteredEquips"
-      :key="equip.id"
-      class="flex flex-col snap-start items-center min-h-screen min-w-full bg-sonja-fg rounded cursor-pointer"
+      v-for="(equip, id) in sortedEquips"
+      :key="equip[0]"
+      class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
     >
-      <Equip :equip="equip" :logged="logged" :users="users" />
+      <Equip
+        :equip="{ ...equip[1], id: Number(id) }"
+        :logged="logged"
+        :users="users"
+      />
     </div>
   </div>
 
-  <div class="absolute right-2 bottom-44">
-    <Filter
-      class="mr-8 bg-sonja-akz rounded-md shadow-lg"
-      :isOpen="showDialogFilter"
-      :muscles="muscles"
-      v-model="filter"
-      v-model:close="showDialogFilter"
-    />
-    <button
-      class="absolute right-0 bottom-0"
-      @click="showDialogFilter = !showDialogFilter"
-    >
-      <i class="fa-solid fa-filter text-sonja-akz"></i>
-    </button>
+  <div class="absolute right-2 bottom-52 text-3xl">
+    <div class="absolute right-0 bottom-10">
+      <FilterEquips :equips="equips" v-model="searchFilter" />
+    </div>
+    <div class="absolute right-0 bottom-0">
+      <Filter :data="muscles" display-prop="muscle_name" v-model="filter" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import Equip from "./Equip.vue";
 import type {
   EquipType,
   LoggedType,
@@ -38,23 +35,61 @@ import type {
   UserType,
   WorkoutType,
 } from "@/util/types.vue";
-import Filter from "../Filter/FilterMuscles.vue";
+import Equip from "./Equip.vue";
+import FilterEquips from "../Filter/FilterEquips.vue";
+import Filter from "../Filter/Filter.vue";
 
-const showDialogFilter = ref(false);
-const filter = ref<MuscleType[]>([]);
+const filter = ref<number[]>([]);
+const searchFilter = ref<string>("");
 
 const props = defineProps<{
   logged: LoggedType;
-  equips: Array<EquipType>;
-  muscles: Array<MuscleType>;
-  users: Array<UserType>;
+  equips: EquipType;
+  muscles: MuscleType;
+  users: UserType;
 }>();
 
 const filteredEquips = computed(() => {
-  const names: string[] = filter.value.map((muscle) => muscle.name);
-  return filter.value.length !== 0
-    ? props.equips.filter((equip) => names.includes(equip.muscle))
-    : props.equips;
+  return Object.entries(props.equips)
+    .filter(([id, equip]) => {
+      // Filter nach Muskeln
+      let muscleId;
+
+      if (filter.value.length !== 0) {
+        // Finde die Muskel-ID, wenn ein Filter gesetzt ist
+        muscleId = Object.keys(props.muscles).find(
+          (key) =>
+            props.muscles[Number(key)].muscle_name === equip.equip_muscle_name
+        );
+      }
+
+      // Bestimme, ob das Equipment dem Muskel-Filter entspricht
+      const matchesMuscleFilter =
+        filter.value.length === 0 ||
+        (muscleId !== undefined && filter.value.includes(Number(muscleId)));
+
+      // Filter nach Suchbegriff
+      const matchesSearchFilter =
+        searchFilter.value === "" ||
+        equip.equip_name
+          .toLowerCase()
+          .includes(searchFilter.value.toLowerCase()) ||
+        equip.equip_muscle_name
+          .toLowerCase()
+          .includes(searchFilter.value.toLowerCase());
+
+      return matchesMuscleFilter && matchesSearchFilter;
+    })
+    .reduce((acc: EquipType, [id, equip]) => {
+      acc[Number(id)] = equip;
+      return acc;
+    }, {});
 });
-</script> -->
-<template></template>
+
+const sortedEquips = computed(() => {
+  return Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
+    return a.equip_name.localeCompare(b.equip_name);
+    return a.FloPB - b.FloPB;
+  });
+});
+</script>
