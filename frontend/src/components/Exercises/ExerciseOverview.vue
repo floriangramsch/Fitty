@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-sonja-fg h-screen text-sonja-text">
+  <div class="bg-sonja-fg text-sonja-text">
     <template v-if="Object.keys(filtered).length !== 0">
-      <div v-for="equip in filtered" class="border-b-2">
+      <div v-for="equip in filtered" class="border-b border-sonja-akz">
         {{ equip.equip_name }}
         <div v-for="(exercise, user_id) in equip.exercises">
           {{ users[user_id].name }}
@@ -30,18 +30,20 @@ import Filter from "../Filter/Filter.vue";
 import type { UserType } from "@/util/types.vue";
 import formatTime from "@/util/helpers";
 
-const filter = ref<number[]>([]);
+// const filter = ref<number[]>([]);
 const equips = defineModel<EquipType>();
 
 defineProps<{
   users: UserType;
 }>();
 
+const filter = defineModel<number[]>("filter");
+
 const filtered = computed(() => {
   const validEquips = equips.value ?? {};
   return Object.fromEntries(
     Object.entries(validEquips).filter(([id, equip]) =>
-      filter.value.includes(Number(id))
+      filter.value?.includes(Number(id))
     )
   );
 });

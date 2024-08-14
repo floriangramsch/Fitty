@@ -80,7 +80,7 @@
       <div class="flex-grow">
         <button
           @click="
-            showRouter === 'equiplist'
+            showRouter !== 'exercises'
               ? (showRouter = 'exercises')
               : (showRouter = 'equiplist')
           "
@@ -98,17 +98,17 @@
         </button>
         <div v-if="showNew.show">
           <div
-            class="absolute bottom-24 mr-8 bg-sonja-akz rounded-md shadow-lg text-2xl"
+            class="absolute bottom-24 bg-sonja-akz rounded-md shadow-lg text-2xl"
           >
             <button
               @click="showNew.showDialogEquip = !showNew.showDialogEquip"
-              class="flex py-0.5 px-2 cursor-pointer"
+              class="flex px-4 py-2 cursor-pointer"
             >
               Neuer Muskle
             </button>
             <button
               @click="showNew.showDialogMuskle = !showNew.showDialogMuskle"
-              class="flex py-0.5 px-2 cursor-pointer"
+              class="flex px-4 py-2 cursor-pointer"
             >
               Neues Gerät
             </button>
@@ -144,23 +144,17 @@
       </div>
       <div v-else class="flex-grow">
         <button
-          @click="showDialogLogin = true"
+          @click="showLogin = !showLogin"
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-dumbbell text-3xl"></i>
         </button>
-        <Dialog
-          v-if="workouts"
-          :isOpen="showDialogLogin"
-          @close="showDialogLogin = false"
-        >
-          <Start v-model="logged" v-model:workouts="workouts" />
-        </Dialog>
+        <Start v-if="showLogin" v-model="logged" v-model:workouts="workouts" />
       </div>
       <div class="flex-grow">
         <button
           @click="
-            showRouter === 'equiplist'
+            showRouter !== 'workouts'
               ? (showRouter = 'workouts')
               : (showRouter = 'equiplist')
           "
@@ -205,6 +199,7 @@ const showNew = ref({
   showDialogMuskle: false, // show muscle dialog
 });
 const showDialogLogin = ref(false);
+const showLogin = ref(false);
 const showTiktok = ref(false);
 const showRouter = ref("equiplist");
 const allLoaded = ref(false);
@@ -262,10 +257,6 @@ watch(logged, saveLoggedState, { deep: true });
 
 const handleRefresh = async () => {
   getAll();
-  // await getMuscles();
-  // await getEquip();
-  // await getUsers();
-  // await getWorkouts();
 };
 
 // tbd

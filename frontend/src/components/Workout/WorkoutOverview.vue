@@ -4,14 +4,17 @@
   >
     <div
       @click="editWorkout(workout)"
-      class="p-1 flex min-w-full snap-start justify-center bg-sonja-fg rounded"
+      class="p-1 flex flex-col min-w-full snap-start bg-sonja-fg border-b border-sonja-akz"
       v-for="(workout, id) in workouts"
       :key="id"
     >
-      {{ formatTime(workout.start) }}
-      <br />
-      von
-      {{ workout.user.name }}
+      <div>
+        {{ formatTime(workout.start) }}
+      </div>
+      <div class="pl-3">
+        von
+        {{ workout.user.name }}
+      </div>
     </div>
   </div>
 </template>

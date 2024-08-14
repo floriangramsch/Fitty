@@ -1,18 +1,17 @@
 <template>
-  <form class="flex flex-col space-y-2 items-center">
-    <button
-      class="bg-sonja-akz font-bold py-2 px-4 rounded"
-      @click.prevent="newWorkout"
-    >
+  <div
+    class="flex flex-col absolute bottom-24 left-48 bg-sonja-akz rounded-md shadow-lg text-2xl"
+  >
+    <button class="bg-sonja-akz px-4 py-2 rounded" @click.prevent="newWorkout">
       Neues Training
     </button>
     <button
-      class="bg-sonja-akz font-bold py-2 px-4 rounded"
+      class="bg-sonja-akz px-4 py-2 rounded"
       @click.prevent="resumeWorkout"
     >
       Weiter trainieren?
     </button>
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">

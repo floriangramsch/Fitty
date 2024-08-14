@@ -5,14 +5,19 @@
   >
     <div
       v-for="(equip, id) in sortedEquips"
-      :key="equip[0]"
+      :key="id"
       class="flex flex-col snap-start border-b border-sonja-akz min-w-full bg-sonja-fg cursor-pointer"
     >
-      <Equip
-        :equip="{ ...equip[1], id: Number(id) }"
-        :logged="logged"
-        :users="users"
-      />
+      <div class="flex">
+        <Equip
+          :equip="{ ...equip, id: Number(id) }"
+          :logged="logged"
+          :users="users"
+        />
+        <div class="ml-auto mt-auto mr-2">
+          <button @click.prevent="console.log(id)">@</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -87,9 +92,11 @@ const filteredEquips = computed(() => {
 });
 
 const sortedEquips = computed(() => {
-  return Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
-    return a.equip_name.localeCompare(b.equip_name);
-    return a.FloPB - b.FloPB;
-  });
+  return Object.fromEntries(
+    Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
+      return a.equip_name.localeCompare(b.equip_name);
+      return a.FloPB - b.FloPB;
+    })
+  );
 });
 </script>
