@@ -15,7 +15,14 @@
           :users="users"
         />
         <div class="ml-auto mt-auto mr-2">
-          <button @click.prevent="console.log(id)">@</button>
+          <button
+            @click.prevent="
+              exerciceFilter?.push(Number(id));
+              showRouter = 'exercises';
+            "
+          >
+            <i class="fa-solid fa-chart-line" />
+          </button>
         </div>
       </div>
     </div>
@@ -45,6 +52,8 @@ import FilterEquips from "../Filter/FilterEquips.vue";
 import Filter from "../Filter/Filter.vue";
 
 const filter = ref<number[]>([]);
+const exerciceFilter = defineModel<number[]>("filter");
+const showRouter = defineModel<string>("showRouter");
 const searchFilter = ref<string>("");
 
 const props = defineProps<{

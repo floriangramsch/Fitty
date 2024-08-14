@@ -46,6 +46,7 @@
         v-if="showRouter === 'exercises'"
         :users="users"
         v-model="equips"
+        v-model:filter="exerciseFilter"
       />
       <WorkoutOverview
         v-if="showRouter === 'workouts'"
@@ -65,6 +66,8 @@
         :equips="equips"
         :muscles="muscles"
         :users="users"
+        v-model:filter="exerciseFilter"
+        v-model:showRouter="showRouter"
       />
       <EquipListTiktok
         v-else-if="showTiktok && equips && muscles && users"
@@ -86,7 +89,7 @@
           "
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
-          <i class="fa-solid fa-chart-line text-3xl"></i>
+          <i class="fa-solid fa-chart-line text-3xl" />
         </button>
       </div>
       <div class="flex-grow">
@@ -203,6 +206,8 @@ const showLogin = ref(false);
 const showTiktok = ref(false);
 const showRouter = ref("equiplist");
 const allLoaded = ref(false);
+
+const exerciseFilter = ref<number[]>([]);
 
 const logged: Ref<LoggedType> = ref({
   isLogged: false,
