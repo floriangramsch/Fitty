@@ -14,9 +14,7 @@
       class="flex py-0.5 px-2 cursor-pointer"
       :class="isFiltered(Number(id)) ? 'bg-sonja-akz2' : 'bg-sonja-akz'"
     >
-      <div>
-        {{ getDisplayName(d) }}
-      </div>
+      {{ getDisplayName(d) }}
     </div>
     <div
       @click="reset"

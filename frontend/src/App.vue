@@ -83,9 +83,6 @@
             showRouter === 'equiplist'
               ? (showRouter = 'exercises')
               : (showRouter = 'equiplist')
-            // showEquipList = !showEquipList;
-            // showExercises = !showExercises;
-            // showWorkouts = false;
           "
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
@@ -94,15 +91,47 @@
       </div>
       <div class="flex-grow">
         <button
-          @click="showDialogEquip = true"
+          @click="showNew.show = !showNew.show"
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-plus text-3xl"></i>
         </button>
-        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
-          <NewMuskle />
-          <NewEquip v-if="muscles" :muscles="muscles" />
-        </Dialog>
+        <div v-if="showNew.show">
+          <div
+            class="absolute bottom-24 mr-8 bg-sonja-akz rounded-md shadow-lg text-2xl"
+          >
+            <button
+              @click="showNew.showDialogEquip = !showNew.showDialogEquip"
+              class="flex py-0.5 px-2 cursor-pointer"
+            >
+              Neuer Muskle
+            </button>
+            <button
+              @click="showNew.showDialogMuskle = !showNew.showDialogMuskle"
+              class="flex py-0.5 px-2 cursor-pointer"
+            >
+              Neues Gerät
+            </button>
+          </div>
+          <Dialog
+            :isOpen="showNew.showDialogEquip"
+            @close="
+              showNew.showDialogEquip = false;
+              showNew.show = false;
+            "
+          >
+            <NewMuskle />
+          </Dialog>
+          <Dialog
+            :isOpen="showNew.showDialogMuskle"
+            @close="
+              showNew.showDialogMuskle = false;
+              showNew.show = false;
+            "
+          >
+            <NewEquip v-if="muscles" :muscles="muscles" />
+          </Dialog>
+        </div>
       </div>
 
       <div v-if="logged.isLogged" class="flex-grow">
@@ -170,7 +199,11 @@ const users = ref<UserType>({});
 const equips = ref<EquipType>({});
 const muscles = ref<MuscleType>({});
 const workouts = ref<WorkoutType>({});
-const showDialogEquip = ref(false);
+const showNew = ref({
+  show: false, // show dropdown
+  showDialogEquip: false, // show equip dialog
+  showDialogMuskle: false, // show muscle dialog
+});
 const showDialogLogin = ref(false);
 const showTiktok = ref(false);
 const showRouter = ref("equiplist");
