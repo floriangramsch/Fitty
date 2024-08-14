@@ -33,8 +33,7 @@
       <template v-if="logged.user">
         <div class="mb-20">
           <h1
-            class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
-            :class="showTiktok ? 'bg-sonja-fg' : 'bg-black'"
+            class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-sonja-fg bg-opacity-25 backdrop-blur-md p-1"
           >
             Hallo Se Bebi {{ logged.user?.name }}
             <br />
@@ -71,7 +70,9 @@
         v-model:showRouter="showRouter"
       />
       <EquipListTiktok
-        v-else-if="showTiktok && equips && muscles && users"
+        v-else-if="
+          showTiktok && showRouter === 'equiplist' && equips && muscles && users
+        "
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
