@@ -40,6 +40,7 @@ export type EquipSpecialType = {
   SonjaPB: number;
   FloLast: number;
   SonjaLast: number;
+  exercises: Record<number, any>;
 };
 
 export type EquipType = {

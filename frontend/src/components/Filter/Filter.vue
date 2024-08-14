@@ -5,14 +5,14 @@
 
   <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
     <div
-      v-for="(muscle, id) in muscles"
+      v-for="(d, id) in data"
       :key="id"
-      @click="filterMuscles(Number(id))"
+      @click="filterData(Number(id))"
       class="flex py-0.5 px-2 cursor-pointer"
       :class="isFiltered(Number(id)) ? 'bg-sonja-akz2' : 'bg-sonja-akz'"
     >
       <div>
-        {{ muscle.muscle_name }}
+        {{ getDisplayName(d) }}
       </div>
     </div>
     <div
@@ -26,17 +26,21 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import type { MuscleType } from "@/util/types.vue";
 
-const filterMuscleList = ref<number[]>([]);
+const filteredData = ref<number[]>([]);
 const isOpen = ref<boolean>(false);
 
-defineProps<{
-  muscles: MuscleType;
+const props = defineProps<{
+  data: any;
+  displayProp: string;
 }>();
 
+const getDisplayName = (item: any) => {
+  return item[props.displayProp];
+};
+
 const isFiltered = (id: number) => {
-  return filterMuscleList.value.includes(id);
+  return filteredData.value.includes(id);
 };
 
 // // Berechnung der verbleibenden Muskeln
@@ -52,20 +56,20 @@ const isFiltered = (id: number) => {
 //     : Object.values(props.muscles);
 // });
 
-const model = defineModel<number[]>();
+const filter = defineModel<number[]>();
 
 // update die zu filternden Musklen
-const filterMuscles = (id: number) => {
+const filterData = (id: number) => {
   if (isFiltered(id)) {
-    filterMuscleList.value = filterMuscleList.value.filter((muscleId) => muscleId !== id);
+    filteredData.value = filteredData.value.filter((dataId) => dataId !== id);
   } else {
-    filterMuscleList.value.push(id);
+    filteredData.value.push(id);
   }
-  model.value = filterMuscleList.value;
+  filter.value = filteredData.value;
 };
 
 const reset = () => {
-  filterMuscleList.value = [];
-  model.value = [];
+  filteredData.value = [];
+  filter.value = [];
 };
 </script>

@@ -21,7 +21,7 @@
       <FilterEquips :equips="equips" v-model="searchFilter" />
     </div>
     <div class="absolute right-0 bottom-0">
-      <FilterMuscles :muscles="muscles" v-model="filter" />
+      <Filter :data="muscles" display-prop="muscle_name" v-model="filter" />
     </div>
   </div>
 </template>
@@ -36,8 +36,8 @@ import type {
   WorkoutType,
 } from "@/util/types.vue";
 import EquipAlt from "./EquipAlt.vue";
-import FilterMuscles from "../Filter/FilterMuscles.vue";
 import FilterEquips from "../Filter/FilterEquips.vue";
+import Filter from "../Filter/Filter.vue";
 
 const filter = ref<number[]>([]);
 const searchFilter = ref<string>("");

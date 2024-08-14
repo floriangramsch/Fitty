@@ -39,7 +39,7 @@
           </h1>
         </div>
       </template>
-      <ExerciseOverview v-if="showExercises" />
+      <ExerciseOverview v-if="showExercises" v-model="equips" />
       <EquipListAlt
         v-if="showAlt && showEquipList && equips && muscles && users"
         :logged="logged"
@@ -164,8 +164,8 @@ const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
 const showDialogWorkouts = ref(false);
 const showAlt = ref(true);
-const showEquipList = ref(true);
-const showExercises = ref(false);
+const showEquipList = ref(false);
+const showExercises = ref(true);
 const allLoaded = ref(false);
 
 const logged: Ref<LoggedType> = ref({
