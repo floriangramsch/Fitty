@@ -3,7 +3,10 @@
     <i class="fa-solid fa-filter text-sonja-akz"></i>
   </button>
 
-  <div v-if="isOpen" class="mr-8 bg-sonja-akz rounded-md shadow-lg">
+  <div
+    v-if="isOpen"
+    class="mr-8 bg-sonja-akz rounded-md shadow-lg overflow-auto h-80"
+  >
     <div
       v-for="(d, id) in data"
       :key="id"

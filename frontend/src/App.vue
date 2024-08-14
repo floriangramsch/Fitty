@@ -22,7 +22,10 @@
           </a>
         </div>
         <div class="absolute right-1 top-8">
-          <a @click.prevent="showAlt = !showAlt" class="ml-auto cursor-pointer">
+          <a
+            @click.prevent="showTiktok = !showTiktok"
+            class="ml-auto cursor-pointer"
+          >
             <i class="fa-brands fa-tiktok text-sonja-akz"></i>
           </a>
         </div>
@@ -31,7 +34,7 @@
         <div class="mb-20">
           <h1
             class="absolute left-1/4 justify-center text-sonja-text text-1xl rounded bg-opacity-25 backdrop-blur-md p-1"
-            :class="showAlt ? 'bg-sonja-fg' : 'bg-black'"
+            :class="showTiktok ? 'bg-sonja-fg' : 'bg-black'"
           >
             Hallo Se Bebi {{ logged.user?.name }}
             <br />
@@ -39,16 +42,32 @@
           </h1>
         </div>
       </template>
-      <ExerciseOverview v-if="showExercises" :users="users" v-model="equips" />
+      <ExerciseOverview
+        v-if="showRouter === 'exercises'"
+        :users="users"
+        v-model="equips"
+      />
+      <WorkoutOverview
+        v-if="showRouter === 'workouts'"
+        :workouts="workouts"
+        :users="users"
+        v-model="logged"
+      />
       <EquipList
-        v-if="showAlt && showEquipList && equips && muscles && users"
+        v-if="
+          !showTiktok &&
+          showRouter === 'equiplist' &&
+          equips &&
+          muscles &&
+          users
+        "
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
         :users="users"
       />
       <EquipListTiktok
-        v-else-if="!showAlt && equips && muscles && users"
+        v-else-if="showTiktok && equips && muscles && users"
         :logged="logged"
         :equips="equips"
         :muscles="muscles"
@@ -61,17 +80,17 @@
       <div class="flex-grow">
         <button
           @click="
-            showEquipList = !showEquipList;
-            showExercises = !showExercises;
+            showRouter === 'equiplist'
+              ? (showRouter = 'exercises')
+              : (showRouter = 'equiplist')
+            // showEquipList = !showEquipList;
+            // showExercises = !showExercises;
+            // showWorkouts = false;
           "
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-chart-line text-3xl"></i>
         </button>
-        <Dialog :isOpen="showDialogEquip" @close="showDialogEquip = false">
-          <NewMuskle />
-          <NewEquip v-if="muscles" :muscles="muscles" />
-        </Dialog>
       </div>
       <div class="flex-grow">
         <button
@@ -111,24 +130,15 @@
       </div>
       <div class="flex-grow">
         <button
-          @click="showDialogWorkouts = true"
+          @click="
+            showRouter === 'equiplist'
+              ? (showRouter = 'workouts')
+              : (showRouter = 'equiplist')
+          "
           class="text-lg border-sonja-fg pt-2 pb-10 w-full"
         >
           <i class="fa-solid fa-calendar text-3xl"></i>
         </button>
-
-        <Dialog
-          v-if="workouts"
-          :isOpen="showDialogWorkouts"
-          @close="showDialogWorkouts = false"
-        >
-          <WorkoutList
-            :workouts="workouts"
-            :users="users"
-            v-model="logged"
-            v-model:close="showDialogWorkouts"
-          />
-        </Dialog>
       </div>
     </div>
   </nav>
@@ -154,6 +164,7 @@ import WorkoutList from "./components/Workout/WorkoutList.vue";
 import { formatTime } from "./util/helpers";
 import EquipList from "./components/Equip/EquipList.vue";
 import ExerciseOverview from "./components/Exercises/ExerciseOverview.vue";
+import WorkoutOverview from "./components/Workout/WorkoutOverview.vue";
 
 const users = ref<UserType>({});
 const equips = ref<EquipType>({});
@@ -161,10 +172,8 @@ const muscles = ref<MuscleType>({});
 const workouts = ref<WorkoutType>({});
 const showDialogEquip = ref(false);
 const showDialogLogin = ref(false);
-const showDialogWorkouts = ref(false);
-const showAlt = ref(true);
-const showEquipList = ref(true);
-const showExercises = ref(false);
+const showTiktok = ref(false);
+const showRouter = ref("equiplist");
 const allLoaded = ref(false);
 
 const logged: Ref<LoggedType> = ref({
