@@ -7,11 +7,11 @@
             <img
               v-if="logged.user?.name === 'Florian'"
               src="@/../public/flo.jpg"
-              class="max-h-[11vh] max-w-[11vh]"
+              class="max-h-[9vh] max-w-[9vh]"
             />
             <img
               v-else
-              class="max-h-[11vh] max-w-[11vh]"
+              class="max-h-[9vh] max-w-[9vh]"
               src="@/../public/sonja.jpg"
             />
           </a>
@@ -53,6 +53,7 @@
         :workouts="workouts"
         :users="users"
         v-model="logged"
+        v-model:showRouter="showRouter"
       />
       <EquipList
         v-if="

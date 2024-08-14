@@ -28,13 +28,15 @@ defineProps<{
   users: UserType;
 }>();
 
-const emit = defineEmits(["update:modelValue"]);
+const logged = defineModel();
+const showRouter = defineModel("showRouter");
 
 const editWorkout = (workout: { start: Date; end: Date; user: LoggedUser }) => {
-  emit("update:modelValue", {
+  logged.value = {
     user: workout.user,
     isLogged: true,
     workout: workout,
-  });
+  };
+  showRouter.value = "equiplist";
 };
 </script>
