@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 const filteredData = ref<number[]>([]);
 const isOpen = ref<boolean>(false);
@@ -44,22 +44,9 @@ const isFiltered = (id: number) => {
   return filteredData.value.includes(id);
 };
 
-// // Berechnung der verbleibenden Muskeln
-// const listMuscles = computed(() => {
-//   // const names: string[] = filterMuscleList.value.map((muscle) => muscle.name);
-//   // return filterMuscleList.value.length !== 0
-//   //   ? props.muscles.filter((muscle) => !names.includes(muscle.name))
-//   //   : props.muscles;
-//   return filterMuscleList.value.length !== 0
-//     ? Object.keys(props.muscles)
-//         .filter((id) => !filterMuscleList.value.includes(Number(id)))
-//         .map((id) => props.muscles[Number(id)])
-//     : Object.values(props.muscles);
-// });
-
 const filter = defineModel<number[]>();
 
-// update die zu filternden Musklen
+// update die zu filternden Daten
 const filterData = (id: number) => {
   if (isFiltered(id)) {
     filteredData.value = filteredData.value.filter((dataId) => dataId !== id);

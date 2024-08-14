@@ -45,7 +45,6 @@ import type {
   LoggedType,
   MuscleType,
   UserType,
-  WorkoutType,
 } from "@/util/types.vue";
 import Equip from "./Equip.vue";
 import FilterEquips from "../Filter/FilterEquips.vue";
@@ -104,7 +103,7 @@ const sortedEquips = computed(() => {
   return Object.fromEntries(
     Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
       return a.equip_name.localeCompare(b.equip_name);
-      return a.FloPB - b.FloPB;
+      // return a.FloPB - b.FloPB;
     })
   );
 });
