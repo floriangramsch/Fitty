@@ -134,7 +134,15 @@
               showNew.show = false;
             "
           >
-            <NewEquip v-if="muscles" :muscles="muscles" />
+            <NewEquip
+              v-if="muscles"
+              :muscles="muscles"
+              v-model:equips="equips"
+              @close="
+                showNew.showDialogMuskle = false;
+                showNew.show = false;
+              "
+            />
           </Dialog>
         </div>
       </div>

@@ -71,8 +71,7 @@ app.get("/equip", (req, res) => {
 });
 
 app.post("/addEquip", (req, res) => {
-  const { name, muscle } = req.body;
-  const muscleGroupId = muscle.muscle_group_id;
+  const { name, muscleGroupId } = req.body;
 
   pool.query(
     "INSERT INTO Equip (name, muscle_group_id) VALUES (?, ?)",
@@ -81,7 +80,10 @@ app.post("/addEquip", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.status(201).json({ message: `Equip added with ID: ${results.insertId}` });
+      res.status(201).json({
+        message: `Equip added with ID: ${results.insertId}`,
+        id: results.insertId,
+      });
     }
   );
 });
@@ -105,7 +107,9 @@ app.post("/addMuscle", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.status(201).send({ message: `Muscle added with ID: ${results.insertId}` });
+      res
+        .status(201)
+        .send({ message: `Muscle added with ID: ${results.insertId}` });
     }
   );
 });
@@ -120,7 +124,9 @@ app.post("/addExercice", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res.status(201).send({ message: `Exercice added with ID: ${results.insertId}` });
+      res
+        .status(201)
+        .send({ message: `Exercice added with ID: ${results.insertId}` });
     }
   );
 });

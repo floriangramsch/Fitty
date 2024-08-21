@@ -36,10 +36,10 @@ export type EquipSpecialType = {
   id: number;
   equip_name: string;
   equip_muscle_name: string;
-  FloPB: number;
-  SonjaPB: number;
-  FloLast: number;
-  SonjaLast: number;
+  FloPB: number | null;
+  SonjaPB: number | null;
+  FloLast: number | null;
+  SonjaLast: number | null;
   exercises: Record<number, any>;
 };
 

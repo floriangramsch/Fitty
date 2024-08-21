@@ -84,7 +84,7 @@ const filteredEquips = computed(() => {
 const sortedEquips = computed(() => {
   return Object.entries(filteredEquips.value).sort(([, a], [, b]) => {
     return a.equip_name.localeCompare(b.equip_name);
-    return a.FloPB - b.FloPB;
+    // return a.FloPB - b.FloPB;
   });
 });
 </script>

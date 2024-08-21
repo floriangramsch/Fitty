@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const debug = false;
+
 // Hilfsfunktion für Abfragen, die ein Promise zurückgibt
 const query = (pool, sql, params) => {
   return new Promise((resolve, reject) => {
@@ -84,7 +86,7 @@ const getEquips = async (pool) => {
     equips[Number(row.equip_id)] = {
       equip_name: row.equip_name,
       equip_muscle_name: row.muscle_name,
-      exercises: {}, // Initialisierung des exercises-Objekts
+      exercises: {},
     };
 
     // Parallelisierung der Abfragen
@@ -103,14 +105,16 @@ const getEquips = async (pool) => {
 
   const exercises = await getExercises(pool);
   for (const row of exercises) {
-    const equipId = Number(row.equip_id);
-    if (!equips[equipId]["exercises"][row.user_id]) {
-      equips[equipId]["exercises"][row.user_id] = {};
+    const equipId = row.equip_id;
+    if (row.exercice_id) {
+      if (!equips[equipId]["exercises"][row.user_id]) {
+        equips[equipId]["exercises"][row.user_id] = {};
+      }
+      equips[equipId]["exercises"][row.user_id][row.exercice_id] = {
+        weight: row.weight,
+        start: row.start,
+      };
     }
-    equips[equipId]["exercises"][row.user_id][row.exercice_id] = {
-      weight: row.weight,
-      start: row.start,
-    };
   }
 
   return equips;
@@ -150,7 +154,7 @@ const getMuscles = async (pool) => {
 
 const getExercises = async (pool) => {
   const sql = `
-    Select e.equip_id, weight, start, user_id, e.exercice_id
+    Select eq.equip_id, e.weight, w.start, w.user_id, e.exercice_id
     FROM Equip eq 
     LEFT JOIN Exercice e ON eq.equip_id = e.equip_id 
     LEFT JOIN Workout w ON e.workout_id = w.workout_id
@@ -183,5 +187,17 @@ const getLast = async (pool, equip_id, user_id) => {
   return results.length > 0 ? results[0].weight : null;
 };
 
-// getAll(pool);
+if (debug) {
+  const mysql = require("mysql2");
+  const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+  getAll(pool);
+}
 module.exports = getAll;
