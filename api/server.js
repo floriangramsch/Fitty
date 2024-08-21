@@ -109,7 +109,10 @@ app.post("/addMuscle", (req, res) => {
       }
       res
         .status(201)
-        .send({ message: `Muscle added with ID: ${results.insertId}` });
+        .send({
+          message: `Muscle added with ID: ${results.insertId}`,
+          id: results.insertId,
+        });
     }
   );
 });

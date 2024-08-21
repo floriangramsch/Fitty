@@ -125,7 +125,13 @@
               showNew.show = false;
             "
           >
-            <NewMuskle />
+            <NewMuskle
+              v-model:muscles="muscles"
+              @close="
+                showNew.showDialogMuskle = false;
+                showNew.show = false;
+              "
+            />
           </Dialog>
           <Dialog
             :isOpen="showNew.showDialogMuskle"
@@ -139,7 +145,7 @@
               :muscles="muscles"
               v-model:equips="equips"
               @close="
-                showNew.showDialogMuskle = false;
+                showNew.showDialogEquip = false;
                 showNew.show = false;
               "
             />
