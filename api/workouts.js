@@ -1,12 +1,4 @@
-const mysql = require("mysql2");
 require("dotenv").config();
-
-const pool = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
 
 // Hilfsfunktion für Abfragen, die ein Promise zurückgibt
 const query = (pool, sql, params) => {
@@ -107,14 +99,6 @@ const getEquips = async (pool) => {
     equips[Number(row.equip_id)].SonjaPB = SonjaPB;
     equips[Number(row.equip_id)].FloLast = FloLast;
     equips[Number(row.equip_id)].SonjaLast = SonjaLast;
-    // equips[Number(row.equip_id)] = {
-    //   equip_name: row.equip_name,
-    //   equip_muscle_name: row.muscle_name,
-    //   FloPB: await getPB(pool, row.equip_id, 1),
-    //   SonjaPB: await getPB(pool, row.equip_id, 2),
-    //   FloLast: await getLast(pool, row.equip_id, 1),
-    //   SonjaLast: await getLast(pool, row.equip_id, 2),
-    // };
   }
 
   const exercises = await getExercises(pool);
@@ -128,8 +112,6 @@ const getEquips = async (pool) => {
       start: row.start,
     };
   }
-
-  console.log(equips);
 
   return equips;
 };
@@ -201,25 +183,5 @@ const getLast = async (pool, equip_id, user_id) => {
   return results.length > 0 ? results[0].weight : null;
 };
 
-getAll(pool);
+// getAll(pool);
 module.exports = getAll;
-// All
-// {
-//   1: {
-//     start/end:
-//     user:
-//       user_id: 1
-//       user_name: Flo
-//     equipList:
-//       This: 1
-//       FloPB:
-//         abs: 6,
-//         brust: 3
-//       SonjaPB:
-//         abs: 3
-//         brust: 4
-//   },
-//   2: {
-
-//   }
-// }

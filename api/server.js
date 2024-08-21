@@ -69,6 +69,7 @@ app.get("/equip", (req, res) => {
     }
   );
 });
+
 app.post("/addEquip", (req, res) => {
   const { name, muscle } = req.body;
   const muscleGroupId = muscle.muscle_group_id;
@@ -80,9 +81,7 @@ app.post("/addEquip", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res
-        .status(201)
-        .json({ message: `Equip added with ID: ${results.insertId}` });
+      res.status(201).json({ message: `Equip added with ID: ${results.insertId}` });
     }
   );
 });
@@ -96,6 +95,7 @@ app.get("/muscles", (req, res) => {
     res.json(results);
   });
 });
+
 app.post("/addMuscle", (req, res) => {
   const { newMuscle } = req.body;
   pool.query(
@@ -105,14 +105,12 @@ app.post("/addMuscle", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res
-        .status(201)
-        .send({ message: `Muscle added with ID: ${results.insertId}` });
+      res.status(201).send({ message: `Muscle added with ID: ${results.insertId}` });
     }
   );
 });
 
-// exercice
+// Exercice
 app.post("/addExercice", (req, res) => {
   const { workout_id, equip_id, weight } = req.body;
   pool.query(
@@ -122,9 +120,7 @@ app.post("/addExercice", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       }
-      res
-        .status(201)
-        .send({ message: `Exercice added with ID: ${results.insertId}` });
+      res.status(201).send({ message: `Exercice added with ID: ${results.insertId}` });
     }
   );
 });
@@ -173,6 +169,7 @@ app.get("/workouts", (req, res) => {
     res.json(results);
   });
 });
+
 app.post("/addWorkout", (req, res) => {
   const { user } = req.body;
   const dateTime = new Date();

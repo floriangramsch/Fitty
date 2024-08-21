@@ -8,25 +8,19 @@
           class="p-1 m-1 rounded-md ml-1 bg-sonja-akz2"
         />
       </div>
-      <select
-        v-model="newEquipMuscle"
-        class="p-1 m-1 rounded-md bg-sonja-akz"
-      >
+      <select v-model="newEquipMuscleId" class="p-1 m-1 rounded-md bg-sonja-akz">
         <option value="" disabled selected>Muskle..</option>
         <option
           v-for="(muscle, id) in muscles"
           :key="id"
-          :value="muscle.muscle_name"
+          :value="id"
           class="py-1"
         >
           {{ muscle.muscle_name }}
         </option>
       </select>
     </div>
-    <button
-      @click.prevent="addNewEquip"
-      class="mt-4 bg-sonja-akz p-2 rounded"
-    >
+    <button @click.prevent="addNewEquip" class="mt-4 bg-sonja-akz p-2 rounded">
       Neues Gerät!
     </button>
   </form>
@@ -37,28 +31,32 @@ import { ref } from "vue";
 import type { MuscleType } from "@/util/types.vue";
 
 const newEquipName = ref("");
-const newEquipMuscle = ref("");
+const newEquipMuscleId = ref("");
 
 defineProps<{
   muscles: MuscleType;
 }>();
 
 const addNewEquip = () => {
-  if (newEquipName.value && newEquipMuscle.value) {
-    fetch("/api/addEquip", {
-      method: "Post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: newEquipName.value,
-        muscle: newEquipMuscle.value,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        window.location.reload();
-      });
+  if (newEquipName.value && newEquipMuscleId.value) {
+    console.log({
+      name: newEquipName.value,
+      muscle: newEquipMuscleId.value,
+    });
+    // fetch("/api/addEquip", {
+    //   method: "Post",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     name: newEquipName.value,
+    //     muscle: newEquipMuscle.value,
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     window.location.reload();
+    //   });
   }
 };
 </script>
