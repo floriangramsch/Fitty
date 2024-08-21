@@ -11,8 +11,8 @@
       <div class="flex">
         <Equip
           :equip="{ ...equip, id: Number(id) }"
-          :logged="logged"
           :users="users"
+          v-model:workout="workout"
         />
         <div class="ml-auto mt-auto mr-2">
           <button
@@ -41,6 +41,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import type {
+  LoggedWorkout,
   EquipType,
   LoggedType,
   MuscleType,
@@ -56,11 +57,12 @@ const showRouter = defineModel<string>("showRouter");
 const searchFilter = ref<string>("");
 
 const props = defineProps<{
-  logged: LoggedType;
   equips: EquipType;
   muscles: MuscleType;
   users: UserType;
 }>();
+
+const workout = defineModel<LoggedWorkout>("workout");
 
 const filteredEquips = computed(() => {
   return Object.entries(props.equips)

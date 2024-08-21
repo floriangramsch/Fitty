@@ -1,31 +1,34 @@
 <template>
-  <div
-    class="p-1"
-    @click.prevent="showDialogWeight = logged.workout ? true : false"
-  >
+  <div class="p-1" @click.prevent="showDialogWeight = workout ? true : false">
     <div class="font-bold">
       {{ equip.equip_name }} [{{ equip.equip_muscle_name }}]
     </div>
     <div>
-      <div v-if="logged.workout">
-        this: {{ logged.workout.equips[equip.id] }} kg
-      </div>
+      <div v-if="workout">this: {{ workout.equips[equip.id] }} kg</div>
       <div>Flo: {{ equip.FloLast }} kg (PB: {{ equip.FloPB }} kg)</div>
       <div>Sonja: {{ equip.SonjaLast }} kg (PB: {{ equip.SonjaPB }} kg)</div>
     </div>
   </div>
   <Dialog
-    v-if="logged.workout"
+    v-if="workout"
     :isOpen="showDialogWeight"
     @close="showDialogWeight = false"
   >
-    <NewEx :equip="equip" :workout="logged.workout" />
+    <NewEx
+      :equip="equip"
+      v-model:workout="workout"
+      @close="showDialogWeight = false"
+    />
   </Dialog>
 </template>
 
 <script setup lang="ts">
-import type { EquipSpecialType, LoggedType, UserType } from "@/util/types.vue";
-import { computed, onMounted, ref, watchEffect } from "vue";
+import type {
+  EquipSpecialType,
+  LoggedWorkout,
+  UserType,
+} from "@/util/types.vue";
+import { ref } from "vue";
 import Dialog from "../Dialogs/Dialog.vue";
 import NewEx from "../Dialogs/NewEx.vue";
 
@@ -33,9 +36,10 @@ const showDialogWeight = ref(false);
 
 defineProps<{
   equip: EquipSpecialType;
-  logged: LoggedType;
   users: UserType;
 }>();
+
+const workout = defineModel<LoggedWorkout>("workout");
 
 // const usersWeight = ref(
 //   props.users?.map((user) => ({

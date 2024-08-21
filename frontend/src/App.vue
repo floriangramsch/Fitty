@@ -62,10 +62,10 @@
           muscles &&
           users
         "
-        :logged="logged"
         :equips="equips"
         :muscles="muscles"
         :users="users"
+        v-model:workout="logged.workout"
         v-model:filter="exerciseFilter"
         v-model:showRouter="showRouter"
       />
